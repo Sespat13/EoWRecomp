@@ -1,0 +1,81 @@
+name: EoWRecomp 0.5 Experimental
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Herramientas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build nasm cmake python3 zip unzip
+
+      - name: Android SDK y NDK
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;27.2.12479018" "platforms;android-36" "cmake;3.22.1"
+          echo "sdk.dir=$ANDROID_HOME" > android/local.properties
+
+      - name: Descargar la APK original del release y comprobarla
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/orig
+          gh release download alpha_1 --repo Nycolazs/EoWRecomp --pattern 'EoWRecomp-alpha_1-Android-arm64.apk' --output build/orig/eow.apk
+          echo "8d7a0d38f710fbd6d294eacd5f0e67d7925a7332c365aa04a81945989dafba0a  build/orig/eow.apk" | sha256sum -c -
+
+      - name: Reutilizar las piezas ya compiladas de la APK original
+        run: |
+          unzip -q build/orig/eow.apk 'lib/arm64-v8a/*' 'assets/ondevice.zip' 'assets/licenses/*' -d build/orig/x
+          mkdir -p build/ondevice/stage/jniLibs/arm64-v8a build/ondevice/assets
+          for f in libzig libpython3.14 libunicorn libcapstone libeowpython; do
+            cp build/orig/x/lib/arm64-v8a/$f.so build/ondevice/stage/jniLibs/arm64-v8a/
+          done
+          cp build/orig/x/assets/ondevice.zip build/ondevice/assets/
+          cp -R build/orig/x/assets/licenses build/ondevice/assets/
+          ls -l build/ondevice/stage/jniLibs/arm64-v8a build/ondevice/assets
+
+      - name: Aplicar los cambios experimentales
+        run: |
+          python3 - <<'EOF'
+          p = 'runtime/nvn/vulkan/device.c'
+          s = open(p).read()
+          a = '    VkPhysicalDeviceFeatures2 have = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};\n'
+          b = ('    VkPhysicalDeviceVulkan12Features have12 = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES};\n'
+               '    VkPhysicalDeviceFeatures2 have = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2, .pNext = &have12};\n')
+          assert s.count(a) == 1, 'bloque 1 no encontrado'
+          s = s.replace(a, b)
+          c = '    vkGetPhysicalDeviceFeatures2(g_vk.phys, &have);\n'
+          d = c + '    if (!have12.uniformAndStorageBuffer8BitAccess) LOG("[vk] warning: no uniformAndStorageBuffer8BitAccess (not requested)\\n");\n'
+          assert s.count(c) == 1, 'bloque 2 no encontrado'
+          s = s.replace(c, d)
+          e = '.uniformAndStorageBuffer8BitAccess = VK_TRUE, .storageBuffer8BitAccess = VK_TRUE,'
+          f = '.uniformAndStorageBuffer8BitAccess = have12.uniformAndStorageBuffer8BitAccess, .storageBuffer8BitAccess = VK_TRUE,'
+          assert s.count(e) == 1, 'bloque 3 no encontrado'
+          s = s.replace(e, f)
+          open(p, 'w').write(s)
+          EOF
+          sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
+          sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
+          git diff --stat
+          grep -n "applicationId" android/app/build.gradle
+          grep -n "have12" runtime/nvn/vulkan/device.c
+
+      - name: Dependencias nativas (FFmpeg, shaderc, etc.)
+        run: tools/android/build_deps.sh
+
+      - name: Compilar la APK
+        working-directory: android
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5-experimental -PeowVersionCode=5 -x eowOnDeviceAssets
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EoWRecomp-0.5-Experimental-apk
+          path: android/app/build/outputs/apk/release/*.apk
