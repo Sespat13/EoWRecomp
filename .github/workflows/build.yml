@@ -62,18 +62,64 @@ jobs:
           s = s.replace(e, f)
           open(p, 'w').write(s)
           EOF
+          python3 - <<'EOF2'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          def rep(a, b):
+              global s
+              assert s.count(a) == 1, 'no encontrado (o repetido): ' + a[:60]
+              s = s.replace(a, b)
+
+          # 1) copia activa tambien sin la importacion de memoria del anfitrion
+          rep('on = e ? atoi(e) != 0 : g_vk.props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;',
+              'on = e ? atoi(e) != 0 : (g_vk.props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU || !g_vk.host_import);')
+
+          # 2) origen de la copia: el monton del juego en la CPU cuando no hay importacion
+          rep('    if (!on || !gmem_buf) return;\n',
+              '    bool cpu_src = !gmem_buf && !g_vk.host_import;  // (EXP) sin VK_EXT_external_memory_host: leer el monton desde la CPU\n'
+              '    uint64_t gsz = gmem_size;\n'
+              '    if (cpu_src) { gsz = (kernel_heap_size() + 0xFFFF) & ~0xFFFFull; if (gsz > HEAP_MAX) gsz = HEAP_MAX; }\n'
+              '    if (!on || (!gmem_buf && !cpu_src)) return;\n')
+          rep('if (!a || !sz || a < HEAP_BASE || a - HEAP_BASE + sz > gmem_size) continue;',
+              'if (!a || !sz || a < HEAP_BASE || a - HEAP_BASE + sz > gsz) continue;')
+          rep('        if (hi > gmem_size) hi = gmem_size;\n        int k = n++;',
+              '        if (hi > gsz) hi = gsz;\n        int k = n++;')
+          rep('    vkCmdCopyBuffer(cb, gmem_buf, gfast_buf, (uint32_t)m, cp);\n',
+              '    if (cpu_src) {\n'
+              '        for (int i = 0; i < m; i++) {\n'
+              '            VkSpan gs = guest_copy(HEAP_BASE + cp[i].srcOffset, cp[i].size);\n'
+              '            VkBufferCopy one = {gs.off, cp[i].dstOffset, cp[i].size};\n'
+              '            vkCmdCopyBuffer(cb, gs.buf, gfast_buf, 1, &one);\n'
+              '        }\n'
+              '    } else {\n'
+              '        vkCmdCopyBuffer(cb, gmem_buf, gfast_buf, (uint32_t)m, cp);\n'
+              '    }\n')
+
+          # 3) sin importacion no hay vuelta a la memoria del juego (etapa 1: solo lectura)
+          rep('    if (!gfast_n) return;\n    VkBufferCopy back[GMAP_MAX];',
+              '    if (!gfast_n) return;\n    if (!gmem_buf) { gfast_n = 0; return; }  // (EXP) etapa 1: solo lectura\n    VkBufferCopy back[GMAP_MAX];')
+          open(p, 'w').write(s)
+          print('ok')
+          EOF2
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
           grep -n "applicationId" android/app/build.gradle
           grep -n "have12" runtime/nvn/vulkan/device.c
+          grep -n "EXP" runtime/nvn/vulkan/exec.c
+
+      - name: Clave de firma estable (para poder actualizar encima)
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: eow-debug-keystore-v1
 
       - name: Dependencias nativas (FFmpeg, shaderc, etc.)
         run: tools/android/build_deps.sh
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5-experimental -PeowVersionCode=5 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.1-experimental -PeowVersionCode=6 -x eowOnDeviceAssets
 
       - uses: actions/upload-artifact@v4
         with:
