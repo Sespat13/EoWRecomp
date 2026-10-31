@@ -101,12 +101,23 @@ jobs:
           open(p, 'w').write(s)
           print('ok')
           EOF2
+          python3 - <<'EOF3'
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+          a = '    } else {\n        fail(c, "unknown instruction %016llx at %#x", (unsigned long long)w, pc);\n'
+          assert s.count(a) == 1, 'ancla SUST no encontrada'
+          b = ('    } else if (OPM(0xeb20000000000000ull, 0xffe0000000000000ull)) {  // SUST (EXP: no-op, sin escritura de imagen)\n'
+               '        sp(&c->body, "    /* sust: not implemented (EXP no-op) */\\n");\n')
+          s = s.replace(a, b + a)
+          open(p, 'w').write(s)
+          print('ok sust')
+          EOF3
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
           grep -n "applicationId" android/app/build.gradle
           grep -n "have12" runtime/nvn/vulkan/device.c
-          grep -n "EXP" runtime/nvn/vulkan/exec.c
+          grep -n "EXP" runtime/nvn/vulkan/exec.c runtime/nvn/maxwell/translate.c
 
       - name: Clave de firma estable (para poder actualizar encima)
         uses: actions/cache@v4
@@ -119,7 +130,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.1-experimental -PeowVersionCode=6 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.2-experimental -PeowVersionCode=7 -x eowOnDeviceAssets
 
       - uses: actions/upload-artifact@v4
         with:
