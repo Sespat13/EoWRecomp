@@ -97,7 +97,24 @@ jobs:
 
           # 3) sin importacion no hay vuelta a la memoria del juego (etapa 1: solo lectura)
           rep('    if (!gfast_n) return;\n    VkBufferCopy back[GMAP_MAX];',
-              '    if (!gfast_n) return;\n    if (!gmem_buf) { gfast_n = 0; return; }  // (EXP) etapa 1: solo lectura\n    VkBufferCopy back[GMAP_MAX];')
+              '    if (!gfast_n) return;\n'
+              '    if (!gmem_buf) {  // (EXP) etapa 2: sin importacion, la vuelta al monton pasa por la CPU\n'
+              '        uint64_t tot = 0;\n'
+              '        for (int i = 0; i < gfast_n; i++) tot += (gfast_cp[i].size + 255) & ~255ull;\n'
+              '        VkSpan out = vk_readback(tot);\n'
+              '        VkBufferCopy rb[GMAP_MAX];\n'
+              '        uint64_t o = 0;\n'
+              '        for (int i = 0; i < gfast_n; i++) { rb[i] = (VkBufferCopy){gfast_cp[i].dstOffset, out.off + o, gfast_cp[i].size}; o += (gfast_cp[i].size + 255) & ~255ull; }\n'
+              '        vk_full_barrier(cb);\n'
+              '        vkCmdCopyBuffer(cb, gfast_buf, out.buf, (uint32_t)gfast_n, rb);\n'
+              '        wait_why = "gfast write-back";\n'
+              '        renderer_flush();\n'
+              '        o = 0;\n'
+              '        for (int i = 0; i < gfast_n; i++) { memcpy((void *)(uintptr_t)(HEAP_BASE + gfast_cp[i].srcOffset), (uint8_t *)out.ptr + o, gfast_cp[i].size); o += (gfast_cp[i].size + 255) & ~255ull; }\n'
+              '        gfast_n = 0;\n'
+              '        return;\n'
+              '    }\n'
+              '    VkBufferCopy back[GMAP_MAX];')
           open(p, 'w').write(s)
           print('ok')
           EOF2
@@ -130,7 +147,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.3-experimental -PeowVersionCode=8 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.4-experimental -PeowVersionCode=9 -x eowOnDeviceAssets
 
       - uses: actions/upload-artifact@v4
         with:
