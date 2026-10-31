@@ -119,18 +119,18 @@ jobs:
           grep -n "have12" runtime/nvn/vulkan/device.c
           grep -n "EXP" runtime/nvn/vulkan/exec.c runtime/nvn/maxwell/translate.c
 
-      - name: Clave de firma estable (para poder actualizar encima)
-        uses: actions/cache@v4
-        with:
-          path: ~/.android/debug.keystore
-          key: eow-debug-keystore-v1
+      - name: Clave de firma fija (para poder actualizar encima)
+        run: |
+          mkdir -p ~/.android
+          echo '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' | base64 -d > ~/.android/debug.keystore
+          keytool -list -keystore ~/.android/debug.keystore -storepass android | head -5
 
       - name: Dependencias nativas (FFmpeg, shaderc, etc.)
         run: tools/android/build_deps.sh
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.2-experimental -PeowVersionCode=7 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.3-experimental -PeowVersionCode=8 -x eowOnDeviceAssets
 
       - uses: actions/upload-artifact@v4
         with:
