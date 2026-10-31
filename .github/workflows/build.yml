@@ -129,6 +129,26 @@ jobs:
           open(p, 'w').write(s)
           print('ok sust')
           EOF3
+          python3 - <<'EOF4'
+          p = 'android/app/build.gradle'
+          s = open(p).read()
+          a = "    signingConfigs {\n        if (keystoreProps.exists()) {\n"
+          assert s.count(a) == 1, 'ancla signingConfigs no encontrada'
+          b = ("    signingConfigs {\n"
+               "        eowfixed {\n"
+               "            storeFile file(System.getProperty('user.home') + '/.android/debug.keystore')\n"
+               "            storePassword 'android'\n"
+               "            keyAlias 'androiddebugkey'\n"
+               "            keyPassword 'android'\n"
+               "        }\n"
+               "        if (keystoreProps.exists()) {\n")
+          s = s.replace(a, b)
+          c = "signingConfig keystoreProps.exists() ? signingConfigs.release : signingConfigs.debug"
+          assert s.count(c) == 1, 'ancla signingConfig no encontrada'
+          s = s.replace(c, "signingConfig keystoreProps.exists() ? signingConfigs.release : signingConfigs.eowfixed")
+          open(p, 'w').write(s)
+          print('ok firma fija')
+          EOF4
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -147,7 +167,14 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.4-experimental -PeowVersionCode=9 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.5-experimental -PeowVersionCode=10 -x eowOnDeviceAssets
+
+      - name: Mostrar la huella de la firma
+        continue-on-error: true
+        run: |
+          APK=$(find android -name '*.apk' -path '*release*' | head -1)
+          echo "$APK"
+          $(ls -d $ANDROID_HOME/build-tools/*/ | tail -1)apksigner verify --print-certs "$APK" | head -3
 
       - uses: actions/upload-artifact@v4
         with:
