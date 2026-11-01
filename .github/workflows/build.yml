@@ -149,10 +149,84 @@ jobs:
           open(p, 'w').write(s)
           print('ok firma fija')
           EOF4
+          python3 - <<'EOF5'
+          # Parche 0.5.6: el video del titulo se lee desde el paquete (romfs) cuando no existe como archivo suelto
+          p = 'runtime/services/fs.c'
+          s = open(p).read()
+          a = '// ------------------------------------------------------------------ IStorage (raw RomFS image)\n'
+          b = '''// A RomFS file by path ("region_common/movie/x.webm"): image offset and size (-1 if unknown). For code that needs
+          // a file but has no host copy because the RomFS is read in place from the package (the movie decoder).
+          int64_t romfs_file_find(const char *rel, uint64_t *off) {
+              for (int i = 0; i < rom_nfiles; i++)
+                  if (!strcmp(rom_files[i].path, rel)) { *off = rom_files[i].off; return (int64_t)rom_files[i].size; }
+              return -1;
+          }
+
+          ssize_t romfs_image_read(uint64_t off, void *dst, size_t n) {
+              return romfs_fd < 0 ? -1 : romfs_read(romfs_fd, dst, n, off);
+          }
+
+          '''
+          assert s.count(a) == 1, 'fs.c ancla no encontrada'
+          s = s.replace(a, b + a)
+          open(p, 'w').write(s)
+
+          p = 'runtime/hle/movie.c'
+          s = open(p).read()
+          a = 'static void ex_set_data_source(Cpu *c) {\n'
+          b = '''// RomFS read in place from the package: no host file exists, so FFmpeg reads the movie through this.
+          int64_t romfs_file_find(const char *rel, uint64_t *off);
+          ssize_t romfs_image_read(uint64_t off, void *dst, size_t n);
+          typedef struct { uint64_t off, size, pos; } RomIO;
+          static int romio_read(void *o, uint8_t *buf, int n) {
+              RomIO *r = o;
+              if (r->pos >= r->size) return AVERROR_EOF;
+              if ((uint64_t)n > r->size - r->pos) n = (int)(r->size - r->pos);
+              ssize_t k = romfs_image_read(r->off + r->pos, buf, (size_t)n);
+              if (k <= 0) return AVERROR_EOF;
+              r->pos += (uint64_t)k;
+              return (int)k;
+          }
+          static int64_t romio_seek(void *o, int64_t off, int whence) {
+              RomIO *r = o;
+              if (whence == AVSEEK_SIZE) return (int64_t)r->size;
+              whence &= ~AVSEEK_FORCE;
+              int64_t p = whence == SEEK_SET ? off : whence == SEEK_CUR ? (int64_t)r->pos + off : (int64_t)r->size + off;
+              if (p < 0) return -1;
+              r->pos = (uint64_t)p;
+              return p;
+          }
+
+          '''
+          assert s.count(a) == 1, 'movie.c ancla 1 no encontrada'
+          s = s.replace(a, b + a)
+          a = '    if (avformat_open_input(&e->fmt, host, NULL, NULL) < 0 || avformat_find_stream_info(e->fmt, NULL) < 0) {\n'
+          b = '''    int rc = avformat_open_input(&e->fmt, host, NULL, NULL);
+              if (rc < 0) {
+                  uint64_t roff = 0;
+                  int64_t rsz = rel ? romfs_file_find(rel, &roff) : -1;
+                  if (rsz >= 0) {
+                      RomIO *r = calloc(1, sizeof *r);
+                      r->off = roff, r->size = (uint64_t)rsz;
+                      AVIOContext *io = avio_alloc_context(av_malloc(65536), 65536, 0, r, romio_read, NULL, romio_seek);
+                      e->fmt = avformat_alloc_context();
+                      e->fmt->pb = io;
+                      e->fmt->flags |= AVFMT_FLAG_CUSTOM_IO;
+                      rc = avformat_open_input(&e->fmt, host, NULL, NULL);
+                      LOG("[movie] from the package (%lld bytes): %s\\n", (long long)rsz, rc < 0 ? "failed" : "ok");
+                  }
+              }
+              if (rc < 0 || avformat_find_stream_info(e->fmt, NULL) < 0) {
+          '''
+          assert s.count(a) == 1, 'movie.c ancla 2 no encontrada'
+          s = s.replace(a, b)
+          open(p, 'w').write(s)
+          EOF5
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
           grep -n "applicationId" android/app/build.gradle
+          grep -n "romfs_file_find" runtime/hle/movie.c runtime/services/fs.c
           grep -n "have12" runtime/nvn/vulkan/device.c
           grep -n "EXP" runtime/nvn/vulkan/exec.c runtime/nvn/maxwell/translate.c
 
@@ -167,7 +241,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.5-experimental -PeowVersionCode=10 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.6-experimental -PeowVersionCode=11 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
