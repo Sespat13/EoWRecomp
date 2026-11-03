@@ -222,6 +222,56 @@ jobs:
           s = s.replace(a, b)
           open(p, 'w').write(s)
           EOF5
+          python3 - <<'EOF6'
+          # Parche 0.5.7: diagnostico de memoria global (gmem) sin importar el heap. No cambia el comportamiento: solo escribe al log.
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+
+          # 1) gfast_prepare: avisa cuando un dispatch no puede usar la copia y cae al heap (que sin import lee ceros)
+          a = '        if (m > GMAP_MAX || off + len > GFAST_SIZE) return;  // (too much: the heap as before)\n'
+          b = ('        if (m > GMAP_MAX || off + len > GFAST_SIZE) {  // (too much: the heap as before)\n'
+               '            static int nl; if (!g_vk.host_import && nl++ < 30) LOG("[gmem] cs %llx: too many/large ranges (%d ranges, %llu KB): reads give zero\\n", (unsigned long long)st.program->stages[5].code_addr, m, (unsigned long long)((off + len) >> 10));\n'
+               '            return;\n'
+               '        }\n')
+          assert s.count(a) == 1, 'diag ancla 1'
+          s = s.replace(a, b)
+
+          a = '    if (!m) return;\n'
+          assert s.count(a) >= 1, 'diag ancla 2'
+          i = s.index(a, s.index('static void gfast_prepare'))
+          b = ('    if (!m) {\n'
+               '        static int nl; if (!g_vk.host_import && nl++ < 30) LOG("[gmem] cs %llx: no bound storage buffer inside the heap: reads give zero\\n", (unsigned long long)st.program->stages[5].code_addr);\n'
+               '        return;\n'
+               '    }\n')
+          s = s[:i] + b + s[i + len(a):]
+
+          # 2) dibujos (vertex/fragment) que usan gmem sin import: leen ceros
+          a = '    if (pr->vi->uses_gmem_store) vc_mark_sbufs(0);\n'
+          b = ('    if (!gmem_buf && (pr->vi->uses_gmem || pr->fi->uses_gmem)) {  // (diagnostic) graphics shaders reading the heap with no import\n'
+               '        static uint64_t seen[64][2]; static int nseen; static unsigned long ndraw;\n'
+               '        ndraw++;\n'
+               '        int k = 0; while (k < nseen && !(seen[k][0] == (uint64_t)pr->code[0] && seen[k][1] == (uint64_t)pr->code[1])) k++;\n'
+               '        if (k == nseen && nseen < 64) {\n'
+               '            seen[nseen][0] = (uint64_t)pr->code[0]; seen[nseen][1] = (uint64_t)pr->code[1]; nseen++;\n'
+               '            LOG("[gmem] draw: vs %llx (gmem %d store %d) fs %llx (gmem %d store %d) reads zero; sbuf v:",\n'
+               '                (unsigned long long)pr->code[0], pr->vi->uses_gmem, pr->vi->uses_gmem_store, (unsigned long long)pr->code[1], pr->fi->uses_gmem, pr->fi->uses_gmem_store);\n'
+               '            for (int i = 0; i < 16; i++) if (st.sbuf[0][i].addr) LOG(" %llx+%llx", (unsigned long long)st.sbuf[0][i].addr, (unsigned long long)st.sbuf[0][i].size);\n'
+               '            LOG(" f:");\n'
+               '            for (int i = 0; i < 16; i++) if (st.sbuf[1][i].addr) LOG(" %llx+%llx", (unsigned long long)st.sbuf[1][i].addr, (unsigned long long)st.sbuf[1][i].size);\n'
+               '            LOG(" (unique %d, draws so far %lu)\\n", nseen, ndraw);\n'
+               '        }\n'
+               '    }\n') + a
+          assert s.count(a) == 1, 'diag ancla 3'
+          s = s.replace(a, b)
+
+          # 3) resumen cada ~2000 dibujos de este tipo
+          a = '        ndraw++;\n'
+          b = '        ndraw++;\n        if ((ndraw & (ndraw - 1)) == 0 && ndraw >= 1024) LOG("[gmem] %lu draws with graphics gmem so far\\n", ndraw);\n'
+          assert s.count(a) == 1, 'diag ancla 4'
+          s = s.replace(a, b)
+          open(p, 'w').write(s)
+          print('ok diag')
+          EOF6
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -241,7 +291,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.6-experimental -PeowVersionCode=11 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.7-experimental -PeowVersionCode=12 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
