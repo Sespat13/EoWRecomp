@@ -272,6 +272,126 @@ jobs:
           open(p, 'w').write(s)
           print('ok diag')
           EOF6
+          python3 - <<'EOF7'
+          # Parche 0.5.8 (EXP): los shaders de dibujo (vertex/fragment) leen sus buffers de almacenamiento desde una copia hecha por la CPU
+          # cuando la GPU no puede importar el monton (sin VK_EXT_external_memory_host). EOWRECOMP_VK_GFX_GMAP=0 lo apaga, =1 lo fuerza.
+          import re
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+          a = 'uint64_t maxwell_gmem_base, maxwell_gmem_size;'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '\nbool maxwell_gfx_gmap;  // (EXP) graphics shaders look their gmem loads up in GMap / GFast too (exec.c gfx_gmap)')
+          a = '        if (c->glsl && c->stage == STAGE_COMPUTE) {\n            // Compute (Vulkan): the guest heap is host memory'
+          assert s.count(a) == 1
+          s = s.replace(a, '        if (c->glsl && (c->stage == STAGE_COMPUTE || (maxwell_gfx_gmap && !store))) {\n            // Compute (Vulkan): the guest heap is host memory')
+          a = '''        sp(&s, "layout(std430, set = %d, binding = %d) %sbuffer GFast { uint w[]; } gfast_;\\n", set, GFAST_BUFFER_INDEX,
+                     c->uses_gmem_store ? "" : "readonly ");'''
+          assert s.count(a) == 1
+          s = s.replace(a, '''        sp(&s, "layout(std430, set = %d, binding = %d) %sbuffer GFast { uint w[]; } gfast_;\\n", set, GFAST_BUFFER_INDEX,
+                     c->uses_gmem_store && stage == STAGE_COMPUTE ? "" : "readonly ");''')
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/maxwell/shader.h'
+          s = open(p).read()
+          a = '#define GMAP_BUFFER_INDEX 20'
+          assert s.count(a) == 1
+          s = s.replace(a, 'extern bool maxwell_gfx_gmap;\n' + a)
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          # 1) flag antes de traducir
+          a = '    maxwell_gmem_base = HEAP_BASE;\n    maxwell_gmem_size = HEAP_MAX;\n    pthread_mutex_lock(&translate_lock);\n    p->vi = maxwell_translate('
+          assert s.count(a) == 1
+          s = s.replace(a, '''    maxwell_gmem_base = HEAP_BASE;
+              maxwell_gmem_size = HEAP_MAX;
+              { const char *e = getenv("EOWRECOMP_VK_GFX_GMAP"); maxwell_gfx_gmap = e ? atoi(e) != 0 : !g_vk.host_import; }
+              pthread_mutex_lock(&translate_lock);
+              p->vi = maxwell_translate(''')
+          # 2) funcion gfx_gmap antes de stage_set
+          a = 'static VkDescriptorSet stage_set(Prog *p, VkDescriptorSetLayout layout,'
+          assert s.count(a) == 1
+          fn = r'''// (EXP) Sin importar el monton, un shader de dibujo que lee memoria global (LDG) veia ceros. Sus buffers de almacenamiento
+          // (st.sbuf[stage]) se copian desde la CPU a memoria transitoria (compartida por envio si no cambian) y la tabla GMap dice donde
+          // cae cada rango, igual que gfast_prepare en compute. Solo lecturas: los STG de dibujo siguen yendo al buffer ficticio.
+          static bool gfx_gmap(int stage, uint32_t *tab, VkDescriptorBufferInfo *out) {
+              static struct { uint64_t seq; uint32_t tab[(GMAP_MAX + 1) * 4]; VkSpan span; uint64_t total; } last[2];
+              memset(tab, 0, (GMAP_MAX + 1) * 4 * sizeof(uint32_t));
+              uint64_t gsz = (kernel_heap_size() + 0xFFFF) & ~0xFFFFull;
+              if (gsz > HEAP_MAX) gsz = HEAP_MAX;
+              struct { uint64_t lo, hi; } r[16];
+              int n = 0;
+              for (int i = 0; i < 16; i++) {
+                  uint64_t a = st.sbuf[stage][i].addr, sz = st.sbuf[stage][i].size;
+                  if (!a || !sz || a < HEAP_BASE || a - HEAP_BASE + sz > gsz) continue;
+                  uint64_t lo = (a - HEAP_BASE) & ~255ull, hi = (a - HEAP_BASE + sz + 255) & ~255ull;
+                  if (hi > gsz) hi = gsz;
+                  int k = n++;
+                  while (k > 0 && r[k - 1].lo > lo) { r[k] = r[k - 1]; k--; }
+                  r[k].lo = lo; r[k].hi = hi;
+              }
+              int m = 0;
+              for (int i = 0; i < n; i++) {
+                  if (m && r[i].lo <= r[m - 1].hi + 4096) { if (r[i].hi > r[m - 1].hi) r[m - 1].hi = r[i].hi; }
+                  else r[m++] = r[i];
+              }
+              uint64_t total = 0;
+              for (int i = 0; i < m; i++) total += (r[i].hi - r[i].lo + 255) & ~255ull;
+              if (!m || m > GMAP_MAX || total > (4ull << 20)) {
+                  static int nl;
+                  if (m && nl++ < 20) LOG("[gmem] draw stage %d: %d ranges, %llu KB: too much to copy, reads give zero\n", stage, m, (unsigned long long)(total >> 10));
+                  memset(tab, 0, (GMAP_MAX + 1) * 4 * sizeof(uint32_t));
+                  *out = gmem_info();
+                  return false;
+              }
+              uint64_t off = 0;
+              for (int i = 0; i < m; i++) {
+                  uint64_t len = r[i].hi - r[i].lo;
+                  tab[i * 4 + 0] = (uint32_t)r[i].lo;
+                  tab[i * 4 + 1] = (uint32_t)len;
+                  tab[i * 4 + 2] = (uint32_t)(off >> 2);
+                  off += (len + 255) & ~255ull;
+              }
+              tab[GMAP_MAX * 4] = (uint32_t)m;
+              int sl = stage ? 1 : 0;
+              uint64_t seq = vk_pending_seq() + (gcopy_gen << 40);
+              if (last[sl].seq != seq || last[sl].total != total || memcmp(last[sl].tab, tab, sizeof last[sl].tab)) {
+                  VkSpan sp_ = vk_transient(total, 256);
+                  off = 0;
+                  for (int i = 0; i < m; i++) {
+                      uint64_t len = r[i].hi - r[i].lo;
+                      memcpy((uint8_t *)sp_.ptr + off, (const void *)(uintptr_t)(HEAP_BASE + r[i].lo), len);
+                      off += (len + 255) & ~255ull;
+                  }
+                  last[sl].seq = seq; last[sl].total = total; last[sl].span = sp_;
+                  memcpy(last[sl].tab, tab, sizeof last[sl].tab);
+                  static unsigned long cnt;
+                  if (cnt++ < 5) LOG("[gmem] draw stage %d: %d ranges, %llu KB copied for shader reads\n", stage, m, (unsigned long long)(total >> 10));
+              }
+              *out = (VkDescriptorBufferInfo){last[sl].span.buf, last[sl].span.off, total};
+              return true;
+          }
+
+          '''
+          s = s.replace(a, fn + a)
+          # 3) stage_set: preparar y usar
+          a = '    int sg = stage == 1 ? 1 : 0;\n    float rs[66][4] = {{1, 1, 0, 0}};'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    int sg = stage == 1 ? 1 : 0;
+              uint32_t gtab[(GMAP_MAX + 1) * 4];
+              VkDescriptorBufferInfo gfx_fast = {0};
+              bool gfx = false;
+              if (stage != 5) for (int i = 0; i < p->nbinds; i++) if (p->binds[i].set == set && p->binds[i].binding == GFAST_BUFFER_INDEX) { gfx_gmap(stage, gtab, &gfx_fast); gfx = true; break; }
+              float rs[66][4] = {{1, 1, 0, 0}};''')
+          a = '            bi[n] = b->binding == GFAST_BUFFER_INDEX ? gfast_info() : gmem_info();'
+          assert s.count(a) == 1
+          s = s.replace(a, '            bi[n] = b->binding == GFAST_BUFFER_INDEX ? (gfx ? gfx_fast : gfast_info()) : gmem_info();')
+          a = '            bi[n] = ubo_span(vk_transient_copy(gmap_tab, sizeof gmap_tab, 256), sizeof gmap_tab);'
+          assert s.count(a) == 1
+          s = s.replace(a, '            bi[n] = ubo_span(vk_transient_copy(gfx ? gtab : gmap_tab, sizeof gmap_tab, 256), sizeof gmap_tab);')
+          open(p, 'w').write(s)
+          print('ok gfx')
+          EOF7
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -291,7 +411,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.7-experimental -PeowVersionCode=12 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.8-experimental -PeowVersionCode=13 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
