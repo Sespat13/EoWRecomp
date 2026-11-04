@@ -274,7 +274,7 @@ jobs:
           EOF6
           python3 - <<'EOF7'
           # Parche 0.5.8 (EXP): los shaders de dibujo (vertex/fragment) leen sus buffers de almacenamiento desde una copia hecha por la CPU
-          # cuando la GPU no puede importar el monton (sin VK_EXT_external_memory_host). EOWRECOMP_VK_GFX_GMAP=0 lo apaga, =1 lo fuerza.
+          # cuando la GPU no puede importar el monton (sin VK_EXT_external_memory_host). EOWRECOMP_VK_GFX_GMAP=1 lo enciende (apagado por defecto desde 0.5.9).
           import re
           p = 'runtime/nvn/maxwell/translate.c'
           s = open(p).read()
@@ -305,7 +305,7 @@ jobs:
           assert s.count(a) == 1
           s = s.replace(a, '''    maxwell_gmem_base = HEAP_BASE;
               maxwell_gmem_size = HEAP_MAX;
-              { const char *e = getenv("EOWRECOMP_VK_GFX_GMAP"); maxwell_gfx_gmap = e ? atoi(e) != 0 : !g_vk.host_import; }
+              { const char *e = getenv("EOWRECOMP_VK_GFX_GMAP"); maxwell_gfx_gmap = e ? atoi(e) != 0 : 0;  /* 0.5.9: apagado por defecto (0.5.8 no cambio la imagen) */ }
               pthread_mutex_lock(&translate_lock);
               p->vi = maxwell_translate(''')
           # 2) funcion gfx_gmap antes de stage_set
@@ -392,6 +392,30 @@ jobs:
           open(p, 'w').write(s)
           print('ok gfx')
           EOF7
+          python3 - <<'EOF8'
+          # Parche 0.5.9: diagnostico de texturas muestreadas (formato, swizzle de componentes, tamano). Solo escribe al log.
+          p = 'runtime/nvn/vulkan/textures.c'
+          s = open(p).read()
+          a = '    VkImageViewType want = view_type_for(want_textype);\n    VkImageViewType have = b->base_type;'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {  // (diagnostico) cada combinacion distinta de formato NVN / formato Vulkan / swizzle, una vez
+                  static uint64_t seen[256]; static int nseen, nlog;
+                  const uint8_t *s_ = v && (v->setmask & 8) ? v->swizzle : t->swizzle;
+                  uint64_t h = ((uint64_t)t->format << 40) ^ ((uint64_t)fmt << 16) ^ ((uint64_t)s_[0] << 12) ^ ((uint64_t)s_[1] << 8) ^ ((uint64_t)s_[2] << 4) ^ s_[3] ^ ((uint64_t)want_textype << 56);
+                  bool dup = false;
+                  for (int i = 0; i < nseen; i++) if (seen[i] == h) { dup = true; break; }
+                  if (!dup && nseen < 256) {
+                      seen[nseen++] = h;
+                      if (nlog++ < 120)
+                          LOG("[tex] nvn fmt %#x -> vk %d (view %d) swz %u%u%u%u (%s) alpha1 %d type %d %ux%u levels %u\\n", t->format, (int)b->format, (int)fmt,
+                              s_[0], s_[1], s_[2], s_[3], v && (v->setmask & 8) ? "view" : "texture", fmt_of(t->format).alpha_one, want_textype, t->width, t->height, b->levels);
+                  }
+              }
+              VkImageViewType want = view_type_for(want_textype);
+              VkImageViewType have = b->base_type;''')
+          open(p, 'w').write(s)
+          print('ok tex')
+          EOF8
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -411,7 +435,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.8-experimental -PeowVersionCode=13 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.9-experimental -PeowVersionCode=14 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
