@@ -538,6 +538,47 @@ jobs:
           open(p, 'w').write(s)
           print('ok sust')
           EOF10
+          python3 - <<'EOF11'
+          # Parche 0.5.12: diagnostico de lo que escriben los shaders de computo en memoria (sin importar el monton). Solo escribe al log.
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = 'static void gfast_prepare(VkCommandBuffer cb) {'
+          assert s.count(a) == 1
+          s = s.replace(a, '''static uint64_t dbg_hash(const void *p, uint64_t n) { uint64_t h = 1469598103934665603ull; const uint32_t *w = p; for (uint64_t i = 0; i < n / 4; i++) { h ^= w[i]; h *= 1099511628211ull; } return h; }
+          static uint64_t dbg_cs[16], dbg_before[16][GMAP_MAX];
+          static int dbg_cnt[16], dbg_n, dbg_cur = -1;
+          static int dbg_slot(uint64_t a) { for (int i = 0; i < dbg_n; i++) if (dbg_cs[i] == a) return i; if (dbg_n < 16) { dbg_cs[dbg_n] = a; return dbg_n++; } return -1; }
+
+          ''' + a)
+          a = '    memcpy(gfast_cp, cp, (size_t)m * sizeof cp[0]);\n    gfast_n = m;\n}'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    memcpy(gfast_cp, cp, (size_t)m * sizeof cp[0]);
+              gfast_n = m;
+              dbg_cur = -1;
+              if (cpu_src) {  // (diagnostico)
+                  int sl = dbg_slot(st.program->stages[5].code_addr);
+                  if (sl >= 0 && dbg_cnt[sl] < 4) { dbg_cur = sl; for (int i = 0; i < m; i++) dbg_before[sl][i] = dbg_hash((const void *)(uintptr_t)(HEAP_BASE + cp[i].srcOffset), cp[i].size); }
+              }
+          }''')
+          a = '        gfast_n = 0;\n        return;\n    }\n    VkBufferCopy back[GMAP_MAX];'
+          assert s.count(a) == 1
+          s = s.replace(a, '''        if (dbg_cur >= 0) {  // (diagnostico) que cambio en cada rango tras el computo
+                      int sl = dbg_cur;
+                      dbg_cnt[sl]++;
+                      LOG("[gfast] cs %llx escritura #%d:", (unsigned long long)dbg_cs[sl], dbg_cnt[sl]);
+                      for (int i = 0; i < gfast_n; i++) {
+                          const uint8_t *hp = (const uint8_t *)(uintptr_t)(HEAP_BASE + gfast_cp[i].srcOffset);
+                          const float *f = (const float *)hp;
+                          LOG(" [%llx+%llx %s %g %g %g %g]", (unsigned long long)(HEAP_BASE + gfast_cp[i].srcOffset), (unsigned long long)gfast_cp[i].size,
+                              dbg_hash(hp, gfast_cp[i].size) == dbg_before[sl][i] ? "igual" : "CAMBIO", f[0], f[1], f[2], f[3]);
+                      }
+                      LOG("\\n");
+                      dbg_cur = -1;
+                  }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok cs')
+          EOF11
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -557,7 +598,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.11-experimental -PeowVersionCode=16 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.12-experimental -PeowVersionCode=17 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
