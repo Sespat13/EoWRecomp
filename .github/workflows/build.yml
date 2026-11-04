@@ -513,6 +513,31 @@ jobs:
           open(p, 'w').write(s)
           print('ok i64')
           EOF9
+          python3 - <<'EOF10'
+          # Parche 0.5.11: diagnostico de instrucciones sin implementar (SUST) y de los shaders de computo. Solo escribe al log.
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    p->vs_uses_vid = strstr(p->vi->msl, "gl_VertexIndex") != NULL;'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {  // (diagnostico) shaders de dibujo que contienen SUST, que se traduce como "no hacer nada"
+                  static int n_sust;
+                  bool sv = strstr(p->vi->msl, "sust: not implemented") != NULL, sf = strstr(p->fi->msl, "sust: not implemented") != NULL;
+                  if ((sv || sf) && n_sust++ < 60)
+                      LOG("[shader] SUST sin implementar: vs %llx%s fs %llx%s\\n", (unsigned long long)p->code[0], sv ? " (SI)" : "", (unsigned long long)p->code[1], sf ? " (SI)" : "");
+              }
+          ''' + a)
+          a = '    for (int i = 0; i < 3; i++) {\n        cp->local[i] = ss->control'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {  // (diagnostico) cada programa de computo: direccion, uso de memoria global y SUST
+                  static int n_cs;
+                  if (n_cs++ < 80)
+                      LOG("[compute] cs %llx: gmem %d store %d sust %d\\n", (unsigned long long)ss->code_addr, cp->si->uses_gmem, cp->si->uses_gmem_store,
+                          strstr(cp->si->msl, "sust: not implemented") != NULL);
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok sust')
+          EOF10
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -532,7 +557,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.10-experimental -PeowVersionCode=15 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.11-experimental -PeowVersionCode=16 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
