@@ -624,7 +624,7 @@ jobs:
           s = open(p).read()
           a = '    { extern bool maxwell_no_int64; const char *e = getenv("EOWRECOMP_VK_NO_INT64");'
           assert s.count(a) == 1
-          s = s.replace(a, '    { extern bool vk_draw_params; const char *e = getenv("EOWRECOMP_VK_VID_NOBASE"); maxwell_vid_nobase = e && atoi(e) != 0 && vk_draw_params; }\n' + a)
+          s = s.replace(a, '    { extern bool vk_draw_params; const char *e = getenv("EOWRECOMP_VK_VID_NOBASE"); maxwell_vid_nobase = (e ? atoi(e) != 0 : true) && vk_draw_params; }\n' + a)
           open(p, 'w').write(s)
           print('ok vid')
           EOF12
@@ -647,7 +647,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.13-experimental -PeowVersionCode=18 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.14-experimental -PeowVersionCode=19 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
