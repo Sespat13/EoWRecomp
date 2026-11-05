@@ -579,6 +579,55 @@ jobs:
           open(p, 'w').write(s)
           print('ok cs')
           EOF11
+          python3 - <<'EOF12'
+          # Parche 0.5.13: interruptor para probar si el "vertex id" del shader debe incluir el base vertex del dibujo.
+          # EOWRECOMP_VK_VID_NOBASE=1: vid = gl_VertexIndex - gl_BaseVertex (necesita shaderDrawParameters). Apagado por defecto.
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+          a = 'bool maxwell_gfx_gmap;'
+          assert s.count(a) == 1
+          s = s.replace(a, 'bool maxwell_vid_nobase;  // (EXP) vid without the draw\'s base vertex\n' + a)
+          a = '{"vid", "uint(gl_VertexIndex)"}'
+          assert s.count(a) == 1
+          s = s.replace(a, '{"vid", "uint(gl_VertexIndex - mw_base_vertex)"}')
+          a = '    "#extension GL_EXT_texture_shadow_lod : require\\n"\n'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '    "#extension GL_ARB_shader_draw_parameters : enable\\n"\n')
+          a = '    sp(&s, "%s", glsl_prelude);'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '\n    sp(&s, "#define mw_base_vertex %s\\n", maxwell_vid_nobase ? "gl_BaseVertex" : "0");')
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/maxwell/shader.h'
+          s = open(p).read()
+          a = 'extern bool maxwell_gfx_gmap;'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '\nextern bool maxwell_vid_nobase;')
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/vulkan/device.c'
+          s = open(p).read()
+          a = '    VkPhysicalDeviceFeatures2 have = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2, .pNext = &have12};'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    VkPhysicalDeviceVulkan11Features have11 = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES, .pNext = &have12};
+              VkPhysicalDeviceFeatures2 have = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2, .pNext = &have11};''')
+          a = '                                            .storageBuffer16BitAccess = VK_TRUE, .pNext = &f12};'
+          assert s.count(a) == 1
+          s = s.replace(a, '                                            .storageBuffer16BitAccess = VK_TRUE, .shaderDrawParameters = have11.shaderDrawParameters, .pNext = &f12};\n    vk_draw_params = have11.shaderDrawParameters;')
+          a = 'static void'
+          # la variable global va antes de la primera funcion del archivo
+          i = s.index('\nstatic ')
+          s = s[:i] + '\nbool vk_draw_params;  // (EXP) shaderDrawParameters is available and enabled' + s[i:]
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    { extern bool maxwell_no_int64; const char *e = getenv("EOWRECOMP_VK_NO_INT64");'
+          assert s.count(a) == 1
+          s = s.replace(a, '    { extern bool vk_draw_params; const char *e = getenv("EOWRECOMP_VK_VID_NOBASE"); maxwell_vid_nobase = e && atoi(e) != 0 && vk_draw_params; }\n' + a)
+          open(p, 'w').write(s)
+          print('ok vid')
+          EOF12
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -598,7 +647,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.12-experimental -PeowVersionCode=17 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.13-experimental -PeowVersionCode=18 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
