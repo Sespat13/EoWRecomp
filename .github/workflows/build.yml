@@ -694,6 +694,22 @@ jobs:
           open(p, 'w').write(s)
           print('ok fstab2')
           EOF14
+          # Parche 0.5.18: detalle de dibujo de un fragment shader concreto.
+          python3 - <<'EOF15'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '        {   // (EXP 0.5.17) EOWRECOMP_SKIP_FSBIT=k'
+          assert s.count(a) == 1
+          s = s.replace(a, '''        {   // (EXP 0.5.18) EOWRECOMP_LOG_FSDRAW=<hash hex>: full draw info (textures, blend, targets) for the first 40 draws of that fragment shader
+                      static uint64_t fsd_hash = 1;
+                      static int fsd_n;
+                      if (fsd_hash == 1) { const char *e = getenv("EOWRECOMP_LOG_FSDRAW"); fsd_hash = e ? strtoull(e, NULL, 16) : 0; }
+                      if (fsd_hash && last_hash == fsd_hash && fsd_n < 40) { fsd_n++; LOG("[fsdraw] #%d\\n", fsd_n); debug_draw(pr, r, indexed); }
+                  }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok fsdraw')
+          EOF15
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -713,7 +729,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.17-experimental -PeowVersionCode=22 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.18-experimental -PeowVersionCode=23 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
