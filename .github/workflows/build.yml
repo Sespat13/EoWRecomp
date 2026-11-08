@@ -788,7 +788,7 @@ jobs:
           # ---- exec.c: flag + diagnostics + log fix
           p = 'runtime/nvn/vulkan/exec.c'
           s = open(p).read()
-          a = 'maxwell_vid_nobase = e && atoi(e) != 0 && vk_draw_params; }\n'
+          a = '&& vk_draw_params; }\n'
           assert s.count(a) == 1
           s = s.replace(a, a + '    { const char *e = getenv("EOWRECOMP_VK_QUAD"); maxwell_quad_derivs = e && atoi(e) != 0; }\n')
           a = '    {  // (diagnostico) shaders de dibujo que contienen SUST'
