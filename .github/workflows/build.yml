@@ -731,6 +731,23 @@ jobs:
           open(p, 'w').write(s)
           print('ok texswap')
           EOF16
+          # Parche 0.5.20: registrar formatos de atributos de vertices y los que no tienen traduccion.
+          python3 - <<'EOF17'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '        uint32_t fmt = a & 0xFF, stream = (a >> 8) & 0x1F, off = a >> 13;\n'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '''        {   // (EXP 0.5.20) which vertex attribute formats the game uses, and which ones have no Vulkan mapping (they would silently read as 4 floats)
+                      static uint8_t seen[256];
+                      if (!seen[fmt]++) {
+                          bool mapped = (fmt >= 1 && fmt <= 0x30) || fmt == 0x3D || fmt == 0x69 || fmt == 0x3F || fmt == 0x40 || fmt == 0x51;
+                          LOG("[vtxfmt] attr %d raw %#x fmt %#x -> vk %d%s\\n", i, a, fmt, (int)vertex_format(fmt), mapped ? "" : "  *** SIN MAPEAR (lee 4 floats) ***");
+                      }
+                  }
+          ''')
+          open(p, 'w').write(s)
+          print('ok vtxfmt')
+          EOF17
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -750,7 +767,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.19-experimental -PeowVersionCode=24 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.20-experimental -PeowVersionCode=25 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
