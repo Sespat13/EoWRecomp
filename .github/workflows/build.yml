@@ -748,6 +748,68 @@ jobs:
           open(p, 'w').write(s)
           print('ok vtxfmt')
           EOF17
+          # Parche 0.5.21: derivadas por quad (EOWRECOMP_VK_QUAD=1) y registro de shaders con derivadas.
+          python3 - <<'EOF18'
+          import re
+          # ---- translate.c: quad derivatives experiment (EOWRECOMP_VK_QUAD=1)
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+          a = 'bool maxwell_vid_nobase;'
+          assert s.count(a) == 1
+          s = s.replace(a, 'bool maxwell_quad_derivs;  // (EXP 0.5.21) fragment shaders: quad lane from gl_FragCoord + native quad swaps instead of subgroup shuffles\n' + a)
+          a = '{"lane", "gl_SubgroupInvocationID"}'
+          assert s.count(a) == 1
+          s = s.replace(a, '{"lane", "mw_lane"}')
+          a = '        } else if (c->glsl) {  // a quad xor (lane mask < 4) is the subgroup xor within the quad\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''        } else if (c->glsl && maxwell_quad_derivs && c->stage == STAGE_FRAGMENT && mode == 3 && bits(w, 28, 1) && bits(w, 20, 5) < 4) {
+                      static const char *const qf[] = {NULL, "subgroupQuadSwapHorizontal", "subgroupQuadSwapVertical", "subgroupQuadSwapDiagonal"};
+                      int qm = (int)bits(w, 20, 5);
+                      if (qm == 0) set_reg(c, d, R(a));
+                      else { sprintf(t, "%s(%s)", qf[qm], R(a)); set_reg(c, d, t); }
+          ''' + a.replace('        } else if', '        } else if', 1))
+          a = '    sp(&s, "#define mw_base_vertex %s\\n", maxwell_vid_nobase ? "gl_BaseVertex" : "0");\n'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '''    if (maxwell_quad_derivs && stage == STAGE_FRAGMENT) {
+                  sp(&s, "#extension GL_KHR_shader_subgroup_quad : require\\n");
+                  sp(&s, "#define mw_lane ((uint(gl_FragCoord.x) & 1u) | ((uint(gl_FragCoord.y) & 1u) << 1))\\n");
+              } else {
+                  sp(&s, "#define mw_lane gl_SubgroupInvocationID\\n");
+              }
+          ''')
+          open(p, 'w').write(s)
+          # ---- shader.h
+          p = 'runtime/nvn/maxwell/shader.h'
+          s = open(p).read()
+          a = 'extern bool maxwell_vid_nobase;'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '\nextern bool maxwell_quad_derivs;')
+          open(p, 'w').write(s)
+          # ---- exec.c: flag + diagnostics + log fix
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = 'maxwell_vid_nobase = e && atoi(e) != 0 && vk_draw_params; }\n'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '    { const char *e = getenv("EOWRECOMP_VK_QUAD"); maxwell_quad_derivs = e && atoi(e) != 0; }\n')
+          a = '    {  // (diagnostico) shaders de dibujo que contienen SUST'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {   // (EXP 0.5.21) how many quad derivative idioms (FSWZADD / subgroup shuffles) each draw shader has
+                  static int n_q;
+                  int vf = 0, ff = 0, vs = 0, fs_ = 0;
+                  for (const char *q = p->vi->msl; (q = strstr(q, "fswzadd(")) != NULL; q++) vf++;
+                  for (const char *q = p->fi->msl; (q = strstr(q, "fswzadd(")) != NULL; q++) ff++;
+                  for (const char *q = p->vi->msl; (q = strstr(q, "subgroupShuffle")) != NULL; q++) vs++;
+                  for (const char *q = p->fi->msl; (q = strstr(q, "subgroupShuffle")) != NULL; q++) fs_++;
+                  if ((ff || fs_ || vf || vs) && n_q++ < 80)
+                      LOG("[shader] derivadas: vs %llx fswzadd %d shuffle %d | fs %llx fswzadd %d shuffle %d\\n", (unsigned long long)p->code[0], vf, vs, (unsigned long long)p->code[1], ff, fs_);
+              }
+          ''' + a)
+          a = 'if (!seen[fmt]++) {'
+          assert s.count(a) == 1
+          s = s.replace(a, 'if (!seen[fmt]) { seen[fmt] = 1;')
+          open(p, 'w').write(s)
+          print('ok quad')
+          EOF18
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -767,7 +829,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.20-experimental -PeowVersionCode=25 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.21-experimental -PeowVersionCode=26 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
