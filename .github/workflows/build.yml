@@ -810,6 +810,32 @@ jobs:
           open(p, 'w').write(s)
           print('ok quad')
           EOF18
+          # Parche 0.5.22: registrar como usa los shuffles el fragment shader culpable.
+          python3 - <<'EOF19'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    {   // (EXP 0.5.21) how many quad derivative idioms'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {   // (EXP 0.5.22) short snippets of each subgroup shuffle used by a fragment shader (kind + operands only)
+                  static int n_sh;
+                  const char *fm = p->fi->msl;
+                  int cnt = 0;
+                  for (const char *q = fm; (q = strstr(q, "subgroupShuffle")) != NULL; q++) cnt++;
+                  if (cnt && n_sh < 3) {
+                      n_sh++;
+                      LOG("[shfl] fs %llx: %d shuffles\\n", (unsigned long long)p->code[1], cnt);
+                      int shown = 0;
+                      for (const char *q = fm; (q = strstr(q, "subgroupShuffle")) != NULL && shown < 20; q++, shown++) {
+                          const char *e = q;
+                          while (*e && *e != ';' && *e != '\\n' && e - q < 70) e++;
+                          LOG("[shfl]   %.*s\\n", (int)(e - q), q);
+                      }
+                  }
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok shfl')
+          EOF19
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -829,7 +855,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.21-experimental -PeowVersionCode=26 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.22-experimental -PeowVersionCode=27 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
