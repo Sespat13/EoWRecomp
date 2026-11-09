@@ -836,6 +836,44 @@ jobs:
           open(p, 'w').write(s)
           print('ok shfl')
           EOF19
+          # Parche 0.5.23: SHFL como en Maxwell (lane fuente inactiva -> valor propio y predicado falso).
+          python3 - <<'EOF20'
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+          a = 'bool maxwell_quad_derivs;'
+          assert s.count(a) == 1
+          s = s.replace(a, 'bool maxwell_shfl_safe = true;  // (EXP 0.5.23) SHFL like Maxwell: a source lane that is not active returns the lane\'s own value and a false predicate\n' + a)
+          a = '        } else if (c->glsl && maxwell_quad_derivs && c->stage == STAGE_FRAGMENT && mode == 3'
+          assert s.count(a) == 1
+          s = s.replace(a, '''        } else if (c->glsl && maxwell_shfl_safe) {
+                      static const char *const srcf[] = {"(%s)", "(gl_SubgroupInvocationID - (%s))", "(gl_SubgroupInvocationID + (%s))", "(gl_SubgroupInvocationID ^ (%s))"};
+                      char sx[160];
+                      sprintf(sx, srcf[mode], bv);
+                      sp(&c->body, "    { uint sl_ = %s; bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);\\n", sx);
+                      if (mode == 1) sp(&c->body, "      ok_ = ok_ && uint(%s) <= gl_SubgroupInvocationID;\\n", bv);
+                      sp(&c->body, "      uint sv_ = subgroupShuffle(%s, ok_ ? sl_ : gl_SubgroupInvocationID);\\n", R(a));
+                      if (d != RZ) { c->reg_used[d] = 1; sp(&c->body, "      r%d = ok_ ? sv_ : %s;\\n", d, R(a)); }
+                      if (pd != PT) { c->pred_used[pd] = 1; sp(&c->body, "      p%d = ok_;\\n", pd); }
+                      sp(&c->body, "    }\\n");
+                      pd = PT;
+          ''' + a)
+          open(p, 'w').write(s)
+          # shader.h
+          p = 'runtime/nvn/maxwell/shader.h'
+          s = open(p).read()
+          a = 'extern bool maxwell_quad_derivs;'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '\nextern bool maxwell_shfl_safe;')
+          open(p, 'w').write(s)
+          # exec.c env
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    { const char *e = getenv("EOWRECOMP_VK_QUAD"); maxwell_quad_derivs = e && atoi(e) != 0; }\n'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '    { const char *e = getenv("EOWRECOMP_VK_SHFL"); maxwell_shfl_safe = e ? atoi(e) != 0 : true; }\n')
+          open(p, 'w').write(s)
+          print('ok shfl2')
+          EOF20
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -855,7 +893,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.22-experimental -PeowVersionCode=27 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.23-experimental -PeowVersionCode=28 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
