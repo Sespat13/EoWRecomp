@@ -2528,6 +2528,33 @@ static void dispatch_compute(uint32_t gx, uint32_t gy, uint32_t gz) {
         }
         LOG("\n");
     }
+    // Diagnostic-only: inspect the NVN image handles bound to compute stage 5.
+    // This is opt-in and does not change descriptor binding or GPU execution.
+    if (getenv("EOWRECOMP_LOG_CS_IMAGES")) {
+        static uint64_t seen_cs[16];
+        static int seen_n[16];
+        uint64_t addr = st.program->stages[5].code_addr;
+        int k = 0;
+        while (k < 15 && seen_cs[k] && seen_cs[k] != addr) k++;
+        seen_cs[k] = addr;
+        if (seen_n[k]++ < 16) {
+            LOG("[cs-img] cs %llx %ux%ux%u tpool %p count %u:", (unsigned long long)addr, gx, gy, gz,
+                (void *)st.tpool, st.tpool ? st.tpool->count : 0);
+            for (int i = 0; i < 8; i++) {
+                uint64_t h = st.img[5][i];
+                if (!h) continue;
+                uint32_t tic = (uint32_t)(h & 0xFFFFF);
+                NvnTexEntry *e = st.tpool && tic < (uint32_t)st.tpool->count
+                    ? &((NvnTexEntry *)st.tpool->entries)[tic] : NULL;
+                NvnTexture *t = e ? e->tex : NULL;
+                if (t) LOG(" img%d=%llx tic=%u tex=%p fmt=%#x target=%u size=%ux%ux%u levels=%u swz=%u,%u,%u,%u",
+                           i, (unsigned long long)h, tic, (void *)t, t->format, t->target, t->width, t->height,
+                           t->depth, t->levels, t->swizzle[0], t->swizzle[1], t->swizzle[2], t->swizzle[3]);
+                else LOG(" img%d=%llx tic=%u unresolved", i, (unsigned long long)h, tic);
+            }
+            LOG("\\n");
+        }
+    }
     if (cp->si->uses_gmem_map) gfast_prepare(cb);
     VkDescriptorSet ds = stage_set(&cp->p, cp->p.set_layout[0], 0, 5, cp->si, NULL, NULL, gx, gy, gz, NULL);
     vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_COMPUTE, cp->pipe);
