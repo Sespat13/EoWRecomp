@@ -874,6 +874,28 @@ jobs:
           open(p, 'w').write(s)
           print('ok shfl2')
           EOF20
+          # Parche 0.5.24: volcar el GLSL del shader del piso al log.
+          python3 - <<'EOF21'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    p->vs_uses_vid = strstr(p->vi->msl, "gl_VertexIndex") != NULL;\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {   // (EXP 0.5.24) dump the GLSL of the dirty-floor fragment shader (fs program 12a6c05000) to the log, in chunks
+                  static int dumped;
+                  const char *e = getenv("EOWRECOMP_DUMP_FS");
+                  uint64_t want = e ? strtoull(e, NULL, 16) : 0x12a6c05000ULL;
+                  if (!dumped && want && p->code[1] == want) {
+                      dumped = 1;
+                      size_t n = strlen(p->fi->msl);
+                      LOG("[glsl] fs %llx: %zu bytes\\n", (unsigned long long)p->code[1], n);
+                      for (size_t o = 0; o < n; o += 1200) LOG("[glsl]%.*s\\n", (int)(n - o < 1200 ? n - o : 1200), p->fi->msl + o);
+                      LOG("[glsl] end\\n");
+                  }
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok dump')
+          EOF21
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -893,7 +915,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.23-experimental -PeowVersionCode=28 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.24-experimental -PeowVersionCode=29 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
