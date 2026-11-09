@@ -12,6 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Verificar rama experimental
+        run: |
+          test "$GITHUB_REF" = "refs/heads/gpt-experimental" || { echo "Este workflow solo se ejecuta desde gpt-experimental"; exit 1; }
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -209,6 +213,22 @@ jobs:
           open(p, 'w').write(s)
           EOF4
 
+          # El diagnóstico de imágenes compute está limitado por shader, pero
+          # el proceso Android no hereda variables de entorno del runner.
+          # Activarlo aquí evita entregar una APK que no genere esos registros.
+          python3 - <<'EOF5'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = 'if (getenv("EOWRECOMP_LOG_CS_IMAGES")) {'
+          assert s.count(a) == 1, 'ancla del diagnóstico compute no encontrada'
+          s = s.replace(a, 'if (1) {')
+          a = 'if (seen_n[k]++ < 16) {'
+          assert s.count(a) == 1, 'límite del diagnóstico compute no encontrado'
+          s = s.replace(a, 'if (seen_n[k]++ < 2) {')
+          open(p, 'w').write(s)
+          print('diagnóstico compute activado: máximo 2 registros por shader')
+          EOF5
+
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.gpt'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp GPT 0</string>|' android/app/src/main/res/values/strings.xml
 
@@ -224,6 +244,14 @@ jobs:
       - name: Compilar GPT 0
         working-directory: android
         run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=GPT-0 -PeowVersionCode=1 -x eowOnDeviceAssets
+
+      - name: Verificar APK generada
+        run: |
+          set -e
+          APK=$(find android/app/build/outputs/apk/release -maxdepth 1 -name '*.apk' -print -quit)
+          test -n "$APK" || { echo "No se encontró la APK release"; exit 1; }
+          ls -lh "$APK"
+          sha256sum "$APK"
 
       - name: Mostrar huella de firma
         continue-on-error: true
