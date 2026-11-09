@@ -896,6 +896,70 @@ jobs:
           open(p, 'w').write(s)
           print('ok dump')
           EOF21
+          # Parche 0.5.25: cuadricula de depuracion del shader del piso.
+          python3 - <<'EOF22'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    p->vs_uses_vid = strstr(p->vi->msl, "gl_VertexIndex") != NULL;\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {   // (EXP 0.5.25) EOWRECOMP_FS_DBG=1: the floor fragment shader paints 6 of its inputs in a 3x2 grid (by screen position)
+                  const char *e = getenv("EOWRECOMP_FS_DBG");
+                  const char *ea = getenv("EOWRECOMP_DUMP_FS");
+                  uint64_t want = ea ? strtoull(ea, NULL, 16) : 0x12a6c05000ULL;
+                  if (e && atoi(e) != 0 && p->code[1] == want) {
+                      const char *m = p->fi->msl;
+                      const char *mainp = strstr(m, "void main() {");
+                      const char *o0 = strstr(m, "  c0[0] = as_f(r0);\\n");
+                      const char *o3 = strstr(m, "  c0[3] = as_f(r3);\\n");
+                      if (mainp && o0 && o3 && o0 > mainp && o3 > o0) {
+                          o3 += strlen("  c0[3] = as_f(r3);\\n");
+                          static const char helper[] =
+                              "vec4 dbg0, dbg1, dbg3; float dbgx;\\n"
+                              "vec4 cap0(vec2 q) { vec4 v = texture(t0, q); dbg0 = v; return v; }\\n"
+                              "vec4 cap1(vec2 q) { vec4 v = texture(t1, q); dbg1 = v; return v; }\\n"
+                              "vec4 cap3(vec2 q) { vec4 v = texture(t3, q); dbg3 = v; return v; }\\n"
+                              "float cap2(vec4 q) { float v = texture(t2, q); dbgx += 0.25f * v; return v; }\\n";
+                          static const char outc[] =
+                              "  { vec2 uv_ = vec2(as_f(r24), as_f(r25)); ivec2 cell_ = ivec2(clamp(int(floor(v0[0] * 3.0f)), 0, 2), clamp(int(floor(v0[1] * 2.0f)), 0, 1));\\n"
+                              "    vec3 o_ = vec3(0.0f);\\n"
+                              "    int k_ = cell_.y * 3 + cell_.x;\\n"
+                              "    if (k_ == 0) o_ = dbg0.rgb; else if (k_ == 1) o_ = dbg1.rgb; else if (k_ == 2) o_ = dbg3.rgb;\\n"
+                              "    else if (k_ == 3) o_ = vec3(dbg3.a); else if (k_ == 4) o_ = vec3(dbgx); else o_ = vec3(dbg0.r, dbg0.g, 0.0f);\\n"
+                              "    c0 = vec4(o_, 1.0f); }\\n";
+                          size_t n = strlen(m), hl = sizeof helper - 1, ol = sizeof outc - 1;
+                          char *nb = malloc(n + hl + ol + 16);
+                          if (nb) {
+                              char *w = nb;
+                              memcpy(w, m, (size_t)(mainp - m)); w += mainp - m;
+                              memcpy(w, helper, hl); w += hl;
+                              memcpy(w, mainp, (size_t)(o0 - mainp)); w += o0 - mainp;
+                              memcpy(w, o0, (size_t)(o3 - o0)); w += o3 - o0;
+                              memcpy(w, outc, ol); w += ol;
+                              strcpy(w, o3);
+                              // route texture reads of t0/t1/t3 and the shadow taps through the capture helpers
+                              static const struct { const char *from, *to; } rep[] = {
+                                  {"texture(t0, vec2(", "cap0(vec2("}, {"texture(t1, vec2(", "cap1(vec2("},
+                                  {"texture(t3, vec2(", "cap3(vec2("}, {"texture(t2, vec4(", "cap2(vec4("}};
+                              for (int i = 0; i < 4; i++) {
+                                  size_t fl = strlen(rep[i].from), tl = strlen(rep[i].to);
+                                  char *q = nb;
+                                  while ((q = strstr(q, rep[i].from)) != NULL) {
+                                      // only inside main(): skip the helper definitions (they call texture(tN, q) without "vec2(")
+                                      memmove(q + tl, q + fl, strlen(q + fl) + 1);
+                                      memcpy(q, rep[i].to, tl);
+                                      q += tl;
+                                  }
+                              }
+                              p->fi->msl = nb;
+                              LOG("[glsl] FS_DBG activo: cuadricula 3x2 (t0,t1,t3 / t3.a,sombra,t0.rg)\\n");
+                          }
+                      }
+                  }
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok dbg')
+          EOF22
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -915,7 +979,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.24-experimental -PeowVersionCode=29 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.25-experimental -PeowVersionCode=30 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
