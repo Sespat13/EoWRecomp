@@ -29,7 +29,7 @@ jobs:
       - name: Android SDK y NDK
         run: |
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
-          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;27.2.12479018" "platforms;android-36" "cmake;3.22.1"
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;27.2.12479018" "platforms;android-36" "build-tools;36.0.0" "cmake;3.22.1"
           echo "sdk.dir=$ANDROID_HOME" > android/local.properties
 
       - name: Descargar APK original y comprobarla
@@ -229,7 +229,7 @@ jobs:
           print('diagnóstico compute activado: máximo 2 registros por shader')
           EOF5
 
-          sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.gpt'/" android/app/build.gradle
+          # El applicationId se establece como propiedad Gradle en el paso de compilación.
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp GPT 0</string>|' android/app/src/main/res/values/strings.xml
 
           git diff --stat
@@ -243,13 +243,22 @@ jobs:
 
       - name: Compilar GPT 0
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=GPT-0 -PeowVersionCode=1 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowApplicationId=com.eowrecomp.android.gpt -PeowVersionName=GPT-0 -PeowVersionCode=1 -x eowOnDeviceAssets
 
       - name: Verificar APK generada
         run: |
           set -e
           APK=$(find android/app/build/outputs/apk/release -maxdepth 1 -name '*.apk' -print -quit)
           test -n "$APK" || { echo "No se encontró la APK release"; exit 1; }
+          EXPECTED_ID="com.eowrecomp.android.gpt"
+          AAPT="$(find "$ANDROID_HOME/build-tools" -mindepth 2 -maxdepth 2 -type f -name aapt | sort -V | tail -n 1)"
+          test -x "$AAPT" || { echo "No se encontró aapt para verificar el manifiesto"; exit 1; }
+          BADGING="$("$AAPT" dump badging "$APK")"
+          ACTUAL_ID="$(printf '%s\\n' "$BADGING" | sed -n "1s/^package: name='\\([^']*\\)'.*/\\1/p")"
+          echo "applicationId esperado: $EXPECTED_ID"
+          echo "applicationId generado: $ACTUAL_ID"
+          test "$ACTUAL_ID" = "$EXPECTED_ID" || { echo "ERROR: identificador de paquete incorrecto"; exit 1; }
+          printf '%s\\n' "$BADGING" | head -n 1
           ls -lh "$APK"
           sha256sum "$APK"
 
