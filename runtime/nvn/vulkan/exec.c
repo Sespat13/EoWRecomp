@@ -2676,10 +2676,23 @@ static void draw_(CmdRec *r, bool indexed) {
             k.used_streams |= 1u << ZERO_BINDING;
             continue;
         }
-        k.attr_fmt[i] = vertex_format_supported(vertex_format(fmt));
+        VkFormat guest_fmt = vertex_format(fmt);
+        VkFormat host_fmt = vertex_format_supported(guest_fmt);
+        k.attr_fmt[i] = host_fmt;
         k.attr_off[i] = off;
         k.attr_bind[i] = stream;
         k.used_streams |= 1u << stream;
+        // Diagnostic: identify the exact guest attribute when the host GPU needs a
+        // vertex-format fallback. This is logged once per attribute/guest format.
+        if (host_fmt != guest_fmt) {
+            static uint8_t reported[32][256];
+            if (!reported[i][fmt]) {
+                reported[i][fmt] = 1;
+                uint32_t stride = stream < st.nstream ? st.stream[stream][0] : 0;
+                LOG("[vk] vertex fallback: attr %u guest fmt %#x (VkFormat %d) -> host %d, stream %u, offset %u, stride %u, draw mode %#x\\n",
+                    i, fmt, guest_fmt, host_fmt, stream, off, stride, mode);
+            }
+        }
     }
     for (int s = 0; s < 16; s++) {
         if (!(k.used_streams & (1u << s))) continue;
