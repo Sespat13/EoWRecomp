@@ -1004,6 +1004,42 @@ jobs:
           open(p, 'w').write(s)
           print('ok gmemlog')
           EOF23
+          # Parche 0.5.29: que deja el computo de la lista de luces en sus buffers.
+          python3 - <<'EOF24'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '        if (dbg_cur >= 0) {  // (diagnostico) que cambio en cada rango tras el computo\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''        {   // (EXP 0.5.29) what the light-list compute shader (cs 12a46d9000) leaves in its buffers, sampled over the run
+                      static unsigned long nrun;
+                      if (st.program && st.program->stages[5].code_addr == 0x12a46d9000ULL && (nrun++ % 150) == 0 && nrun < 3000) {
+                          LOG("[cswr] cs 12a46d9000 run #%lu:", nrun);
+                          for (int i = 0; i < gfast_n; i++) {
+                              const uint32_t *w = (const uint32_t *)(uintptr_t)(HEAP_BASE + gfast_cp[i].srcOffset);
+                              uint64_t nzc = 0, n = gfast_cp[i].size / 4 > 4096 ? 4096 : gfast_cp[i].size / 4;
+                              for (uint64_t j = 0; j < n; j++) if (w[j]) nzc++;
+                              LOG(" [%llx+%llx nz %llu/%llu w: %08x %08x %08x %08x]", (unsigned long long)(HEAP_BASE + gfast_cp[i].srcOffset), (unsigned long long)gfast_cp[i].size, (unsigned long long)nzc, (unsigned long long)n, w[0], w[1], w[2], w[3]);
+                          }
+                          LOG("\\n");
+                      }
+                  }
+          ''' + a)
+          a = '    for (int i = 0; i < 3; i++) {\n        cp->local[i] = ss->control ? *(const uint32_t *)(ss->control + 0x748 + 4 * i) : 1;\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    if (ss->code_addr == 0x12a46d9000ULL) {  // (EXP 0.5.29) GLSL of the light-list compute shader, in chunks
+                  static int dumped;
+                  if (!dumped) {
+                      dumped = 1;
+                      size_t n = strlen(cp->si->msl);
+                      LOG("[cswr] glsl cs %llx: %zu bytes\\n", (unsigned long long)ss->code_addr, n);
+                      for (size_t o = 0; o < n; o += 1200) LOG("[glsl]%.*s\\n", (int)(n - o < 1200 ? n - o : 1200), cp->si->msl + o);
+                      LOG("[glsl] end\\n");
+                  }
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok cswr')
+          EOF24
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -1023,7 +1059,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.28-experimental -PeowVersionCode=33 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.29-experimental -PeowVersionCode=34 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
