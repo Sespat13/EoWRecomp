@@ -1077,6 +1077,131 @@ jobs:
           open(p, 'w').write(s)
           print('ok fsstore')
           EOF25
+          # Parche 0.5.31: los atomicos del dibujo (lista de luces por baldosa) ahora se guardan.
+          python3 - <<'EOF26'
+          import re
+          def sub1(s, a, b):
+              assert s.count(a) == 1, a[:60]
+              return s.replace(a, b)
+
+          # ---- shader.h: a flag for fragment shaders that reduce (RED) into global memory
+          p = 'runtime/nvn/maxwell/shader.h'
+          s = open(p).read()
+          s = sub1(s, '    bool uses_gmem_store;   // writes global memory (STG)\n',
+                   '    bool uses_gmem_store;   // writes global memory (STG)\n    bool uses_gfx_red;      // (EXP) fragment shader with RED: its atomics go to GFast copies that exec.c ORs back into the heap\n')
+          open(p, 'w').write(s)
+
+          # ---- translate.c: RED in a fragment shader works on the GFast copy
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+          s = sub1(s, '        } else if (c->glsl && c->stage == STAGE_COMPUTE) {  // (the dispatch\'s storage buffers have a device-local copy: see LDG / STG)\n            c->info->uses_gmem_map = true;\n',
+                   '        } else if (c->glsl && (c->stage == STAGE_COMPUTE || (maxwell_gfx_gmap && c->stage == STAGE_FRAGMENT && gl_op[op][0]))) {  // (the dispatch\'s storage buffers have a device-local copy: see LDG / STG)\n            c->info->uses_gmem_map = true;\n            if (c->stage == STAGE_FRAGMENT) c->info->uses_gfx_red = true;\n')
+          s = sub1(s, 'c->uses_gmem_store && stage == STAGE_COMPUTE ? "" : "readonly ");',
+                   'c->uses_gmem_store && (stage == STAGE_COMPUTE || (maxwell_gfx_gmap && stage == STAGE_FRAGMENT)) ? "" : "readonly ");')
+          open(p, 'w').write(s)
+
+          # ---- exec.c
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+
+          # 1) store slots + sync, before gfast_prepare
+          a = 'static void gfast_prepare(VkCommandBuffer cb) {\n'
+          s = sub1(s, a, '''// (EXP 0.5.31) Fragment shaders that RED into global memory (the light-list builders: atomicOr of a light bit per tile).
+          // Without the heap import their atomics went to a dummy buffer, so the lists stayed empty and the lit-scene shader that
+          // reads them lit nothing. Now each such draw works on a persistent host-visible copy of its storage buffers (a slot per
+          // distinct range table); before anything reads the heap again (a draw that loads global memory, a compute dispatch)
+          // the GPU work is flushed and every slot is ORed back into the heap (RED.OR is monotone: the OR of copies is right).
+          #define GFXS_SLOT 0x10000
+          #define GFXS_N 32
+          typedef struct { uint64_t total; int n; uint64_t lo[GMAP_MAX], len[GMAP_MAX], off[GMAP_MAX]; uint32_t tab[(GMAP_MAX + 1) * 4]; } GfxStore;
+          static GfxStore gfx_store[GFXS_N];
+          static int gfx_store_n;
+          static struct { VkBuffer buf; VmaAllocation mem; uint8_t *ptr; } gfxs;
+          static void gfxs_init(void) {
+              if (gfxs.buf) return;
+              VkBufferCreateInfo bi = {.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO, .size = (uint64_t)GFXS_SLOT * GFXS_N,
+                                       .usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_TRANSFER_SRC_BIT};
+              VmaAllocationCreateInfo ai = {.usage = VMA_MEMORY_USAGE_AUTO_PREFER_HOST,
+                                            .flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT};
+              VmaAllocationInfo info;
+              VK_CHECK(vmaCreateBuffer(g_vk.vma, &bi, &ai, &gfxs.buf, &gfxs.mem, &info));
+              gfxs.ptr = info.pMappedData;
+              LOG("[gfxred] slots: %d x %d KB\\n", GFXS_N, GFXS_SLOT >> 10);
+          }
+          static void gfx_atomic_sync(void) {
+              if (!gfx_store_n) return;
+              uint64_t t0 = SDL_GetTicksNS();
+              vk_end_pass();
+              VkCommandBuffer cb = vk_cmd();
+              VkMemoryBarrier2 mb = {.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER_2, .srcStageMask = VK_PIPELINE_STAGE_2_ALL_COMMANDS_BIT,
+                                     .srcAccessMask = VK_ACCESS_2_MEMORY_WRITE_BIT, .dstStageMask = VK_PIPELINE_STAGE_2_HOST_BIT,
+                                     .dstAccessMask = VK_ACCESS_2_HOST_READ_BIT};
+              VkDependencyInfo di = {.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO, .memoryBarrierCount = 1, .pMemoryBarriers = &mb};
+              vkCmdPipelineBarrier2(cb, &di);
+              wait_why = "gfx atomics";
+              renderer_flush();
+              vmaInvalidateAllocation(g_vk.vma, gfxs.mem, 0, VK_WHOLE_SIZE);
+              for (int e = 0; e < gfx_store_n; e++) {
+                  GfxStore *g = &gfx_store[e];
+                  for (int i = 0; i < g->n; i++) {
+                      uint32_t *dst = (uint32_t *)(uintptr_t)(HEAP_BASE + g->lo[i]);
+                      const uint32_t *src = (const uint32_t *)(gfxs.ptr + (uint64_t)e * GFXS_SLOT + g->off[i]);
+                      for (uint64_t w = 0; w < g->len[i] / 4; w++) dst[w] |= src[w];
+                  }
+              }
+              static unsigned long nsync; static uint64_t tsum;
+              tsum += SDL_GetTicksNS() - t0;
+              if (++nsync <= 3 || (nsync % 500) == 0) LOG("[gfxred] sync #%lu: %d slots ORed back, avg %.2f ms\\n", nsync, gfx_store_n, tsum / 1e6 / nsync);
+              gfx_store_n = 0;
+          }
+
+          ''' + a)
+
+          # 2) gfx_gmap: a store flag
+          s = sub1(s, 'static bool gfx_gmap(int stage, uint32_t *tab, VkDescriptorBufferInfo *out) {\n',
+                   'static bool gfx_gmap(int stage, uint32_t *tab, VkDescriptorBufferInfo *out, bool store) {\n')
+          a = '    tab[GMAP_MAX * 4] = (uint32_t)m;\n    int sl = stage ? 1 : 0;\n    uint64_t seq = vk_pending_seq() + (gcopy_gen << 40);\n'
+          s = sub1(s, a, '''    tab[GMAP_MAX * 4] = (uint32_t)m;
+              if (store && total <= GFXS_SLOT) {  // (EXP 0.5.31) writable persistent copy, one slot per distinct range table
+                  gfxs_init();
+                  int e = -1;
+                  for (int i = 0; i < gfx_store_n; i++)
+                      if (gfx_store[i].total == total && !memcmp(gfx_store[i].tab, tab, sizeof gfx_store[i].tab)) { e = i; break; }
+                  if (e < 0 && gfx_store_n < GFXS_N) {
+                      e = gfx_store_n++;
+                      GfxStore *g = &gfx_store[e];
+                      g->total = total; g->n = m;
+                      memcpy(g->tab, tab, sizeof g->tab);
+                      uint64_t o2 = 0;
+                      for (int i = 0; i < m; i++) {
+                          uint64_t len = r[i].hi - r[i].lo;
+                          g->lo[i] = r[i].lo; g->len[i] = len; g->off[i] = o2;
+                          memcpy(gfxs.ptr + (uint64_t)e * GFXS_SLOT + o2, (const void *)(uintptr_t)(HEAP_BASE + r[i].lo), len);
+                          o2 += (len + 255) & ~255ull;
+                      }
+                      vmaFlushAllocation(g_vk.vma, gfxs.mem, (uint64_t)e * GFXS_SLOT, (total + 255) & ~255ull);
+                  }
+                  if (e >= 0) {
+                      *out = (VkDescriptorBufferInfo){gfxs.buf, (uint64_t)e * GFXS_SLOT, total};
+                      return true;
+                  }
+              }
+              int sl = stage ? 1 : 0;
+              uint64_t seq = vk_pending_seq() + (gcopy_gen << 40);
+          ''')
+
+          # 3) the caller in stage_set
+          s = sub1(s, '{ gfx_gmap(stage, gtab, &gfx_fast); gfx = true; break; }',
+                   '{ gfx_gmap(stage, gtab, &gfx_fast, stage == 1 && si->uses_gfx_red); gfx = true; break; }')
+
+          # 4) readers: sync before a draw that loads global memory, and before any compute dispatch
+          s = sub1(s, '    if (!pr || atomic_load(&pr->state) != 1) { SKIP(pr && atomic_load(&pr->state) == 0 ? SKIP_PROG_PENDING : SKIP_PROG_FAILED); return; }\n    {   // fragment-shader hash: skip lists',
+                   '    if (!pr || atomic_load(&pr->state) != 1) { SKIP(pr && atomic_load(&pr->state) == 0 ? SKIP_PROG_PENDING : SKIP_PROG_FAILED); return; }\n    if (gfx_store_n && pr->fi->uses_gmem && !pr->fi->uses_gfx_red) gfx_atomic_sync();\n    {   // fragment-shader hash: skip lists')
+          s = sub1(s, '    if (!cp || atomic_load(&cp->p.state) != 1) { SKIP(SKIP_COMPUTE_PROG); return; }\n',
+                   '    if (!cp || atomic_load(&cp->p.state) != 1) { SKIP(SKIP_COMPUTE_PROG); return; }\n    if (gfx_store_n) gfx_atomic_sync();\n')
+          open(p, 'w').write(s)
+          print('ok gfxred')
+          EOF26
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -1096,7 +1221,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.30-experimental -PeowVersionCode=35 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.31-experimental -PeowVersionCode=36 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
