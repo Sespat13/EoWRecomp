@@ -1040,6 +1040,43 @@ jobs:
           open(p, 'w').write(s)
           print('ok cswr')
           EOF24
+          # Parche 0.5.30: volcar los shaders que escriben la lista de luces desde el dibujo.
+          python3 - <<'EOF25'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    p->vs_uses_vid = strstr(p->vi->msl, "gl_VertexIndex") != NULL;\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {   // (EXP 0.5.30) GLSL of the two fragment shaders that STORE to global memory (the light-list builders), in chunks
+                  static int dumped_a, dumped_b;
+                  int *flag = p->code[1] == 0x12a46dd400ULL ? &dumped_a : p->code[1] == 0x12a46e1400ULL ? &dumped_b : NULL;
+                  if (flag && !*flag) {
+                      *flag = 1;
+                      size_t n = strlen(p->fi->msl);
+                      LOG("[fsstore] glsl fs %llx: %zu bytes\\n", (unsigned long long)p->code[1], n);
+                      for (size_t o = 0; o < n; o += 1200) LOG("[glsl]%.*s\\n", (int)(n - o < 1200 ? n - o : 1200), p->fi->msl + o);
+                      LOG("[glsl] end\\n");
+                      size_t nv = strlen(p->vi->msl);
+                      LOG("[fsstore] glsl vs %llx: %zu bytes\\n", (unsigned long long)p->code[0], nv);
+                      for (size_t o = 0; o < nv; o += 1200) LOG("[glsl]%.*s\\n", (int)(nv - o < 1200 ? nv - o : 1200), p->vi->msl + o);
+                      LOG("[glsl] end\\n");
+                  }
+              }
+          ''' + a)
+          a = '    if (pr->vi->uses_gmem_store) vc_mark_sbufs(0);\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    if (pr->fi->uses_gmem_store) {  // (EXP 0.5.30) how many draws store to global memory from a fragment shader
+                  static unsigned long nst; static int nl2;
+                  nst++;
+                  if (nl2 < 12 && ((nst & (nst - 1)) == 0 || nst == 1)) {
+                      nl2++;
+                      LOG("[fsstore] draw #%lu fs %llx vs %llx t=%llu ms rt %ux%u\\n", nst, (unsigned long long)pr->code[1], (unsigned long long)pr->code[0],
+                          (unsigned long long)SDL_GetTicks(), st.rt.color[0] ? (unsigned)st.rt.color[0]->width : 0u, st.rt.color[0] ? (unsigned)st.rt.color[0]->height : 0u);
+                  }
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok fsstore')
+          EOF25
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -1059,7 +1096,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.29-experimental -PeowVersionCode=34 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.30-experimental -PeowVersionCode=35 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
