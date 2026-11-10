@@ -230,7 +230,7 @@ jobs:
           EOF5
 
           # El applicationId se establece como propiedad Gradle en el paso de compilación.
-          sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp GPT 0</string>|' android/app/src/main/res/values/strings.xml
+          sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoW GPT</string>|' android/app/src/main/res/values/strings.xml
 
           git diff --stat
           grep -n "applicationId" android/app/build.gradle
