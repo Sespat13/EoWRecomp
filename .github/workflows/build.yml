@@ -896,13 +896,13 @@ jobs:
           open(p, 'w').write(s)
           print('ok dump')
           EOF21
-          # Parche 0.5.26: cuadricula de depuracion en todos los shaders de la escena iluminada.
+          # Parche 0.5.27: cuadricula de depuracion (modo 1) o una sola capa a pantalla completa (modos 2 a 7).
           python3 - <<'EOF22'
           p = 'runtime/nvn/vulkan/exec.c'
           s = open(p).read()
           a = '    p->vs_uses_vid = strstr(p->vi->msl, "gl_VertexIndex") != NULL;\n'
           assert s.count(a) == 1
-          s = s.replace(a, '''    {   // (EXP 0.5.26) EOWRECOMP_FS_DBG=1: every lit-scene fragment shader (15 shuffles) paints 6 of its inputs in a 3x2 grid (by screen position)
+          s = s.replace(a, '''    {   // (EXP 0.5.27) EOWRECOMP_FS_DBG=1: every lit-scene fragment shader (15 shuffles) paints 6 of its inputs in a 3x2 grid (by screen position)
                   const char *e = getenv("EOWRECOMP_FS_DBG");
                   const char *ea = getenv("EOWRECOMP_DUMP_FS");
                   uint64_t want = ea ? strtoull(ea, NULL, 16) : 0x12a6c05000ULL;
@@ -920,14 +920,15 @@ jobs:
                               "vec4 cap1(vec2 q) { vec4 v = texture(t1, q); dbg1 = v; return v; }\\n"
                               "vec4 cap3(vec2 q) { vec4 v = texture(t3, q); dbg3 = v; return v; }\\n"
                               "float cap2(vec4 q) { float v = texture(t2, q); dbgx += 0.25f * v; return v; }\\n";
-                          static const char outc[] =
-                              "  { vec2 uv_ = vec2(as_f(r24), as_f(r25)); vec2 sp_ = gl_FragCoord.xy / vec2(textureSize(t0, 0)); ivec2 cell_ = ivec2(clamp(int(floor(sp_.x * 3.0f)), 0, 2), clamp(int(floor(sp_.y * 2.0f)), 0, 1));\\n"
+                          char outc[1200];
+                          snprintf(outc, sizeof outc,
+                              "  { vec2 uv_ = vec2(as_f(r24), as_f(r25)); vec2 sp_ = 2.0f * gl_FragCoord.xy / vec2(textureSize(t0, 0)); ivec2 cell_ = ivec2(clamp(int(floor(sp_.x * 3.0f)), 0, 2), clamp(int(floor(sp_.y * 2.0f)), 0, 1));\\n"
                               "    vec3 o_ = vec3(0.0f);\\n"
-                              "    int k_ = cell_.y * 3 + cell_.x;\\n"
+                              "    int k_ = cell_.y * 3 + cell_.x; if (%d >= 2) k_ = %d - 2;\\n"
                               "    if (k_ == 0) o_ = dbg0.rgb; else if (k_ == 1) o_ = dbg1.rgb; else if (k_ == 2) o_ = dbg3.rgb;\\n"
                               "    else if (k_ == 3) o_ = vec3(dbg3.a); else if (k_ == 4) o_ = vec3(dbgx); else o_ = vec3(dbg0.r, dbg0.g, 0.0f);\\n"
-                              "    c0 = vec4(o_, 1.0f); }\\n";
-                          size_t n = strlen(m), hl = sizeof helper - 1, ol = sizeof outc - 1;
+                              "    c0 = vec4(o_, 1.0f); }\\n", atoi(e), atoi(e));
+                          size_t n = strlen(m), hl = sizeof helper - 1, ol = strlen(outc);
                           char *nb = malloc(n + hl + ol + 16);
                           if (nb) {
                               char *w = nb;
@@ -952,7 +953,7 @@ jobs:
                                   }
                               }
                               p->fi->msl = nb;
-                              LOG("[glsl] FS_DBG activo: cuadricula 3x2 (t0,t1,t3 / t3.a,sombra,t0.rg)\\n");
+                              LOG("[glsl] FS_DBG modo %d activo (1=cuadricula; 2..7 = una sola capa: t0,t1,t3,t3.a,sombra,t0.rg)\\n", atoi(e));
                           }
                       }
                   }
@@ -980,7 +981,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.26-experimental -PeowVersionCode=31 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.27-experimental -PeowVersionCode=32 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
