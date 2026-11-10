@@ -896,17 +896,18 @@ jobs:
           open(p, 'w').write(s)
           print('ok dump')
           EOF21
-          # Parche 0.5.25: cuadricula de depuracion del shader del piso.
+          # Parche 0.5.26: cuadricula de depuracion en todos los shaders de la escena iluminada.
           python3 - <<'EOF22'
           p = 'runtime/nvn/vulkan/exec.c'
           s = open(p).read()
           a = '    p->vs_uses_vid = strstr(p->vi->msl, "gl_VertexIndex") != NULL;\n'
           assert s.count(a) == 1
-          s = s.replace(a, '''    {   // (EXP 0.5.25) EOWRECOMP_FS_DBG=1: the floor fragment shader paints 6 of its inputs in a 3x2 grid (by screen position)
+          s = s.replace(a, '''    {   // (EXP 0.5.26) EOWRECOMP_FS_DBG=1: every lit-scene fragment shader (15 shuffles) paints 6 of its inputs in a 3x2 grid (by screen position)
                   const char *e = getenv("EOWRECOMP_FS_DBG");
                   const char *ea = getenv("EOWRECOMP_DUMP_FS");
                   uint64_t want = ea ? strtoull(ea, NULL, 16) : 0x12a6c05000ULL;
-                  if (e && atoi(e) != 0 && p->code[1] == want) {
+                  int nsh_ = 0; for (const char *q_ = p->fi->msl; (q_ = strstr(q_, "subgroupShuffle")) != NULL; q_++) nsh_++;
+                  if (e && atoi(e) != 0 && (p->code[1] == want || (nsh_ >= 10 && strstr(p->fi->msl, "sampler2DArrayShadow t2;") && strstr(p->fi->msl, "sampler2D t0;") && strstr(p->fi->msl, "sampler2D t1;") && strstr(p->fi->msl, "sampler2D t3;")))) {
                       const char *m = p->fi->msl;
                       const char *mainp = strstr(m, "void main() {");
                       const char *o0 = strstr(m, "  c0[0] = as_f(r0);\\n");
@@ -920,7 +921,7 @@ jobs:
                               "vec4 cap3(vec2 q) { vec4 v = texture(t3, q); dbg3 = v; return v; }\\n"
                               "float cap2(vec4 q) { float v = texture(t2, q); dbgx += 0.25f * v; return v; }\\n";
                           static const char outc[] =
-                              "  { vec2 uv_ = vec2(as_f(r24), as_f(r25)); ivec2 cell_ = ivec2(clamp(int(floor(v0[0] * 3.0f)), 0, 2), clamp(int(floor(v0[1] * 2.0f)), 0, 1));\\n"
+                              "  { vec2 uv_ = vec2(as_f(r24), as_f(r25)); vec2 sp_ = gl_FragCoord.xy / vec2(textureSize(t0, 0)); ivec2 cell_ = ivec2(clamp(int(floor(sp_.x * 3.0f)), 0, 2), clamp(int(floor(sp_.y * 2.0f)), 0, 1));\\n"
                               "    vec3 o_ = vec3(0.0f);\\n"
                               "    int k_ = cell_.y * 3 + cell_.x;\\n"
                               "    if (k_ == 0) o_ = dbg0.rgb; else if (k_ == 1) o_ = dbg1.rgb; else if (k_ == 2) o_ = dbg3.rgb;\\n"
@@ -979,7 +980,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.25-experimental -PeowVersionCode=30 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.26-experimental -PeowVersionCode=31 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
