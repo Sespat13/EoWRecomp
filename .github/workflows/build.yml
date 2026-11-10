@@ -896,13 +896,13 @@ jobs:
           open(p, 'w').write(s)
           print('ok dump')
           EOF21
-          # Parche 0.5.27: cuadricula de depuracion (modo 1) o una sola capa a pantalla completa (modos 2 a 7).
+          # Parche 0.5.28: depuracion del shader de luz (modos 1-9).
           python3 - <<'EOF22'
           p = 'runtime/nvn/vulkan/exec.c'
           s = open(p).read()
           a = '    p->vs_uses_vid = strstr(p->vi->msl, "gl_VertexIndex") != NULL;\n'
           assert s.count(a) == 1
-          s = s.replace(a, '''    {   // (EXP 0.5.27) EOWRECOMP_FS_DBG=1: every lit-scene fragment shader (15 shuffles) paints 6 of its inputs in a 3x2 grid (by screen position)
+          s = s.replace(a, '''    {   // (EXP 0.5.28) EOWRECOMP_FS_DBG=1: every lit-scene fragment shader (15 shuffles) paints 6 of its inputs in a 3x2 grid (by screen position)
                   const char *e = getenv("EOWRECOMP_FS_DBG");
                   const char *ea = getenv("EOWRECOMP_DUMP_FS");
                   uint64_t want = ea ? strtoull(ea, NULL, 16) : 0x12a6c05000ULL;
@@ -915,7 +915,7 @@ jobs:
                       if (mainp && o0 && o3 && o0 > mainp && o3 > o0) {
                           o3 += strlen("  c0[3] = as_f(r3);\\n");
                           static const char helper[] =
-                              "vec4 dbg0, dbg1, dbg3; float dbgx;\\n"
+                              "vec4 dbg0, dbg1, dbg3; float dbgx, dbgg0, dbgg1, dbgv0, dbgv1;\\n"
                               "vec4 cap0(vec2 q) { vec4 v = texture(t0, q); dbg0 = v; return v; }\\n"
                               "vec4 cap1(vec2 q) { vec4 v = texture(t1, q); dbg1 = v; return v; }\\n"
                               "vec4 cap3(vec2 q) { vec4 v = texture(t3, q); dbg3 = v; return v; }\\n"
@@ -926,7 +926,8 @@ jobs:
                               "    vec3 o_ = vec3(0.0f);\\n"
                               "    int k_ = cell_.y * 3 + cell_.x; if (%d >= 2) k_ = %d - 2;\\n"
                               "    if (k_ == 0) o_ = dbg0.rgb; else if (k_ == 1) o_ = dbg1.rgb; else if (k_ == 2) o_ = dbg3.rgb;\\n"
-                              "    else if (k_ == 3) o_ = vec3(dbg3.a); else if (k_ == 4) o_ = vec3(dbgx); else o_ = vec3(dbg0.r, dbg0.g, 0.0f);\\n"
+                              "    else if (k_ == 3) o_ = vec3(dbg3.a); else if (k_ == 4) o_ = vec3(dbgx); else if (k_ == 5) o_ = vec3(dbg0.r, dbg0.g, 0.0f);\\n"
+                              "    else if (k_ == 6) o_ = vec3(dbgg0, dbgg1, 0.0f); else o_ = vec3(min(abs(dbgv0), 1.0f), min(abs(dbgv1), 1.0f), 0.0f);\\n"
                               "    c0 = vec4(o_, 1.0f); }\\n", atoi(e), atoi(e));
                           size_t n = strlen(m), hl = sizeof helper - 1, ol = strlen(outc);
                           char *nb = malloc(n + hl + ol + 16);
@@ -952,8 +953,23 @@ jobs:
                                       q += tl;
                                   }
                               }
+                              {   // capture the validity and the value of the two global-memory reads (modes 8 and 9)
+                                  static const struct { const char *from, *add; } gm[] = {
+                                      {"r33 = fw != 0xFFFFFFFFu ? gfast_.w[fw + 0u] : ok ? gmem_.w[uint(ga >> 2) + 0u] : 0u;", " dbgg0 = fw != 0xFFFFFFFFu ? 1.0f : (ok ? 0.5f : 0.0f); dbgv0 = uintBitsToFloat(r33);"},
+                                      {"r34 = fw != 0xFFFFFFFFu ? gfast_.w[fw + 0u] : ok ? gmem_.w[uint(ga >> 2) + 0u] : 0u;", " dbgg1 = fw != 0xFFFFFFFFu ? 1.0f : (ok ? 0.5f : 0.0f); dbgv1 = uintBitsToFloat(r34);"}};
+                                  for (int i = 0; i < 2; i++) {
+                                      char *q = strstr(nb, gm[i].from);
+                                      if (!q) continue;
+                                      size_t fl = strlen(gm[i].from), al = strlen(gm[i].add);
+                                      char *nb2 = malloc(strlen(nb) + al + 16);
+                                      if (!nb2) continue;
+                                      size_t pre = (size_t)(q - nb);
+                                      memcpy(nb2, nb, pre + fl); memcpy(nb2 + pre + fl, gm[i].add, al); strcpy(nb2 + pre + fl + al, nb + pre + fl);
+                                      free(nb); nb = nb2;
+                                  }
+                              }
                               p->fi->msl = nb;
-                              LOG("[glsl] FS_DBG modo %d activo (1=cuadricula; 2..7 = una sola capa: t0,t1,t3,t3.a,sombra,t0.rg)\\n", atoi(e));
+                              LOG("[glsl] FS_DBG modo %d activo (1=cuadricula; 2..7 = una sola capa, 8 = lecturas gmem validas, 9 = valores gmem)\\n", atoi(e));
                           }
                       }
                   }
@@ -962,6 +978,32 @@ jobs:
           open(p, 'w').write(s)
           print('ok dbg')
           EOF22
+          # Parche 0.5.28: volcado de los buffers que lee el shader de luz.
+          python3 - <<'EOF23'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    if (pr->vi->uses_gmem_store) vc_mark_sbufs(0);\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {   // (EXP 0.5.28) what the lit-scene fragment shader (9b9cb28f) finds in its storage buffers
+                  static unsigned long nd; static int nl;
+                  if (g_cur_fs_hash == 0x9b9cb28f06688390ULL && pr->fi->uses_gmem && nl < 12 && (nd++ % 700) == 0) {
+                      nl++;
+                      LOG("[sbufdump] fs %llx draw #%lu gfx_gmap=%d:", (unsigned long long)pr->code[1], nd, (int)!gmem_buf);
+                      for (int i = 0; i < 4; i++) {
+                          uint64_t ad = st.sbuf[1][i].addr, sz = st.sbuf[1][i].size;
+                          if (!ad) continue;
+                          const uint32_t *w = (const uint32_t *)(uintptr_t)ad;
+                          uint64_t nz = 0, n = sz / 4 > 4096 ? 4096 : sz / 4;
+                          for (uint64_t j = 0; j < n; j++) if (w[j]) nz++;
+                          LOG(" [sbuf%d %llx+%llx nz %llu/%llu w: %08x %08x %08x %08x %08x %08x]", i, (unsigned long long)ad, (unsigned long long)sz, (unsigned long long)nz, (unsigned long long)n, w[0], w[1], w[2], w[3], w[4], w[5]);
+                      }
+                      LOG("\\n");
+                  }
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok gmemlog')
+          EOF23
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -981,7 +1023,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.27-experimental -PeowVersionCode=32 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.28-experimental -PeowVersionCode=33 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
