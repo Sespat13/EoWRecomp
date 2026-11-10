@@ -2689,7 +2689,7 @@ static void draw_(CmdRec *r, bool indexed) {
             if (!reported[i][fmt]) {
                 reported[i][fmt] = 1;
                 uint32_t stride = stream < st.nstream ? st.stream[stream][0] : 0;
-                LOG("[vk] vertex fallback: attr %u guest fmt %#x (VkFormat %d) -> host %d, stream %u, offset %u, stride %u, draw mode %#x\\n",
+                LOG("[vk] vertex fallback: attr %u guest fmt %#x (VkFormat %d) -> host %d, stream %u, offset %u, stride %u, draw mode %#x\n",
                     i, fmt, guest_fmt, host_fmt, stream, off, stride, mode);
             }
         }
