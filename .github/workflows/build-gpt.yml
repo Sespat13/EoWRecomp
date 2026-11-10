@@ -254,11 +254,11 @@ jobs:
           AAPT="$(find "$ANDROID_HOME/build-tools" -mindepth 2 -maxdepth 2 -type f -name aapt | sort -V | tail -n 1)"
           test -x "$AAPT" || { echo "No se encontró aapt para verificar el manifiesto"; exit 1; }
           BADGING="$("$AAPT" dump badging "$APK")"
-          ACTUAL_ID="$(printf '%s\\n' "$BADGING" | sed -n "1s/^package: name='\\([^']*\\)'.*/\\1/p")"
+          ACTUAL_ID="$(printf '%s\n' "$BADGING" | sed -n "1s/^package: name='\([^']*\)'.*/\1/p")"
           echo "applicationId esperado: $EXPECTED_ID"
           echo "applicationId generado: $ACTUAL_ID"
           test "$ACTUAL_ID" = "$EXPECTED_ID" || { echo "ERROR: identificador de paquete incorrecto"; exit 1; }
-          printf '%s\\n' "$BADGING" | head -n 1
+          printf '%s\n' "$BADGING" | head -n 1
           ls -lh "$APK"
           sha256sum "$APK"
 
