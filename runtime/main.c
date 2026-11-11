@@ -206,6 +206,9 @@ int main(int argc, char **argv) {
     rt_paths_init();  // the data root becomes the working directory (runtime/paths.h)
 #ifdef __ANDROID__
     android_env_file();
+    // GPT experimental: prueba controlada de menor carga de renderizado en Adreno.
+    setenv("EOWRECOMP_SCALE", "0.25", 1);
+    LOG("[exp] forced render scale 0.25 (GPU-load test)\\n");
     if (!g_guest_reserved && !plat_reserve_guest(GUEST_LO, GUEST_HI)) {
         LOG("FATAL: guest address range %llx-%llx is not free\n", GUEST_LO, GUEST_HI);
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "EoWRecomp", "The game's memory range is taken on this device. "
