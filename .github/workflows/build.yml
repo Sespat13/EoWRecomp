@@ -1202,6 +1202,30 @@ jobs:
           open(p, 'w').write(s)
           print('ok gfxred')
           EOF26
+          # Parche 0.5.32: modos de depuracion del cubo de ambiente (10 y 11).
+          python3 - <<'EOF27'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          def sub1(s, a, b):
+              assert s.count(a) == 1, a[:70]
+              return s.replace(a, b)
+          # helper variables and functions for the cube-map lookups
+          s = sub1(s, '"vec4 dbg0, dbg1, dbg3; float dbgx, dbgg0, dbgg1, dbgv0, dbgv1;\\n"',
+                   '"vec4 dbg0, dbg1, dbg3; float dbgx, dbgg0, dbgg1, dbgv0, dbgv1, dbgl; vec3 dbgc;\\n"\n'
+                   '                    "vec4 capc5(vec3 d, float l) { vec4 v = textureLod(t5, d, l); dbgc = v.rgb; dbgl = l; return v; }\\n"\n'
+                   '                    "vec4 capc6(vec3 d, float l) { vec4 v = textureLod(t6, d, l); dbgc = v.rgb; dbgl = l; return v; }\\n"')
+          # the chain of outputs: modes 10 (cube colour) and 11 (cube lod)
+          s = sub1(s, 'else o_ = vec3(min(abs(dbgv0), 1.0f), min(abs(dbgv1), 1.0f), 0.0f);\\n"',
+                   'else if (k_ == 7) o_ = vec3(min(abs(dbgv0), 1.0f), min(abs(dbgv1), 1.0f), 0.0f);\\n"\n'
+                   '                    "    else if (k_ == 8) o_ = dbgc; else o_ = vec3(clamp(dbgl / 8.0f, 0.0f, 1.0f), clamp(-dbgl / 8.0f, 0.0f, 1.0f), isnan(dbgl) ? 1.0f : 0.0f);\\n"')
+          # route the cube lookups through the helpers
+          s = sub1(s, '{"texture(t3, vec2(", "cap3(vec2("}, {"texture(t2, vec4(", "cap2(vec4("}};\n                    for (int i = 0; i < 4; i++) {',
+                   '{"texture(t3, vec2(", "cap3(vec2("}, {"texture(t2, vec4(", "cap2(vec4("},\n                        {"textureLod(t5, vec3(", "capc5(vec3("}, {"textureLod(t6, vec3(", "capc6(vec3("}};\n                    for (int i = 0; i < 6; i++) {')
+          s = sub1(s, '2..7 = una sola capa, 8 = lecturas gmem validas, 9 = valores gmem)', '2..7 = una sola capa, 8-9 = gmem, 10 = cubo, 11 = lod del cubo)')
+          s = sub1(s, 'strstr(p->fi->msl, "sampler2D t3;")))) {', 'strstr(p->fi->msl, "sampler2D t3;") && strstr(p->fi->msl, "samplerCube t5;") && strstr(p->fi->msl, "samplerCube t6;")))) {')
+          open(p, 'w').write(s)
+          print('ok cube')
+          EOF27
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -1221,7 +1245,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.31-experimental -PeowVersionCode=36 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.32-experimental -PeowVersionCode=37 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
