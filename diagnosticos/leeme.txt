@@ -1,0 +1,1 @@
+carpeta para logs, errores y diagnosticos del port android 
