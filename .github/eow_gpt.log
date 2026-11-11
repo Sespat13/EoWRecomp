@@ -1,0 +1,3332 @@
+[paths] data: /storage/emulated/0/Android/data/com.eowrecomp.android.exp/files
+[env] EOWRECOMP_LOG_FILES=1
+[env] EOWRECOMP_SHADER_GUARD=1000
+[env] EOWRECOMP_SCALE=0.5
+[settings] loaded eowrecomp.ini
+[vk] gpu 0: Adreno (TM) 740 (api 1.3.128)
+[vk] using Adreno (TM) 740
+[vk] warning: no uniformAndStorageBuffer8BitAccess (not requested)
+[vk] warning: no shaderInt64 (64-bit address math in shaders)
+[vk] swapchain pre-rotated 90 degrees (images 1080x1920)
+[vk] swapchain pre-rotated 90 degrees (images 1025x1920)
+[gamelib] /data/data/com.eowrecomp.android.exp/files/libeowgame.so (4 modules, 296677 functions)
+loaded main  at 1000000000 size 4004000 syms 758
+loaded subsdk0 at 1008000000 size a8c000 syms 111
+loaded subsdk1 at 100a000000 size 6b4000 syms 11625
+loaded sdk   at 100c000000 size e04000 syms 27633
+relocated main  (55 imports bound to host stubs)
+relocated subsdk0 (0 imports bound to host stubs)
+relocated subsdk1 (2 imports bound to host stubs)
+relocated sdk   (0 imports bound to host stubs)
+main thread: prio 44, stack 0x100000
+[input] gamepad: Odin Controller
+[cpu] fastest core cpu7 (3187 MHz) for the render thread, 4 big cores (2803 MHz) for the game's
+init sdk (DT_INIT 100c000030, 97 init_array entries)
+[sm] GetService lm
+[ipc] control 3 on lm (handle 103)
+[ipc] control 0 on lm (handle 103)
+[sm] GetService apm
+[sm] GetService appletOE
+[ipc] control 3 on appletOE (handle 105)
+[ipc] control 0 on appletOE (handle 105)
+[am] ICommonStateGetter cmd 900 (unhandled, ok)
+[am] ISelfController cmd 91 (unhandled, ok)
+[kernel] CreateThread entry=100c136910 stack=123062efe0 prio=28 -> 10a
+[am] IWindowController cmd 10 (unhandled, ok)
+[am] ISelfController cmd 13 (unhandled, ok)
+[am] ISelfController cmd 16 (unhandled, ok)
+[sm] GetService aoc:u
+[sm] GetService ectx:aw
+[ipc] no HLE implementation for service 'ectx:aw', using logging stub
+[ipc] control 3 on ectx:aw (handle 10c)
+[ipc] control 0 on ectx:aw (handle 10c)
+[sm] GetService pctl
+[ipc] control 3 on pctl (handle 10d)
+[ipc] control 0 on pctl (handle 10d)
+[sm] GetService pctl:s
+[ipc] control 3 on pctl:s (handle 10e)
+[ipc] control 0 on pctl:s (handle 10e)
+[ipc] close session pctl:s (handle 10e)
+[sm] GetService pctl:a
+[ipc] control 3 on pctl:a (handle 10e)
+[ipc] control 0 on pctl:a (handle 10e)
+[ipc] close session pctl:a (handle 10e)
+[sm] GetService pctl:r
+[ipc] control 3 on pctl:r (handle 10e)
+[ipc] control 0 on pctl:r (handle 10e)
+[ipc] close session pctl:r (handle 10e)
+[pctl] IParentalControlService cmd 1 (ok)
+init subsdk1 (DT_INIT 100a000030, 45 init_array entries)
+init subsdk0 (DT_INIT 1008000030, 6 init_array entries)
+init main (DT_INIT 1000000030, 1490 init_array entries)
+[am] ISelfController cmd 12 (unhandled, ok)
+[am] ISelfController cmd 11 (unhandled, ok)
+[am] ISelfController cmd 14 (unhandled, ok)
+[kernel] CreateThread entry=100c136910 stack=120277efe0 prio=44 -> 10e
+[am] ISelfController cmd 1 (unhandled, ok)
+[sm] GetService time:u
+[ipc] control 3 on time:u (handle 10f)
+[ipc] control 0 on time:u (handle 10f)
+[time] shared memory mapped at 105285a000
+[kernel] CreateThread entry=100c136910 stack=120338bfe0 prio=45 -> 112
+[kernel] CreateThread entry=100c136910 stack=123a2e3fe0 prio=44 -> 113
+[kernel] CreateThread entry=100c136910 stack=1236068fe0 prio=44 -> 114
+[kernel] CreateThread entry=100c136910 stack=1230a05fe0 prio=47 -> 115
+[kernel] CreateThread entry=100c136910 stack=1220755fe0 prio=46 -> 116
+[sm] GetService fsp-srv
+[ipc] control 3 on fsp-srv (handle 117)
+[ipc] control 0 on fsp-srv (handle 117)
+[ipc] control 2 on fsp-srv (handle 117)
+[ipc] control 2 on fsp-srv (handle 118)
+[fs] romfs from the game package (8033071180 bytes)
+[fs] romfs index: 10963 files
+[fs] romfs reads: 1 (0 KB)
+[fs] romfs reads: 2 (0 KB)
+[fs] romfs reads: 4 (16 KB)
+[sm] GetService acc:u0
+[ipc] control 3 on acc:u0 (handle 11a)
+[ipc] control 0 on acc:u0 (handle 11a)
+[acc] acc:u0 cmd 160 (ok)
+[svc] aoc:u cmd 50 (ok)
+[sm] GetService hid
+[ipc] control 3 on hid (handle 11b)
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] GetNpadStyleSet id 0
+[input] GetNpadStyleSet id 0x1
+[input] GetNpadStyleSet id 0x2
+[input] GetNpadStyleSet id 0x3
+[kernel] CreateThread entry=100c136910 stack=123c1b6fe0 prio=45 -> 130
+[fs] read region_common/vibration/vibration.vibs
+[kernel] CreateThread entry=100c136910 stack=1234609fe0 prio=40 -> 131
+[kernel] CreateThread entry=100c136910 stack=12140c7fe0 prio=40 -> 132
+[kernel] CreateThread entry=100c136910 stack=1206b81fe0 prio=34 -> 133
+[kernel] CreateThread entry=100c136910 stack=1221eaefe0 prio=34 -> 134
+[kernel] CreateThread entry=100c136910 stack=1232317fe0 prio=34 -> 135
+[kernel] CreateThread entry=100c136910 stack=121e52afe0 prio=46 -> 136
+[kernel] CreateThread entry=100c136910 stack=12168a3fe0 prio=46 -> 137
+[vk] Adreno (TM) 740, swapchain 1920x1025
+[nvn] device initialized
+[nvn] DeviceGetInteger 40 -> 1 (lr 100032c964)
+[nvn] DeviceGetInteger 41 -> 1 (lr 100032c984)
+[nvn] DeviceGetInteger 42 -> 1 (lr 100032c9a8)
+[nvn] DeviceGetInteger 50 -> 256 (lr 100032c9cc)
+[nvn] DeviceGetInteger 59 -> 1 (lr 100032c9f0)
+[nvn] DeviceGetInteger 66 -> 0 (lr 100032ca18)
+[nvn] DeviceGetInteger 67 -> 0 (lr 100032ca3c)
+[nvn] DeviceGetInteger 68 -> 0 (lr 100032ca60)
+[nvn] DeviceGetInteger 69 -> 0 (lr 100032ca84)
+[nvn] DeviceGetInteger 71 -> 0 (lr 100032caa8)
+[nvn] DeviceGetInteger 72 -> 0 (lr 100032cac8)
+[nvn] DeviceGetInteger 73 -> 0 (lr 100032cae8)
+[nvn] DeviceGetInteger 74 -> 0 (lr 100032cb08)
+[nvn] DeviceGetInteger 75 -> 0 (lr 100032cb28)
+[nvn] DeviceGetInteger 76 -> 0 (lr 100032cb48)
+[nvn] DeviceGetInteger 87 -> 0 (lr 100032cb68)
+[nvn] DeviceGetInteger 90 -> 0 (lr 100032cb88)
+[nvn] DeviceGetInteger 17 -> 256 (lr 10026e9e84)
+[nvn] DeviceGetInteger 18 -> 256 (lr 10026e9e98)
+[nvn] DeviceGetInteger 15 -> 32 (lr 10003288e4)
+[nvn] DeviceGetInteger 36 -> 1048576 (lr 1000328a5c)
+[nvn] DeviceGetInteger 16 -> 32 (lr 10003288e4)
+[nvn] DeviceGetInteger 37 -> 4096 (lr 1000328a5c)
+[nvn] window with 2 textures
+[kernel] CreateThread entry=100c136910 stack=12090f4fe0 prio=36 -> 13a
+[nvn] DeviceGetInteger 19 -> 4 (lr 1000326a10)
+[nvn] DeviceGetInteger 20 -> 8 (lr 1000326a48)
+[nvn] DeviceGetInteger 26 -> 131072 (lr 10026ea3ac)
+[nvn] DeviceGetInteger 10 -> 16 (lr 1000326740)
+[fs] read region_common/shader/PbrDefaultTextureSet.bntx
+[fs] romfs reads: 8 (767 KB)
+[fs] read region_common/shader/DitherDefault.bntx
+[nvn] depth mode 1
+[fs] read region_common/shader/postprocess.bfsha
+[fs] read region_common/shader/shape_anim_compute.bfsha
+[fs] read region_common/shader/light_culling_compute.bfsha
+[fs] read region_common/shader/clustered_culling.bfsha
+[fs] read region_common/shader/transition.bfsha
+[fs] read region_common/shader/OptGGXLut.bfsha
+[fs] read region_common/shader/ProjectionMask.bfsha
+[fs] romfs reads: 16 (3858 KB)
+[fs] read region_common/shader/compute_shadowprojection.bfsha
+[fs] read region_common/shader/WaterBlend.bfsha
+[fs] read region_common/shader/CubemapBlend.bfsha
+[fs] read region_common/shader/CopyTexture.bfsha
+[nvn] DeviceGetInteger 25 -> 4096 (lr 100270574c)
+[nvn] ReportCounter type 0
+[nvn] first nvnQueuePresentTexture (window 1275c2b068, texture 0 of 2)
+[post] 960x540 fsr1 -> 1822x1025
+[nvn] DeviceGetInteger 4 -> 256 (lr 10003267b4)
+[shader] derivadas: vs 12a46ed000 fswzadd 1 shuffle 0 | fs 12a46ed100 fswzadd 1 shuffle 0
+[vtxfmt] attr 0 raw 0x16 fmt 0x16 -> vk 103
+[vk] transient ring: memory type 6 (device-local host-visible cached)
+[fs] read region_common/shader/PP_DofCustom.bfsha
+[fs] read region_common/shader/ResetData_cube.bntx
+[kernel] CreateThread entry=100c136910 stack=122606ffe0 prio=45 -> 13b
+[kernel] CreateThread entry=100c136910 stack=121d519fe0 prio=44 -> 13c
+[kernel] CreateThread entry=100c136910 stack=1219d90fe0 prio=44 -> 13d
+[kernel] CreateThread entry=100c136910 stack=1238a96fe0 prio=44 -> 13e
+[kernel] CreateThread entry=100c136910 stack=122f16dfe0 prio=44 -> 13f
+[pl] system font /data/data/com.eowrecomp.android.exp/files/res/DejaVuSans.ttf (757076 bytes)
+[kernel] CreateThread entry=100c136910 stack=123db2efe0 prio=44 -> 140
+[kernel] CreateThread entry=100c136910 stack=1211c3afe0 prio=40 -> 141
+[kernel] CreateThread entry=100c136910 stack=121854dfe0 prio=40 -> 142
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 143)
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 143)
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 143)
+[sm] GetService audren:u
+Low latency audio enabled
+[audren] renderer 48000 Hz, 240 samples/frame, 96 voices, 2 mixes, 30 mix buffers, 0 splitters, 14 effects, revision REV; (REV11)
+[ipc] close session audren:u (handle 143)
+[audren] mix 0 used 1 vol 1.000 bufs 6 dest 2147483647:
+[kernel] CreateThread entry=100c136910 stack=1236725fe0 prio=31 -> 143
+[kernel] CreateThread entry=100c136910 stack=121cc59fe0 prio=32 -> 144
+[audren] device 48000 Hz, 960 frames/period; queue target 2160 samples
+[audren] mix 1 used 1 vol 1.000 bufs 24 dest 0: 0>0=1.000 1>1=1.000 2>2=1.000 3>3=1.000 4>4=1.000 5>5=1.000 6>0=1.000 7>1=1.000 8>2=1.000 9>3=1.000 10>4=1.000 11>5=1.000 12>0=1.000 13>1=1.000 14>2=1.000 15>3=1.000 16>4=1.000 17>5=1.000 18>0=1.000 19>1=1.000 20>2=1.000 21>3=1.000 22>4=1.000 23>5=1.000
+[fs] read region_common/audio/edward.bfsar
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 148)
+[ipc] control 3 on IAudioDevice (handle 149)
+[ipc] close session IAudioDevice (handle 149)
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 148)
+[ipc] control 3 on IAudioDevice (handle 149)
+[ipc] close session IAudioDevice (handle 149)
+[fs] read region_common/audio/ysound/ysound.bambi
+[kernel] CreateThread entry=100c136910 stack=1237fcafe0 prio=44 -> 148
+[fs] read region_common/audio/common.bgarma
+[fs] read region_common/datasheets/CopyableActor.gsheet
+[fs] read region_common/datasheets/BottleContent.gsheet
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[fs] read region_common/actor/ActorProfile.apd
+[fs] read region_common/sharedtexture/__ref_info.stref
+[fs] read region_common/datasheets/FadePreset.gsheet
+[fs] romfs reads: 32 (6239 KB)
+[fs] read region_common/datasheets/ui/UiOperation.gsheet
+[fs] read region_common/ui/Boot.arc
+[fs] read regionUS/common/ui/Heading.bffnt
+[fs] read region_common/ui/Pictogram.bffnt
+[fs] read regionUS/common/ui/Boss.bffnt
+[vk] depth24 stencil8: D32_SFLOAT_S8_UINT
+[fs] read regionUS/common/ui/Location.bffnt
+[input] GetNpadState id 0 lr 1001683f9c
+[fs] read region_common/audio/edward.bfsar
+[fs] read region_common/ui/HylianLetters.bffnt
+[fs] read region_common/ui/ModifyMain.bffnt
+[fs] read region_common/datasheets/Items.gsheet
+[fs] read region_common/datasheets/PieceOfPowers.gsheet
+[fs] read region_common/datasheets/ItemDrop.gsheet
+[fs] read region_common/datasheets/Quest.gsheet
+[fs] read region_common/datasheets/QuestItem.gsheet
+[fs] read region_common/datasheets/GlobalFlags.gsheet
+[fs] read region_common/datasheets/EventVariables.gsheet
+[fs] read region_common/datasheets/TransitCounter.gsheet
+[fs] read region_common/message/FlagList.mflg
+[fs] read region_common/level/RoomFlagList.mflg
+[fs] read region_common/datasheets/Conditions.gsheet
+[fs] read region_common/datasheets/PartnerTalk.gsheet
+[fs] read region_common/datasheets/Region.gsheet
+[fs] read region_common/datasheets/AudioReverb.gsheet
+[fs] read region_common/datasheets/AudioDelay.gsheet
+[fs] read region_common/datasheets/ui/UiWarpCorrespondenceTable.gsheet
+[fs] read region_common/datasheets/ui/UiWarpSet.gsheet
+[fs] read region_common/datasheets/ui/UiActorSelect.gsheet
+[fs] read region_common/datasheets/ui/UiMachineSelect.gsheet
+[fs] read region_common/datasheets/ui/UiPageMenu.gsheet
+[fs] read region_common/datasheets/TecuumList.gsheet
+[fs] romfs reads: 64 (112880 KB)
+[fs] read region_common/datasheets/EnemyLottery.gsheet
+[fs] read region_common/datasheets/InterestList.gsheet
+[fs] read region_common/datasheets/WallCrackedList.gsheet
+[fs] read region_common/datasheets/ui/UiAccessory.gsheet
+[fs] read region_common/datasheets/ui/UiDressUp.gsheet
+[fs] read region_common/datasheets/ui/UiTutorialModal.gsheet
+[fs] read region_common/datasheets/ui/UiTutorialInsert.gsheet
+[fs] read region_common/datasheets/Facial.gsheet
+[fs] read region_common/datasheets/ReferenceDungeonDataList.gsheet
+[fs] read region_common/datasheets/MajorDungeonDefinition.gsheet
+[fs] read region_common/datasheets/TraverseLevelList.gsheet
+[fs] read region_common/datasheets/ShaderList.gsheet
+[fs] read region_common/datasheets/ShadowMapSettingsForLevel.gsheet
+[fs] read region_common/datasheets/ShadowMapSettingsForRegion.gsheet
+[fs] read region_common/datasheets/ShadowMapSettings.gsheet
+[fs] read region_common/datasheets/Resolution.gsheet
+[fs] read region_common/datasheets/InstancedModelList.gsheet
+[fs] read region_common/datasheets/PartnerPhotons.gsheet
+[fs] read region_common/datasheets/Stamp.gsheet
+[fs] read region_common/datasheets/StampCard.gsheet
+[fs] read region_common/datasheets/HorseRegion.gsheet
+[fs] read region_common/datasheets/RentalHorse.gsheet
+[fs] read region_common/datasheets/CrackRegion.gsheet
+[fs] read region_common/tailor/Hit.drsb
+[fs] read region_common/tailor/Weather.drsb
+[fs] read region_common/tailor/Environment.drsb
+[fs] read region_common/actor/Damage.bfres
+[fs] read region_common/datasheets/ui/UiLocationInfo.gsheet
+[fs] read region_common/datasheets/ui/UiSmoothies.gsheet
+[fs] read region_common/datasheets/ui/UiSmoothieIngredients.gsheet
+[fs] read region_common/datasheets/ui/UiSmoothieShops.gsheet
+[fs] read region_common/datasheets/ui/UiBuffIconBottleContent.gsheet
+[fs] read region_common/datasheets/ui/UiBuffIconOrnament.gsheet
+[fs] read region_common/datasheets/ui/UiItemMenuList.gsheet
+[fs] read region_common/datasheets/ui/UiItemMenuGrid.gsheet
+[fs] read region_common/datasheets/ui/UiCollectMenu.gsheet
+[fs] read region_common/datasheets/ui/UiPrologueMenu.gsheet
+[fs] read region_common/datasheets/ui/UiMapIconSensorLevelOpen.gsheet
+[fs] read region_common/datasheets/ui/UiMapIconSensorLevelOpenPair.gsheet
+[fs] read region_common/datasheets/CrowlyList.gsheet
+[fs] read region_common/datasheets/BattleChallenge.gsheet
+[fs] read region_common/datasheets/BattleChallengeGrade.gsheet
+[fs] read region_common/cubemap/global/BS016.bntx
+[fs] read region_common/cubemap/global/BSForest.bntx
+[fs] read region_common/cubemap/global/BossMuPhase1.bntx
+[fs] read region_common/cubemap/global/BossMuPhase3.bntx
+[fs] read region_common/cubemap/global/Boundary.bntx
+[fs] read region_common/cubemap/global/BoundaryGhoma.bntx
+[fs] read region_common/cubemap/global/BoundaryHyruleHouse.bntx
+[fs] read region_common/cubemap/global/Default.bntx
+[fs] read region_common/cubemap/global/DekuTreeArea.bntx
+[fs] read region_common/cubemap/global/FieldBeach.bntx
+[fs] read region_common/cubemap/global/FieldCoast.bntx
+[fs] read region_common/cubemap/global/FieldDesert.bntx
+[fs] read region_common/cubemap/global/FieldForest.bntx
+[fs] read region_common/cubemap/global/FieldHebraMountains.bntx
+[fs] read region_common/cubemap/global/FieldHyruleCastle.bntx
+[shader] derivadas: vs 1269fa8000 fswzadd 1 shuffle 0 | fs 1269fa8b00 fswzadd 1 shuffle 0
+[fs] read region_common/cubemap/global/FieldHyruleLake.bntx
+[fs] read region_common/cubemap/global/FieldHyrulePlains.bntx
+[fs] read region_common/cubemap/global/FieldJungle.bntx
+[fs] read region_common/cubemap/global/FieldKakarikoVillage.bntx
+[fs] read region_common/cubemap/global/FieldNorthForest.bntx
+[fs] read region_common/cubemap/global/FieldRanch.bntx
+[fs] read region_common/cubemap/global/FieldRemains.bntx
+[fs] romfs reads: 128 (113970 KB)
+[fs] read region_common/cubemap/global/FieldRiver.bntx
+[fs] read region_common/cubemap/global/FieldSouthernVillage.bntx
+[fs] read region_common/cubemap/global/FieldVolcano.bntx
+[fs] read region_common/cubemap/global/FieldVolcanoHigh.bntx
+[fs] read region_common/cubemap/global/FieldVolcanoSummit.bntx
+[fs] read region_common/cubemap/global/HyruleCastleCourt_Escape.bntx
+[fs] read region_common/cubemap/global/HyruleCastlePrison.bntx
+[fs] read region_common/cubemap/global/HyruleCastle_Aisle.bntx
+[fs] read region_common/cubemap/global/HyruleCastle_Bedroom.bntx
+[fs] read region_common/cubemap/global/HyruleCastle_Boundary.bntx
+[fs] read region_common/cubemap/global/HyruleCastle_Entrance.bntx
+[fs] read region_common/cubemap/global/HyruleCastle_Flower.bntx
+[fs] read region_common/cubemap/global/HyruleCastle_Throne.bntx
+[fs] read region_common/cubemap/global/HyruleHouse003.bntx
+[fs] read region_common/cubemap/global/HyruleWaterway.bntx
+[fs] read region_common/cubemap/global/HyruleWaterway_Side.bntx
+[fs] read region_common/cubemap/global/LD001.bntx
+[fs] read region_common/cubemap/global/LD002.bntx
+[fs] read region_common/cubemap/global/LD003.bntx
+[fs] read region_common/cubemap/global/LD003_Blue.bntx
+[fs] read region_common/cubemap/global/LD004.bntx
+[fs] read region_common/cubemap/global/LD004_Lava.bntx
+[fs] read region_common/cubemap/global/LD005.bntx
+[fs] read region_common/cubemap/global/LD006.bntx
+[fs] read region_common/cubemap/global/LDCastle.bntx
+[fs] read region_common/cubemap/global/LDLast.bntx
+[fs] read region_common/cubemap/global/LDLast_Side.bntx
+[fs] read region_common/cubemap/global/LDungeonCastle_OtherDimension.bntx
+[fs] read region_common/cubemap/global/OPDungeon.bntx
+[fs] read region_common/cubemap/global/SD001.bntx
+[fs] read region_common/cubemap/global/SD110.bntx
+[fs] read region_common/cubemap/global/SDForest.bntx
+[fs] read region_common/cubemap/global/SDungeon014.bntx
+[fs] read region_common/cubemap/global/SDungeon024.bntx
+[fs] read region_common/cubemap/global/SDungeon034.bntx
+[fs] read region_common/cubemap/global/SDungeon102_Top.bntx
+[fs] read region_common/cubemap/global/SDungeon102_TopWater.bntx
+[fs] read region_common/cubemap/global/SDungeon102_TopWaterBoss.bntx
+[fs] read region_common/cubemap/global/SDungeon109_Top.bntx
+[fs] read region_common/cubemap/global/SDungeonDesert.bntx
+[fs] read region_common/cubemap/global/SDungeonDesert_RedClay.bntx
+[fs] read region_common/cubemap/global/SDungeonIce.bntx
+[fs] read region_common/cubemap/global/SDungeonIce_Side.bntx
+[fs] read region_common/cubemap/global/SDungeonJungle_Side.bntx
+[fs] read region_common/cubemap/global/SDungeonPlane.bntx
+[fs] read region_common/cubemap/global/SDungeonRiver.bntx
+[fs] read region_common/cubemap/global/SDungeonRiver_Water.bntx
+[fs] read region_common/cubemap/global/SDungeonVolcano.bntx
+[fs] read region_common/cubemap/global/SDungeonVolcano_BlackClay.bntx
+[fs] read region_common/cubemap/global/SDungeonVolcano_Lava.bntx
+[fs] read region_common/cubemap/global/S_Dungeon042.bntx
+[fs] read region_common/cubemap/global/TriForceRemains01.bntx
+[fs] read region_common/cubemap/global/TriForceRemains02.bntx
+[fs] read regionUS/USes/message/Edward.msbp
+[fs] read region_common/ui/Keep.arc
+[fs] read regionUS/USes/message/CopyableActor.msbt
+[fs] read regionUS/USes/message/EndCredits.msbt
+[fs] read regionUS/USes/message/EnemyName.msbt
+[fs] read regionUS/USes/message/ItemGet.msbt
+[fs] read regionUS/USes/message/ItemWeapon.msbt
+[fs] read regionUS/USes/message/MachineActor.msbt
+[fs] read regionUS/USes/message/ShopKeeperTalk.msbt
+[fs] read regionUS/USes/message/Signboard.msbt
+[fs] read regionUS/USes/message/System.msbt
+[fs] read regionUS/USes/message/Talker.msbt
+[fs] read regionUS/USes/message/glossary/Boss.msbt
+[fs] read regionUS/USes/message/glossary/Character.msbt
+[fs] read regionUS/USes/message/glossary/CopyableActor.msbt
+[fs] read regionUS/USes/message/glossary/EdwardNoun.msbt
+[fs] read regionUS/USes/message/glossary/Item.msbt
+[fs] read regionUS/USes/message/glossary/Location.msbt
+[fs] read regionUS/USes/message/glossary/Obj_Other.msbt
+[fs] read regionUS/USes/message/glossary/Ui.msbt
+[fs] read regionUS/USes/message/minigame/BattleChallenge.msbt
+[fs] read regionUS/USes/message/minigame/GerudoMinigame.msbt
+[fs] read regionUS/USes/message/minigame/HorseRace.msbt
+[fs] read regionUS/USes/message/minigame/PickUpAcorns.msbt
+[fs] read regionUS/USes/message/quest/QuestAreaA.msbt
+[fs] read regionUS/USes/message/quest/QuestAreaB.msbt
+[fs] read regionUS/USes/message/quest/QuestAreaC.msbt
+[fs] read regionUS/USes/message/quest/QuestAreaD.msbt
+[fs] read regionUS/USes/message/quest/QuestAreaF.msbt
+[fs] read regionUS/USes/message/quest/QuestAreaG.msbt
+[fs] read regionUS/USes/message/quest/QuestAreaPlains.msbt
+[fs] read regionUS/USes/message/scenario/DekuMerchantTalk.msbt
+[fs] read regionUS/USes/message/scenario/DekuTreeTalk.msbt
+[fs] read regionUS/USes/message/scenario/GeneralTalkAnimal.msbt
+[fs] read regionUS/USes/message/scenario/GeneralTalkDeku.msbt
+[fs] read regionUS/USes/message/scenario/GeneralTalkGerudo.msbt
+[fs] read regionUS/USes/message/scenario/GeneralTalkGoron.msbt
+[fs] read regionUS/USes/message/scenario/GeneralTalkZoraRiver.msbt
+[fs] read regionUS/USes/message/scenario/GeneralTalkZoraSea.msbt
+[fs] read regionUS/USes/message/scenario/HylianGeneralTalk.msbt
+[fs] read regionUS/USes/message/scenario/MachineEngineerTalk.msbt
+[fs] read regionUS/USes/message/scenario/PartnerTalk.msbt
+[fs] read regionUS/USes/message/scenario/StampmanTalk.msbt
+[fs] read regionUS/USes/message/scenario/StoryAreaA.msbt
+[fs] read regionUS/USes/message/scenario/StoryAreaB.msbt
+[fs] read regionUS/USes/message/scenario/StoryAreaC.msbt
+[fs] read regionUS/USes/message/scenario/StoryAreaD.msbt
+[fs] read regionUS/USes/message/scenario/StoryAreaF.msbt
+[fs] read regionUS/USes/message/scenario/StoryAreaG.msbt
+[fs] read regionUS/USes/message/scenario/StoryAreaH.msbt
+[fs] read regionUS/USes/message/scenario/StoryAreaHyruleCastle.msbt
+[fs] read regionUS/USes/message/scenario/StoryAreaPlane.msbt
+[fs] read regionUS/USes/message/ui/ActorSelect.msbt
+[fs] read regionUS/USes/message/ui/Amiibo.msbt
+[fs] read regionUS/USes/message/ui/BattleChallengeMenu.msbt
+[fs] read regionUS/USes/message/ui/Buff.msbt
+[fs] read regionUS/USes/message/ui/CopyDictionary.msbt
+[fs] read regionUS/USes/message/ui/Dialog.msbt
+[fs] read regionUS/USes/message/ui/DictionaryExplanation.msbt
+[fs] read regionUS/USes/message/ui/DoAction.msbt
+[fs] read regionUS/USes/message/ui/DressUpMenu.msbt
+[fs] read regionUS/USes/message/ui/DungeonMap.msbt
+[fs] read regionUS/USes/message/ui/GameOver.msbt
+[fs] read regionUS/USes/message/ui/Hud.msbt
+[fs] read regionUS/USes/message/ui/ItemMenu.msbt
+[fs] read regionUS/USes/message/ui/LocationInfo.msbt
+[fs] read regionUS/USes/message/ui/Map.msbt
+[fs] read regionUS/USes/message/ui/Menu.msbt
+[fs] read regionUS/USes/message/ui/MiniGame.msbt
+[fs] read regionUS/USes/message/ui/Operation.msbt
+[fs] read regionUS/USes/message/ui/Quest.msbt
+[fs] read regionUS/USes/message/ui/ShopWindow.msbt
+[fs] read regionUS/USes/message/ui/Smoothie.msbt
+[fs] read regionUS/USes/message/ui/StampRally.msbt
+[fs] read regionUS/USes/message/ui/StartGoal.msbt
+[fs] romfs reads: 256 (119740 KB)
+[fs] read regionUS/USes/message/ui/SystemMenu.msbt
+[fs] read regionUS/USes/message/ui/SystemMessage.msbt
+[fs] read regionUS/USes/message/ui/Timer.msbt
+[fs] read regionUS/USes/message/ui/Title.msbt
+[fs] read regionUS/USes/message/ui/Tutorial.msbt
+[fs] read regionUS/USes/message/ui/Quest/Area3Quest.msbt
+[fs] read regionUS/USes/message/ui/Quest/AreaAQuest.msbt
+[fs] read regionUS/USes/message/ui/Quest/AreaBQuest.msbt
+[fs] read regionUS/USes/message/ui/Quest/AreaCQuest.msbt
+[fs] read regionUS/USes/message/ui/Quest/AreaDQuest.msbt
+[fs] read regionUS/USes/message/ui/Quest/AreaFQuest.msbt
+[fs] read regionUS/USes/message/ui/Quest/AreaGQuest.msbt
+[fs] read regionUS/USes/message/ui/Quest/AreaHQuest.msbt
+[fs] read regionUS/USes/message/ui/Quest/AreaHyruleCastleQuest.msbt
+[fs] read regionUS/USes/message/ui/Quest/AreaPlainsQuest.msbt
+[fs] read regionUS/USes/message/ui/Quest/MinisterLeftInfo.msbt
+[time] StandardUserSystemClock::GetCurrentTime (host clock)
+[time] StandardUserSystemClock::GetCurrentTime (host clock)
+[time] StandardUserSystemClock::GetCurrentTime (host clock)
+[fs] read region_common/shader/M_BoundarySpace.bfsha
+[fs] read region_common/shader/M_FloorLava.bfsha
+[fs] read region_common/shader/M_FloorLava_edge.bfsha
+[fs] read region_common/shader/M_Lava.bfsha
+[fs] read region_common/shader/M_PBR_Beamos.bfsha
+[fs] read region_common/shader/M_PBR_BG_L2_UV01_abyss.bfsha
+[fs] read region_common/shader/M_PBR_BG_L2_UV01_m1A.bfsha
+[fs] read region_common/shader/M_PBR_BG_L2_UV01_m1A_B.bfsha
+[fs] read region_common/shader/M_PBR_BG_L2_WP01_mVC.bfsha
+[fs] read region_common/shader/M_PBR_BG_L2_UV01_mVC.bfsha
+[fs] read region_common/shader/M_PBR_BG_L2_WP0_UV1_m1A.bfsha
+[fs] read region_common/shader/M_PBR_BG_L2_WP0_UV1_mVC.bfsha
+[fs] read region_common/shader/M_PBR_BG_L2_WP0_UV1_mVCB.bfsha
+[fs] read region_common/shader/M_PBR_BG_L3_WP02_UV1_m3uv1.bfsha
+[fs] read region_common/shader/M_PBR_BG_L3_WP0_UV12_m3uv1.bfsha
+[fs] read region_common/shader/M_PBR_BG_L3_WP02_UV1_m3uv1B.bfsha
+[fs] read region_common/shader/M_PBR_BG_Orb.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGB.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGB_B.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGB_Burn.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGB_MulColor.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGB_Paste.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGB_UVanim.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGB_UVanim_B.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGB_UVanim_m1A.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGB_VC.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGB_VC_alb.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGB_VC_B.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGBE.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGBE_B.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGBE_emsUV2.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGBE_Fresnel.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGBE_LavaGeyser.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGBE_Paste.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGBE_UVanim_m0A1.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGBE_Whitish.bfsha
+[fs] read region_common/shader/M_PBR_BG_SandObstacle.bfsha
+[fs] read region_common/shader/M_PBR_BG_TentativeModel.bfsha
+[fs] read region_common/shader/M_PBR_BG_Vegetation.bfsha
+[fs] read region_common/shader/M_PBR_BG_WP.bfsha
+[fs] read region_common/shader/M_PBR_BG_WP_B.bfsha
+[fs] read region_common/shader/M_PBR_Char00.bfsha
+[fs] read region_common/shader/M_PBR_LastBossMu00.bfsha
+[fs] read region_common/shader/M_PBR_Rupee.bfsha
+[fs] read region_common/shader/M_Unlit_alb.bfsha
+[fs] read region_common/shader/M_Unlit_Abyss.bfsha
+[fs] read region_common/shader/M_Unlit_BG_Boundary_Inside.bfsha
+[fs] read region_common/shader/M_Unlit_BG_DFadeRoof.bfsha
+[fs] read region_common/shader/M_Unlit_BG_EvOPFieldDV.bfsha
+[fs] read region_common/shader/M_Unlit_BG_EvOPFieldDV_plume.bfsha
+[fs] read region_common/shader/M_Unlit_CrackInside.bfsha
+[fs] read region_common/shader/M_Unlit_CrackWall00.bfsha
+[fs] read region_common/shader/M_Unlit_ElectricLine.bfsha
+[fs] read region_common/shader/M_Unlit_ItemGet00.bfsha
+[fs] read region_common/shader/M_Unlit_SkyShpere00.bfsha
+[fs] read region_common/shader/M_Unlit_Skysphere_FB2.bfsha
+[fs] read region_common/shader/M_Unlit_Stencil.bfsha
+[fs] read region_common/shader/M_Unlit_SyncLine.bfsha
+[fs] read region_common/shader/M_Water.bfsha
+[fs] read region_common/shader/M_Unlit_WaterBlock.bfsha
+[fs] read region_common/shader/M_WaterSide.bfsha
+[fs] read region_common/shader/Mock_Default.bfsha
+[fs] read region_common/shader/Mock_PBR_ProbeCheck.bfsha
+[fs] read region_common/shader/Mock_Vegetation.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGB_Paste_Vegetation.bfsha
+[fs] read region_common/shader/M_PBR_BG_WP_Cover.bfsha
+[fs] read region_common/shader/M_Unlit_WaterSide.bfsha
+[fs] read region_common/shader/M_DungeonLast.bfsha
+[fs] read region_common/shader/M_PBR_BG_LastBossBody.bfsha
+[fs] read region_common/shader/M_DL_BossWall.bfsha
+[fs] read region_common/shader/M_DL_BossFloor.bfsha
+[fs] read region_common/shader/M_Unlit_WhiteFade.bfsha
+[fs] read region_common/shader/M_Unlit_Decal.bfsha
+[fs] read region_common/shader/M_WaterGeyser.bfsha
+[fs] read region_common/shader/M_Unlit_Cloud00.bfsha
+[fs] read region_common/shader/M_PBR_OceanWaves.bfsha
+[fs] read region_common/shader/M_Unlit_Cloud01.bfsha
+[fs] read region_common/shader/M_Unlit_Cloud02.bfsha
+[fs] read region_common/shader/M_PBR_BG_RGBE_Fresnel2.bfsha
+[fs] read region_common/shader/M_Unlit_VertexColor.bfsha
+[fs] read region_common/shader/M_WaterSideBoundary.bfsha
+[fs] read region_common/level/Common.eclo
+[kernel] CreateThread entry=100c136910 stack=122ee4efe0 prio=44 -> 149
+[fs] read region_common/startup/InitialSaveData.isav
+[fs] mounted host directory save/save_0
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[fs] read region_common/ui/Title.arc
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[fs] mounted host directory save/save_0
+[compute] cs 12a4723000: gmem 0 store 0 sust 1
+[compute] cs 12a46d9000: gmem 1 store 1 sust 0
+[cswr] glsl cs 12a46d9000: 7909 bytes
+[glsl]#version 460
+#extension GL_EXT_shader_explicit_arithmetic_types_int64 : require
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_shuffle : require
+#extension GL_KHR_shader_subgroup_shuffle_relative : require
+#extension GL_KHR_shader_subgroup_vote : require
+#extension GL_KHR_shader_subgroup_ballot : require
+#extension GL_EXT_texture_shadow_lod : require
+#extension GL_ARB_shader_draw_parameters : enable
+#define cbr(cb, off) cb[min((off) >> 4, uint(cb.length() - 1))][((off) >> 2) & 3u]
+uint as_u(float x) { return floatBitsToUint(x); }
+uint as_u(uint x) { return x; }
+uint as_u(int x) { return uint(x); }
+float as_f(uint x) { return uintBitsToFloat(x); }
+float as_f(int x) { return intBitsToFloat(x); }
+float as_f(float x) { return x; }
+int as_i(uint x) { return int(x); }
+int as_i(float x) { return floatBitsToInt(x); }
+int sx8(uint v) { return bitfieldExtract(int(v), 0, 8); }
+int sx8(int v) { return bitfieldExtract(v, 0, 8); }
+int sx16(uint v) { return bitfieldExtract(int(v), 0, 16); }
+int sx16(int v) { return bitfieldExtract(v, 0, 16); }
+float mw_saturate(float x) { return isnan(x) ? 0.0f : clamp(x, 0.0f, 1.0f); }
+vec2 mw_saturate(vec2 x) { return vec2(m
+[glsl]w_saturate(x.x), mw_saturate(x.y)); }
+float mw_fmin(float a, float b) { return isnan(a) ? b : (isnan(b) ? a : min(a, b)); }
+float mw_fmax(float a, float b) { return isnan(a) ? b : (isnan(b) ? a : max(a, b)); }
+uint mw_clz(uint v) { return v == 0u ? 32u : uint(31 - findMSB(v)); }
+uint mw_popcount(uint v) { return uint(bitCount(v)); }
+uint mw_mulhi(uint a, uint b) { uint hi, lo; umulExtended(a, b, hi, lo); return hi; }
+int mw_mulhi(int a, int b) { int hi, lo; imulExtended(a, b, hi, lo); return hi; }
+uint brev32(uint v) { return bitfieldReverse(v); }
+uint flo_sh(uint msb) { return msb == 0xFFFFFFFFu ? msb : 31u - msb; }
+uint bfe_u(uint v, uint ctl) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u) return 0u; if (pos >= 32u) return 0u; return bitfieldExtract(v, int(pos), int(min(len, 32u - pos))); }
+uint bfe_s(uint v, uint ctl) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u) return 0u; if (pos >= 32u) return (int(v) < 0) ? 0xFFFFFFFFu : 0u; return uint(bitfieldExtract(int(v), int(pos), int(min(len, 32u - pos)))); }
+uint bfi(uint ins, uint ctl, uint base) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u || pos >= 32u) return base; ret
+[glsl]urn bitfieldInsert(base, ins, int(pos), int(min(len, 32u - pos))); }
+float fswzadd(float a, float b, uint swz, uint lane) { uint m = (swz >> ((lane & 3u) * 2u)) & 3u; float ma = m == 1u ? -1.0f : (m == 3u ? 0.0f : 1.0f); float mb = m == 2u ? -1.0f : 1.0f; return a * ma + b * mb; }
+uvec2 rsc(uvec2 c, vec4 s) { return (s.x == 1.0f && s.y == 1.0f) ? c : uvec2(floor((vec2(c) + 0.5f) * s.xy)); }
+float h2f(uint h) { uint s = (h & 0x8000u) << 16, e = (h >> 10) & 0x1Fu, m = h & 0x3FFu; if (e == 0u) { float d = float(m) * 5.9604644775390625e-8; return s != 0u ? -d : d; } if (e == 31u) return uintBitsToFloat(s | 0x7F800000u | (m << 13)); return uintBitsToFloat(s | ((e + 112u) << 23) | (m << 13)); }
+vec2 unpack_h2(uint v) { return vec2(h2f(v & 0xFFFFu), h2f(v >> 16)); }
+vec2 hx(uint v, uint swz) { if (swz == 1u) return vec2(uintBitsToFloat(v)); vec2 h = unpack_h2(v); return swz == 2u ? h.xx : (swz == 3u ? h.yy : h); }
+uint hpack(vec2 r, uint merge, uint old) { if (merge == 1u) return floatBitsToUint(r.x); uint lo = packHalf2x16(vec2(r.x, 0.0f)), hi = packHalf2x16(vec2(r.y, 0.0f)); if (merge == 2u) return (old & 0xFFFF0000u) | lo; if (merge == 3u) return (old & 0xFFFFu) | (hi << 16); return lo
+[glsl] | (hi << 16); }
+uint prmt(uint a, uint b, uint sel) { uint r = 0u; for (uint i = 0u; i < 4u; i++) { uint s = (sel >> (i * 4u)) & 7u; uint bt = s < 4u ? (a >> (s * 8u)) & 0xFFu : (b >> ((s - 4u) * 8u)) & 0xFFu; r |= bt << (i * 8u); } return r; }
+#define mw_base_vertex gl_BaseVertex
+#define mw_lane gl_SubgroupInvocationID
+layout(std140, set = 0, binding = 0) uniform CB0 { uvec4 cb0[64]; };
+layout(std430, set = 0, binding = 17) buffer GMem { uint w[]; } gmem_;
+layout(std140, set = 0, binding = 20) uniform GMap { uvec4 gmap[17]; };
+layout(std430, set = 0, binding = 21) buffer GFast { uint w[]; } gfast_;
+uint gfind(uint g) { uint n = gmap[16].x; for (uint i = 0u; i < n; i++) { uint o = g - gmap[i].x; if (g >= gmap[i].x && o < gmap[i].y) return gmap[i].z + (o >> 2); } return 0xFFFFFFFFu; }
+layout(local_size_x_id = 0, local_size_y_id = 1, local_size_z_id = 2) in;
+void main() {
+  uint r0 = 0u;
+  uint r1 = 0u;
+  uint r2 = 0u;
+  uint r3 = 0u;
+  uint r4 = 0u;
+  uint r5 = 0u;
+  uint r6 = 0u;
+  uint r7 = 0u;
+  uint r8 = 0u;
+  bool p0 = false;
+  bool p1 = false;
+  uint cc = 0u; bool ccz = false, ccs = false;
+  do {
+    r0 = cb0[44][0];
+    r4 = gl_WorkGroupID.y;
+    r1 = cb0[44][1];
+    r2 = gl
+[glsl]_LocalInvocationID.y;
+    r8 = cb0[32][0];
+    { uint al_ = r0, ah_ = r1, c1_ = 0u; uint sl_ = uaddCarry(al_, 0x00000000u, c1_); uint sh_ = ah_ + 0x00000000u + c1_;
+      uint b1_ = 0u; uint ga = usubBorrow(sl_, 0x40000000u, b1_); uint gh_ = sh_ - 0x00000012u - b1_; bool ok = gh_ == 0u && ga < 0xd0000000u;
+      uint fw = ok ? gfind(uint(ga)) : 0xFFFFFFFFu;
+      r3 = fw != 0xFFFFFFFFu ? gfast_.w[fw + 0u] : ok ? gmem_.w[uint(ga >> 2) + 0u] : 0u;
+    }
+    { uint al_ = r0, ah_ = r1, c1_ = 0u; uint sl_ = uaddCarry(al_, 0x00000004u, c1_); uint sh_ = ah_ + 0x00000000u + c1_;
+      uint b1_ = 0u; uint ga = usubBorrow(sl_, 0x40000000u, b1_); uint gh_ = sh_ - 0x00000012u - b1_; bool ok = gh_ == 0u && ga < 0xd0000000u;
+      uint fw = ok ? gfind(uint(ga)) : 0xFFFFFFFFu;
+      r6 = fw != 0xFFFFFFFFu ? gfast_.w[fw + 0u] : ok ? gmem_.w[uint(ga >> 2) + 0u] : 0u;
+    }
+    r5 = gl_WorkGroupID.x;
+    r7 = gl_LocalInvocationID.x;
+    r4 = ((r4 << 3u) + r2);
+    r2 = ((0x00000003u & 31u) == 0u ? r8 : ((r8 << (0x00000003u & 31u)) | (0u >> (32u - (0x00000003u & 31u)))));
+    r5 = ((r5 << 3u) + r7);
+    { uint xa = (r4 >> 0) & 0xFFFFu; uint xb = (r2 >> 0) & 0xFFFFu; uint xbu = r2;
+      uint prod = x
+[glsl]a * xb;
+      uint cc_ = r5;
+      uint res = prod + cc_;
+      r5 = res;
+    }
+    { uint xa = (r4 >> 0) & 0xFFFFu; uint xb = (r2 >> 16) & 0xFFFFu; uint xbu = r2;
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      res = (res & 0xFFFFu) | (xbu << 16);
+      r2 = res;
+    }
+    { uint xa = (r4 >> 16) & 0xFFFFu; uint xb = (r2 >> 16) & 0xFFFFu; uint xbu = r2;
+      uint prod = xa * xb; prod <<= 16;
+      uint cc_ = r5 + (xbu << 16);
+      uint res = prod + cc_;
+      r0 = res;
+    }
+    { bool cmp = (r0 < r3); bool pp = true;
+      p1 = cmp && pp;
+    }
+    { bool cmp = (r0 < r6); bool pp = true;
+      p0 = cmp && pp;
+    }
+  if (p1) {
+    { uint s = r0 << 2u; uint t2 = cb0[49][0]; uint res = s + t2; cc = (res < s) ? 1u : 0u;
+      r2 = res;
+    }
+  }
+  if (p1) {
+    r3 = (0u + cb0[49][1] + cc);
+  }
+  if (p1) {
+    { uint al_ = r2, ah_ = r3, c1_ = 0u; uint sl_ = uaddCarry(al_, 0x00000000u, c1_); uint sh_ = ah_ + 0x00000000u + c1_;
+      uint b1_ = 0u; uint ga = usubBorrow(sl_, 0x40000000u, b1_); uint gh_ = sh_ - 0x00000012u - b1_; bool ok = gh_ == 0u && ga < 0xd0000000u;
+      uint fw = ok ? gfind(uint(ga)) : 0xFFFFFFFFu;
+      if (fw != 0xFFFFFFFFu) gf
+[glsl]ast_.w[fw + 0u] = 0u; else if (ok) gmem_.w[uint(ga >> 2) + 0u] = 0u;
+    }
+  }
+  if (!p0) {
+    break;
+  }
+    { uint s = r0 << 2u; uint t2 = cb0[50][0]; uint res = s + t2; cc = (res < s) ? 1u : 0u;
+      r0 = res;
+    }
+    r1 = (0u + cb0[50][1] + cc);
+    { uint al_ = r0, ah_ = r1, c1_ = 0u; uint sl_ = uaddCarry(al_, 0x00000000u, c1_); uint sh_ = ah_ + 0x00000000u + c1_;
+      uint b1_ = 0u; uint ga = usubBorrow(sl_, 0x40000000u, b1_); uint gh_ = sh_ - 0x00000012u - b1_; bool ok = gh_ == 0u && ga < 0xd0000000u;
+      uint fw = ok ? gfind(uint(ga)) : 0xFFFFFFFFu;
+      if (fw != 0xFFFFFFFFu) gfast_.w[fw + 0u] = 0u; else if (ok) gmem_.w[uint(ga >> 2) + 0u] = 0u;
+    }
+    break;
+  } while (false);
+}
+
+[glsl] end
+[kernel] CreateThread entry=100c136910 stack=122a043fe0 prio=28 -> 14a
+[nvn] video texture 0x7257638b10: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ed7b6000 stride 0
+[nvn] video texture 0x7257637c30: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ed7b6000 stride 0
+[nvn] video texture 0x7257637990: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ecf36000 stride 0
+[nvn] video texture 0x7257638790: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ecf36000 stride 0
+[nvn] video texture 0x7257637fb0: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ec6b6000 stride 0
+[nvn] video texture 0x7257638330: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ec6b6000 stride 0
+[nvn] video texture 0x7257639590: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ebe36000 stride 0
+[nvn] video texture 0x7257639d70: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ebe36000 stride 0
+[kernel] CreateThread entry=100c136910 stack=122b45dfe0 prio=40 -> 14b
+[kernel] CreateThread entry=100c136910 stack=1201676fe0 prio=40 -> 14c
+[kernel] CreateThread entry=100c136910 stack=1210958fe0 prio=40 -> 14d
+[movie] open rom:/region_common/movie/rd000_Title.webm -> extracted/romfs/region_common/movie/rd000_Title.webm
+[movie] from the package (69188808 bytes): ok
+[cswr] cs 12a46d9000 run #1: [127e80ea00+2400 nz 0/2304 w: 00000000 00000000 00000000 00000000] [127e813200+2400 nz 0/2304 w: 00000000 00000000 00000000 00000000]
+[gfast] cs 12a46d9000 escritura #1: [127e80ea00+2400 igual 0 0 0 0] [127e813200+2400 igual 0 0 0 0]
+[movie] decoder vp9 configured: 1920x1080 0 Hz 0 ch
+[kernel] CreateThread entry=100c136910 stack=1230313fe0 prio=40 -> 14e
+[gfast] cs 12a46d9000 escritura #2: [127e810e00+2400 igual 0 0 0 0] [127e815600+2400 igual 0 0 0 0]
+[shader] derivadas: vs 1269fbf000 fswzadd 1 shuffle 0 | fs 1269fbf700 fswzadd 1 shuffle 0
+[vtxfmt] attr 0 raw 0x22 fmt 0x22 -> vk 106
+[gmem] draw stage 0: 1 ranges, 1 KB copied for shader reads
+[tex] nvn fmt 0x1 -> vk 9 (view 9) swz 1112 (view) alpha1 0 type 4 1024x2048 levels 1
+[gmem] draw: vs 1269fbf000 (gmem 1 store 0) fs 1269fbf700 (gmem 0 store 0) reads zero; sbuf v: 127e839600+5c0 f: 127e810e00+2400 127e815600+2400 (unique 1, draws so far 1)
+[gfast] cs 12a46d9000 escritura #3: [127e80ea00+2400 igual 0 0 0 0] [127e813200+2400 igual 0 0 0 0]
+[gfast] cs 12a46d9000 escritura #4: [127e810e00+2400 igual 0 0 0 0] [127e815600+2400 igual 0 0 0 0]
+[fs] read region_common/audio/edward.bfsar
+[shader] derivadas: vs 1269fac700 fswzadd 1 shuffle 0 | fs 1269facd00 fswzadd 1 shuffle 0
+[tex] nvn fmt 0x38 -> vk 43 (view 43) swz 2345 (view) alpha1 0 type 1 1920x1080 levels 1
+[movie] acq_in 95 send 38 frames 35 acq_out 39 get_out 29 rel_out 29
+[movie] acq_in 193 send 71 frames 69 acq_out 73 get_out 63 rel_out 63
+[vk] command counts: 0:981 2:589 3:382 4:1282 5:1282 6:1282 7:940 8:924 9:924 10:350 11:350 12:350 13:747 14:33 15:336 16:344 17:392 18:392 19:4319 20:3657 21:4451 22:3657 23:1282 24:3760 27:940 28:924 34:794 35:449 38:350 41:64 44:1 46:416 51:2913 54:784 57:2
+[vk] copy alias: 8 made, 6 renamed, 0 stencil-only, 0 copied later (live 2)
+[vk] t=7.1 frame 392 195.3 fps max 150ms level - (350 draws, 8 skipped, 1593 passes, 56 dispatches, 907 flushes, wait 983ms, compile 10, fbcopy 0, upload 684.0MB | skipped: compute program 8)
+[movie] acq_in 290 send 105 frames 101 acq_out 109 get_out 96 rel_out 96
+[shader] derivadas: vs 1269fa8c00 fswzadd 1 shuffle 0 | fs 1269fa9900 fswzadd 1 shuffle 0
+[tex] nvn fmt 0x87 -> vk 158 (view 158) swz 2345 (view) alpha1 0 type 1 920x654 levels 1
+[shader] derivadas: vs 12ee05a200 fswzadd 1 shuffle 0 | fs 12ee059d00 fswzadd 1 shuffle 0
+[tex] nvn fmt 0x25 -> vk 37 (view 37) swz 2345 (view) alpha1 0 type 1 1500x63 levels 1
+[shader] derivadas: vs 12ee064700 fswzadd 1 shuffle 0 | fs 12ee065700 fswzadd 1 shuffle 0
+[tex] nvn fmt 0x1 -> vk 9 (view 9) swz 2345 (view) alpha1 0 type 1 1564x127 levels 1
+[shader] derivadas: vs 12ee05a200 fswzadd 1 shuffle 0 | fs 12ee05a800 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ee064700 fswzadd 1 shuffle 0 | fs 12ee065d00 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ee05a200 fswzadd 1 shuffle 0 | fs 12ee059000 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ee064700 fswzadd 1 shuffle 0 | fs 12ee064000 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ee05c500 fswzadd 1 shuffle 0 | fs 12ee05e400 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ee05c500 fswzadd 1 shuffle 0 | fs 12ee05d000 fswzadd 1 shuffle 0
+[movie] acq_in 390 send 137 frames 134 acq_out 145 get_out 129 rel_out 129
+[input] GetNpadState id 0 lr 1001683f9c
+[movie] acq_in 490 send 169 frames 167 acq_out 178 get_out 163 rel_out 163
+[fs] mounted host directory save/save_0
+[fs] mounted host directory save/save_0
+[movie] decoder video stopped
+[tex] nvn fmt 0x48 -> vk 138 (view 138) swz 2345 (view) alpha1 0 type 1 62x62 levels 1
+[shader] derivadas: vs 12ee891000 fswzadd 1 shuffle 0 | fs 12ee891700 fswzadd 1 shuffle 0
+[tex] nvn fmt 0x8b -> vk 166 (view 166) swz 2345 (view) alpha1 0 type 1 640x720 levels 1
+[shader] derivadas: vs 12ee8df000 fswzadd 1 shuffle 0 | fs 12ee8e5300 fswzadd 1 shuffle 0
+[tex] nvn fmt 0x4b -> vk 141 (view 141) swz 2223 (view) alpha1 0 type 1 2x40 levels 1
+[gmem] draw stage 0: 1 ranges, 0 KB copied for shader reads
+[shader] derivadas: vs 1269fab100 fswzadd 1 shuffle 0 | fs 1269fa9b00 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ee8e3a00 fswzadd 1 shuffle 0 | fs 12ee8e4900 fswzadd 1 shuffle 0
+[tex] nvn fmt 0x49 -> vk 139 (view 139) swz 2221 (view) alpha1 0 type 1 14x46 levels 1
+[gmem] draw stage 0: 1 ranges, 1 KB copied for shader reads
+[shader] derivadas: vs 12ee8df000 fswzadd 1 shuffle 0 | fs 12ee8e7300 fswzadd 1 shuffle 0
+[tex] nvn fmt 0xd -> vk 16 (view 16) swz 2223 (view) alpha1 0 type 1 44x44 levels 1
+[tex] nvn fmt 0x3c -> vk 4 (view 4) swz 2341 (view) alpha1 0 type 1 38x38 levels 1
+[shader] derivadas: vs 12ee8df000 fswzadd 1 shuffle 0 | fs 12ee8e4e00 fswzadd 1 shuffle 0
+[tex] nvn fmt 0x3f -> vk 122 (view 122) swz 2345 (view) alpha1 0 type 1 256x144 levels 1
+[gmem] draw stage 0: 1 ranges, 1 KB copied for shader reads
+[gmem] draw stage 0: 1 ranges, 1 KB copied for shader reads
+[tex] nvn fmt 0x49 -> vk 139 (view 139) swz 1112 (view) alpha1 0 type 4 1024x1024 levels 1
+[shader] derivadas: vs 1269fac300 fswzadd 1 shuffle 0 | fs 1269fac600 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ee8e0400 fswzadd 1 shuffle 0 | fs 12ee8e5c00 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ee8f1900 fswzadd 1 shuffle 0 | fs 12ee8e4c00 fswzadd 1 shuffle 0
+[shader] derivadas: vs 1269facf00 fswzadd 1 shuffle 0 | fs 1269fad700 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ee8e0400 fswzadd 1 shuffle 0 | fs 12ee8e7600 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ee8e0400 fswzadd 1 shuffle 0 | fs 12ee8e5100 fswzadd 1 shuffle 0
+[vk] command counts: 0:1941 2:1144 3:3898 4:7466 5:7466 6:7466 7:1900 8:1872 9:1872 10:3842 11:3842 12:2429 13:12062 14:662 15:9085 16:602 17:797 18:797 19:9610 20:8336 21:9952 22:8336 23:7466 24:7600 26:55 27:1900 28:1872 34:1616 35:959 38:6738 41:112 44:3 46:897 51:6296 54:1594 57:6
+[vk] copy alias: 6 made, 5 renamed, 0 stencil-only, 1 copied later (live 2)
+[vk] t=9.1 frame 797 202.3 fps max 33ms level - (6388 draws, 0 skipped, 1855 passes, 48 dispatches, 816 flushes, wait 1403ms, compile 54, fbcopy 0, upload 771.3MB)
+[gmem] 1024 draws with graphics gmem so far
+[fs] mounted host directory save/save_0
+[fs] mounted host directory save/save_0
+[gmem] 2048 draws with graphics gmem so far
+[vk] command counts: 0:2585 2:1541 3:13663 4:25014 5:25014 6:25014 7:2544 8:2504 9:2504 10:13583 11:13583 12:7608 13:54759 14:3058 15:45154 16:860 17:1044 18:1044 19:14506 20:12781 21:14903 22:12781 23:25014 24:10176 26:361 27:2544 28:2504 34:2122 35:1495 38:30117 41:160 44:5 46:1409 51:10845 54:2088 57:10
+[vk] copy alias: 6 made, 6 renamed, 0 stencil-only, 0 copied later (live 2)
+[vk] t=11.1 frame 1044 123.5 fps max 28ms level - (23379 draws, 0 skipped, 1781 passes, 48 dispatches, 500 flushes, wait 1419ms, compile 0, fbcopy 0, upload 78.1MB)
+[shader] derivadas: vs 12ee8df000 fswzadd 1 shuffle 0 | fs 12ee8e0100 fswzadd 1 shuffle 0
+[tex] nvn fmt 0x94 -> vk 184 (view 184) swz 2345 (view) alpha1 0 type 1 8x8 levels 1
+[shader] derivadas: vs 12ee8e0400 fswzadd 1 shuffle 0 | fs 12ee8e0e00 fswzadd 1 shuffle 0
+[gmem] 4096 draws with graphics gmem so far
+[input] GetNpadState id 0 lr 1001683f9c
+[fs] mounted host directory save/save_0
+[vk] t=13.1 frame 1308 131.8 fps max 18ms level - (24733 draws, 0 skipped, 2504 passes, 0 dispatches, 528 flushes, wait 1217ms, compile 5, fbcopy 0, upload 83.8MB)
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[fs] read region_common/kodama/PlayRegionCamera.kobin
+[fs] read region_common/weather/LightAnimations.bfres
+[fs] read region_common/weather/FogAnimations.bfres
+[fs] read region_common/actor/Static.bfres
+[fs] read region_common/datasheets/ActorLayoutFilter.gsheet
+[fs] read region_common/datasheets/VoiceSet.gsheet
+[fs] read region_common/event/common.evhb
+[fs] read region_common/event/ZeldaScroll.bfevfl
+[fs] read region_common/event/System.bfevfl
+[fs] read region_common/event/GameOver.bfevfl
+[fs] read region_common/event/AreaStartCommon.bfevfl
+[fs] read region_common/event/WarpHole.bfevfl
+[fs] read region_common/event/Dissolve.bfevfl
+[fs] read region_common/event/EvResetCommon.bfevfl
+[fs] read region_common/event/GeneralSequence.bfevfl
+[fs] read region_common/datasheets/RegionEntryDemo.gsheet
+[fs] read region_common/effect/Common.ptcl
+[fs] read region_common/effect/Enemy.ptcl
+[fs] read region_common/effect/Npc.ptcl
+[fs] read region_common/effect/Object.ptcl
+[fs] read region_common/effect/Player.ptcl
+[fs] read region_common/effect/Bg.ptcl
+[fs] read region_common/ui/GameMain.arc
+[fs] romfs reads: 512 (457593 KB)
+[fs] read region_common/ui/IconCopyActor.arc
+[fs] read region_common/ui/IconItem.arc
+[fs] read region_common/ui/IconMap.arc
+[fs] read region_common/ui/IconStampRallyStamp.arc
+[fs] read region_common/ui/IconTutorial.arc
+[fs] read region_common/ui/IconMapFieldCrackActor.arc
+[fs] read region_common/ui/IconMapPin.arc
+[fs] read region_common/ui/IconSmoothie.arc
+[fs] read region_common/ui/IconBuff.arc
+[fs] read region_common/ui/IconBottleContent.arc
+[fs] read region_common/ui/IconBattleChallenge.arc
+[fs] read region_common/ui/IconHud.arc
+[fs] read region_common/datasheets/ui/UiMap.gsheet
+[fs] read region_common/datasheets/ui/UiMapExtend.gsheet
+[fs] read region_common/datasheets/ui/UiMapArea.gsheet
+[fs] read region_common/datasheets/ui/UiMapPlayerPos.gsheet
+[fs] read region_common/datasheets/ui/UiMapLine.gsheet
+[fs] read region_common/datasheets/ui/UiMapIcon.gsheet
+[fs] read region_common/datasheets/ui/UiMapIconActor.gsheet
+[fs] read region_common/datasheets/ui/UiMapIconLandMark.gsheet
+[fs] read region_common/datasheets/ui/UiMapIconPin.gsheet
+[fs] read region_common/datasheets/ui/UiMapIconItem.gsheet
+[fs] read region_common/datasheets/ui/UiMapIconWarp.gsheet
+[fs] read region_common/datasheets/ui/UiMapIconCrackActor.gsheet
+[fs] read region_common/datasheets/ui/UiMapLocationInfo.gsheet
+[fs] read region_common/datasheets/ui/UiMapLevelDefine.gsheet
+[fs] read region_common/ui/Field.arc
+[fs] read region_common/nectar/main.bfntpj
+[fs] read region_common/nectar/villa.bfntpj
+[fs] read region_common/kodama/EnvironmentalEffect.kobin
+[fs] read region_common/level/OP_Dungeon.elo
+[fs] read region_common/ui/MiniMap_Field.arc
+[fs] read region_common/sharedtexture/MI_OP_ent_00.bntx
+[fs] read region_common/sharedtexture/MI_OP_garekiM_00.bntx
+[fs] read region_common/sharedtexture/MI_OP_garekiM_01.bntx
+[fs] read region_common/sharedtexture/MI_OP_garekiM_02.bntx
+[fs] read region_common/sharedtexture/MI_OP_garekiS_00.bntx
+[fs] read region_common/sharedtexture/MI_OP_garekiS_01.bntx
+[fs] read region_common/sharedtexture/MI_OP_garekiS_02.bntx
+[fs] read region_common/sharedtexture/MI_OP_gareki_01.bntx
+[fs] read region_common/sharedtexture/MI_OP_gareki_02.bntx
+[fs] read region_common/sharedtexture/MI_OP_ground_00.bntx
+[fs] read region_common/sharedtexture/MI_OP_pedestal_00.bntx
+[fs] read region_common/sharedtexture/MI_OP_piller_00.bntx
+[fs] read region_common/sharedtexture/MI_OP_piller_01.bntx
+[fs] read region_common/sharedtexture/MI_OP_piller_02.bntx
+[fs] read region_common/sharedtexture/MI_OP_stairs_00.bntx
+[fs] read region_common/sharedtexture/MI_OP_stone_00.bntx
+[fs] read region_common/sharedtexture/MI_OP_tile_00.bntx
+[fs] read region_common/sharedtexture/MI_OP_tile_01.bntx
+[fs] read region_common/sharedtexture/MI_OP_tile_02.bntx
+[fs] read region_common/sharedtexture/MI_OP_tile_03.bntx
+[fs] read region_common/sharedtexture/MI_OP_wall_00.bntx
+[fs] read region_common/sharedtexture/MI_OP_wall_01.bntx
+[fs] read region_common/sharedtexture/MI_OP_window_00.bntx
+[fs] read region_common/sharedtexture/MI_S_Dungeon005_floor_00.bntx
+[fs] read region_common/sharedtexture/MI_S_Dungeon005_wall_00.bntx
+[fs] read region_common/sharedtexture/MI_S_Dungeon005_wall_01.bntx
+[fs] read region_common/actor/FakeShadow.bfres
+[fs] read region_common/actor/Player.bfres
+[fs] read region_common/actor/Zelda.bfres
+[fs] read region_common/event/Copy.bfevfl
+[fs] read region_common/motionsheets/Player.gsheet
+[fs] read region_common/motionsheets/Zelda.gsheet
+[fs] read region_common/motionsheets/Zelda_abs.gsheet
+[fs] read region_common/tailor/PlayerPasteBall.drsb
+[fs] read region_common/tailor/PlayerSyncRodBall.drsb
+[fs] read region_common/tailor/PrologueLink.drsb
+[fs] read region_common/tailor/Zelda.drsb
+[fs] read region_common/virtualbonesheets/Player_vb.gsheet
+[fs] read region_common/virtualbonesheets/Zelda_vb.gsheet
+[fs] read region_common/actor/ZeldaClothes01.bfres
+[fs] read region_common/actor/SmoothieEffect.bfres
+[fs] read region_common/actor/Sync.bfres
+[fs] read region_common/actor/PropplayerSword.bfres
+[fs] read region_common/actor/PropplayerSword01.bfres
+[fs] read region_common/actor/PropplayerSword02.bfres
+[fs] read region_common/actor/PropplayerShield.bfres
+[fs] read region_common/actor/PropplayerCopyRod.bfres
+[fs] read region_common/actor/PropplayerWoodenStick.bfres
+[fs] read region_common/actor/PropplayerBow.bfres
+[fs] read region_common/actor/PropplayerBow01.bfres
+[fs] read region_common/actor/PropplayerBow02.bfres
+[fs] read region_common/actor/PropplayerArrow.bfres
+[fs] read region_common/actor/PropplayerArrow01.bfres
+[fs] read region_common/actor/PropplayerArrow02.bfres
+[fs] read region_common/actor/PropplayerBomb.bfres
+[fs] read region_common/actor/PropplayerBomb01.bfres
+[fs] read region_common/actor/PropplayerBomb02.bfres
+[fs] read region_common/virtualbonesheets/PropplayerBomb_vb.gsheet
+[fs] read region_common/actor/PropplayerBombChu.bfres
+[fs] read region_common/actor/PropplayerBombChu01.bfres
+[fs] read region_common/actor/PropplayerBombChu02.bfres
+[fs] read region_common/datasheets/Quake.gsheet
+[fs] read region_common/actor/TobeDark.bfres
+[fs] read region_common/actor/SyncLine.bfres
+[fs] read region_common/tailor/PlayerSwordBeam.drsb
+[fs] read region_common/actor/Partner.bfres
+[fs] read region_common/motionsheets/Partner.gsheet
+[fs] read region_common/motionsheets/Partner_abs.gsheet
+[fs] read region_common/tailor/Partner.drsb
+[kernel] CreateThread entry=100c136910 stack=121d67bfe0 prio=44 -> 14b
+[kernel] CreateThread entry=100c136910 stack=1205624fe0 prio=44 -> 14c
+[fs] read region_common/map/OP_Dungeon_001.cide
+[fs] read region_common/map/OP_Dungeon_001.bfgrid
+[fs] read region_common/datasheets/ui/UiMessageWindow.gsheet
+[fs] read region_common/map/OP_Dungeon_001.bfres
+[fs] read region_common/event/OP_Dungeon.bfevfl
+[fs] read region_common/actor/DoorClose.bfres
+[fs] read region_common/actor/DoorCloseTall.bfres
+[fs] read region_common/event/Door.bfevfl
+[fs] read region_common/motionsheets/DoorClose.gsheet
+[fs] read region_common/motionsheets/DoorCloseTall.gsheet
+[fs] read region_common/tailor/DoorClose.drsb
+[fs] read region_common/actor/Darknut00.bfres
+[fs] read region_common/audio/edward.bfsar
+[fs] read region_common/motionsheets/Darknut00.gsheet
+[fs] read region_common/tailor/Darknut00.drsb
+[fs] read region_common/virtualbonesheets/Darknut00_vb.gsheet
+[fs] read region_common/actor/Paste.bfres
+[fs] read region_common/tailor/TagTailorPlayer.drsb
+[fs] read region_common/actor/Grass.bfres
+[fs] read region_common/bfactr/Grass.bfactr
+[fs] read region_common/tailor/Grass.drsb
+[fs] read region_common/virtualbonesheets/Grass_vb.gsheet
+[fs] read region_common/actor/Elevator.bfres
+[fs] read region_common/bfactr/Elevator.bfactr
+[fs] read region_common/motionsheets/Elevator.gsheet
+[fs] read region_common/tailor/Elevator.drsb
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[fs] read region_common/event/DefaultAreaStart.bfevfl
+[tex] nvn fmt 0x46 -> vk 134 (view 134) swz 2345 (view) alpha1 0 type 3 128x128 levels 8
+[shader] derivadas: vs 12a5c43000 fswzadd 1 shuffle 0 | fs 12a5c44200 fswzadd 1 shuffle 0
+[vtxfmt] attr 6 raw 0x18069 fmt 0x69 -> vk 65
+[vtxfmt] attr 7 raw 0x40003 fmt 0x3 -> vk 13
+[vtxfmt] attr 8 raw 0 fmt 0 -> vk 109  *** SIN MAPEAR (lee 4 floats) ***
+[gmem] draw: vs 12a5c43000 (gmem 1 store 0) fs 12a5c44200 (gmem 0 store 0) reads zero; sbuf v: 127e838900+140 f: 127e80ea00+2400 127e813200+2400 (unique 2, draws so far 5233)
+[shader] derivadas: vs 12a629b000 fswzadd 1 shuffle 0 | fs 12a629c200 fswzadd 1 shuffle 0
+[gmem] draw: vs 12a629b000 (gmem 1 store 0) fs 12a629c200 (gmem 0 store 0) reads zero; sbuf v: 127e838900+140 f: 127e80ea00+2400 127e813200+2400 (unique 3, draws so far 5234)
+[shader] derivadas: vs 12a5c43000 fswzadd 1 shuffle 0 | fs 12a5c44200 fswzadd 1 shuffle 0
+[fs] read region_common/audio/edward.bfsar
+[shader] derivadas: vs 12ee694000 fswzadd 1 shuffle 0 | fs 12ee695200 fswzadd 1 shuffle 0
+[gmem] draw: vs 12ee694000 (gmem 1 store 0) fs 12ee695200 (gmem 0 store 0) reads zero; sbuf v: 127e838900+140 f: 127e80ea00+2400 127e813200+2400 (unique 4, draws so far 5244)
+[vtxfmt] attr 7 raw 0x48027 fmt 0x27 -> vk 41
+[vtxfmt] attr 8 raw 0x1802a fmt 0x2a -> vk 91
+[audren] effect type 4 used: slot 0 mix 1 enabled 1
+[audren] effect type 3 used (not implemented): slot 1 mix 1 enabled 1
+[audren] mix 1 used 1 vol 1.000 bufs 24 dest 0: 0>0=1.000 1>1=1.000 2>2=1.000 3>3=1.000 4>4=1.000 5>5=1.000 6>0=1.000 7>1=1.000 8>2=1.000 9>3=1.000 10>4=1.000 11>5=1.000 12>0=1.000 13>1=1.000 14>2=1.000 15>3=1.000 16>4=1.000 17>5=1.000 18>0=1.000 19>1=1.000 20>2=1.000 21>3=1.000 22>4=1.000 23>5=1.000
+[vtxfmt] attr 8 raw 0x40025 fmt 0x25 -> vk 37
+[vtxfmt] attr 0 raw 0x29 fmt 0x29 -> vk 97
+[vtxfmt] attr 7 raw 0x3000f fmt 0xf -> vk 20
+[vtxfmt] attr 8 raw 0x3400d fmt 0xd -> vk 16
+[shader] derivadas: vs 12ee695400 fswzadd 1 shuffle 0 | fs 12ee696700 fswzadd 1 shuffle 0
+[vtxfmt] attr 1 raw 0x28013 fmt 0x13 -> vk 78
+[tex] nvn fmt 0x46 -> vk 134 (view 134) swz 2345 (view) alpha1 0 type 1 64x64 levels 1
+[gmem] draw: vs 12ee695400 (gmem 1 store 0) fs 12ee696700 (gmem 0 store 0) reads zero; sbuf v: 127e838900+140 f: 127e80ea00+2400 127e813200+2400 (unique 5, draws so far 5252)
+[compute] cs 12a46fe000: gmem 1 store 1 sust 0
+[compute] cs 12a4705000: gmem 1 store 1 sust 0
+[compute] cs 12a4701000: gmem 1 store 1 sust 0
+[shader] derivadas: vs 12a6c24000 fswzadd 1 shuffle 0 | fs 12a6c25600 fswzadd 1 shuffle 0
+[gmem] draw: vs 12a6c24000 (gmem 1 store 0) fs 12a6c25600 (gmem 0 store 0) reads zero; sbuf v: 127e838900+140 f: 127e80ea00+2400 127e813200+2400 (unique 6, draws so far 5253)
+[shader] derivadas: vs 12a64e4000 fswzadd 1 shuffle 0 | fs 12a64e5200 fswzadd 1 shuffle 0
+[gmem] draw: vs 12a64e4000 (gmem 1 store 0) fs 12a64e5200 (gmem 0 store 0) reads zero; sbuf v: 127e838900+140 f: 127e80ea00+2400 127e813200+2400 (unique 7, draws so far 5272)
+[compute] cs 12a4709000: gmem 1 store 1 sust 0
+[shader] derivadas: vs 12a46dd000 fswzadd 1 shuffle 0 | fs 12a46dd400 fswzadd 1 shuffle 0
+[fsstore] glsl fs 12a46dd400: 10461 bytes
+[glsl]#version 460
+#extension GL_EXT_shader_explicit_arithmetic_types_int64 : require
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_shuffle : require
+#extension GL_KHR_shader_subgroup_shuffle_relative : require
+#extension GL_KHR_shader_subgroup_vote : require
+#extension GL_KHR_shader_subgroup_ballot : require
+#extension GL_EXT_texture_shadow_lod : require
+#extension GL_ARB_shader_draw_parameters : enable
+#define cbr(cb, off) cb[min((off) >> 4, uint(cb.length() - 1))][((off) >> 2) & 3u]
+uint as_u(float x) { return floatBitsToUint(x); }
+uint as_u(uint x) { return x; }
+uint as_u(int x) { return uint(x); }
+float as_f(uint x) { return uintBitsToFloat(x); }
+float as_f(int x) { return intBitsToFloat(x); }
+float as_f(float x) { return x; }
+int as_i(uint x) { return int(x); }
+int as_i(float x) { return floatBitsToInt(x); }
+int sx8(uint v) { return bitfieldExtract(int(v), 0, 8); }
+int sx8(int v) { return bitfieldExtract(v, 0, 8); }
+int sx16(uint v) { return bitfieldExtract(int(v), 0, 16); }
+int sx16(int v) { return bitfieldExtract(v, 0, 16); }
+float mw_saturate(float x) { return isnan(x) ? 0.0f : clamp(x, 0.0f, 1.0f); }
+vec2 mw_saturate(vec2 x) { return vec2(m
+[glsl]w_saturate(x.x), mw_saturate(x.y)); }
+float mw_fmin(float a, float b) { return isnan(a) ? b : (isnan(b) ? a : min(a, b)); }
+float mw_fmax(float a, float b) { return isnan(a) ? b : (isnan(b) ? a : max(a, b)); }
+uint mw_clz(uint v) { return v == 0u ? 32u : uint(31 - findMSB(v)); }
+uint mw_popcount(uint v) { return uint(bitCount(v)); }
+uint mw_mulhi(uint a, uint b) { uint hi, lo; umulExtended(a, b, hi, lo); return hi; }
+int mw_mulhi(int a, int b) { int hi, lo; imulExtended(a, b, hi, lo); return hi; }
+uint brev32(uint v) { return bitfieldReverse(v); }
+uint flo_sh(uint msb) { return msb == 0xFFFFFFFFu ? msb : 31u - msb; }
+uint bfe_u(uint v, uint ctl) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u) return 0u; if (pos >= 32u) return 0u; return bitfieldExtract(v, int(pos), int(min(len, 32u - pos))); }
+uint bfe_s(uint v, uint ctl) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u) return 0u; if (pos >= 32u) return (int(v) < 0) ? 0xFFFFFFFFu : 0u; return uint(bitfieldExtract(int(v), int(pos), int(min(len, 32u - pos)))); }
+uint bfi(uint ins, uint ctl, uint base) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u || pos >= 32u) return base; ret
+[glsl]urn bitfieldInsert(base, ins, int(pos), int(min(len, 32u - pos))); }
+float fswzadd(float a, float b, uint swz, uint lane) { uint m = (swz >> ((lane & 3u) * 2u)) & 3u; float ma = m == 1u ? -1.0f : (m == 3u ? 0.0f : 1.0f); float mb = m == 2u ? -1.0f : 1.0f; return a * ma + b * mb; }
+uvec2 rsc(uvec2 c, vec4 s) { return (s.x == 1.0f && s.y == 1.0f) ? c : uvec2(floor((vec2(c) + 0.5f) * s.xy)); }
+float h2f(uint h) { uint s = (h & 0x8000u) << 16, e = (h >> 10) & 0x1Fu, m = h & 0x3FFu; if (e == 0u) { float d = float(m) * 5.9604644775390625e-8; return s != 0u ? -d : d; } if (e == 31u) return uintBitsToFloat(s | 0x7F800000u | (m << 13)); return uintBitsToFloat(s | ((e + 112u) << 23) | (m << 13)); }
+vec2 unpack_h2(uint v) { return vec2(h2f(v & 0xFFFFu), h2f(v >> 16)); }
+vec2 hx(uint v, uint swz) { if (swz == 1u) return vec2(uintBitsToFloat(v)); vec2 h = unpack_h2(v); return swz == 2u ? h.xx : (swz == 3u ? h.yy : h); }
+uint hpack(vec2 r, uint merge, uint old) { if (merge == 1u) return floatBitsToUint(r.x); uint lo = packHalf2x16(vec2(r.x, 0.0f)), hi = packHalf2x16(vec2(r.y, 0.0f)); if (merge == 2u) return (old & 0xFFFF0000u) | lo; if (merge == 3u) return (old & 0xFFFFu) | (hi << 16); return lo
+[glsl] | (hi << 16); }
+uint prmt(uint a, uint b, uint sel) { uint r = 0u; for (uint i = 0u; i < 4u; i++) { uint s = (sel >> (i * 4u)) & 7u; uint bt = s < 4u ? (a >> (s * 8u)) & 0xFFu : (b >> ((s - 4u) * 8u)) & 0xFFu; r |= bt << (i * 8u); } return r; }
+#define mw_base_vertex gl_BaseVertex
+#define mw_lane gl_SubgroupInvocationID
+layout(std140, set = 1, binding = 0) uniform CB0 { uvec4 cb0[96]; };
+layout(std140, set = 1, binding = 4) uniform CB4 { uvec4 cb4[80]; };
+layout(std140, set = 1, binding = 14) uniform CB14 { uvec4 cb14[16]; };
+layout(std430, set = 1, binding = 17) buffer GMem { uint w[]; } gmem_;
+layout(std140, set = 1, binding = 20) uniform GMap { uvec4 gmap[17]; };
+layout(std430, set = 1, binding = 21) buffer GFast { uint w[]; } gfast_;
+uint gfind(uint g) { uint n = gmap[16].x; for (uint i = 0u; i < n; i++) { uint o = g - gmap[i].x; if (g >= gmap[i].x && o < gmap[i].y) return gmap[i].z + (o >> 2); } return 0xFFFFFFFFu; }
+layout(std140, set = 1, binding = 19) uniform Tint { vec4 ltint[2]; };
+layout(location = 0) in vec4 v0;
+layout(location = 0) out vec4 c0;
+void main() {
+  uint r0 = 0u;
+  uint r1 = 0u;
+  uint r2 = 0u;
+  uint r3 = 0u;
+  uint r4 = 0u;
+  uint r5 = 0u;
+  uint r6 = 0u;
+[glsl]
+  bool p0 = false;
+  bool p1 = false;
+  bool p2 = false;
+  uint cc = 0u; bool ccz = false, ccs = false;
+  do {
+    r6 = 0x3f000000u;
+    r5 = as_u(gl_FragCoord[3]);
+    r3 = as_u(float(int(cb4[69][0])));
+    r4 = as_u(float(int(cb4[69][1])));
+    r5 = as_u((1.0f / as_f(r5)));
+    r2 = as_u(v0[3] * gl_FragCoord.w * as_f(r5));
+    r1 = as_u(v0[1] * gl_FragCoord.w * as_f(r5));
+    r0 = as_u(v0[0] * gl_FragCoord.w * as_f(r5));
+    r5 = cb14[3][0];
+    r2 = as_u((1.0f / as_f(r2)));
+    r1 = as_u((as_f(r1) * as_f(r2)));
+    r0 = as_u((as_f(r0) * as_f(r2)));
+    r1 = as_u(fma(as_f(r1), as_f(0x3f000000u), as_f(r6)));
+    r0 = as_u(fma(as_f(r0), as_f(0x3f000000u), as_f(r6)));
+    r1 = as_u(((-as_f(r1)) + as_f(0x3f800000u)));
+    r0 = as_u((as_f(r0) * as_f(r3)));
+    r0 = uint(int(clamp(trunc(as_f(r0)), -2147483648.0f, 2147483520.0f)));
+    r4 = as_u((as_f(r4) * as_f(r1)));
+    r1 = 0x00000001u;
+    r4 = uint(int(clamp(trunc(as_f(r4)), -2147483648.0f, 2147483520.0f)));
+    r2 = (-r1 + cb4[69][0]);
+    r1 = (-r1 + cb4[69][1]);
+    r2 = uint(true ? min(int(r0), int(r2)) : max(int(r0), int(r2)));
+    r1 = uint(true ? min(int(r4), int(r1)) : max(int(r4), int(r1)));
+    r2 = uint(false ? min(int
+[glsl](0u), int(r2)) : max(int(0u), int(r2)));
+    r1 = uint(false ? min(int(0u), int(r1)) : max(int(0u), int(r1)));
+    { uint xa = (r1 >> 0) & 0xFFFFu; uint xb = (cb4[69][0] >> 0) & 0xFFFFu; uint xbu = cb4[69][0];
+      uint prod = xa * xb;
+      uint cc_ = r2;
+      uint res = prod + cc_;
+      r2 = res;
+    }
+    { uint xa = (r1 >> 0) & 0xFFFFu; uint xb = (cb4[69][0] >> 16) & 0xFFFFu; uint xbu = cb4[69][0];
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      res = (res & 0xFFFFu) | (xbu << 16);
+      r3 = res;
+    }
+    { uint xa = (r1 >> 16) & 0xFFFFu; uint xb = (r3 >> 16) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb; prod <<= 16;
+      uint cc_ = r2 + (xbu << 16);
+      uint res = prod + cc_;
+      r1 = res;
+    }
+    r3 = 0x24924925u;
+    r2 = 0x00000001u;
+    { uint s = r1 << 2u; uint t2 = cb0[81][0]; uint res = s + t2; cc = (res < s) ? 1u : 0u;
+      r0 = res;
+    }
+    { uint xa = (r5 >> 0) & 0xFFFFu; uint xb = (r3 >> 0) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      r4 = res;
+    }
+    { uint xa = (r5 >> 0) & 0xFFFFu; uint xb = (r3 >> 16) & 0xFFFFu; uint xbu = r3;
+      uint pro
+[glsl]d = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      r6 = res;
+    }
+    r2 = ((r5 & 31u) == 0u ? r2 : ((r2 << (r5 & 31u)) | (0u >> (32u - (r5 & 31u)))));
+    r1 = (0u + cb0[81][1] + cc);
+    { uint xa = (r5 >> 16) & 0xFFFFu; uint xb = (r3 >> 0) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb;
+      uint cc_ = r4 >> 16;
+      uint res = prod + cc_;
+      r4 = res;
+    }
+    { uint al_ = r0, ah_ = r1, c1_ = 0u; uint sl_ = uaddCarry(al_, 0x00000000u, c1_); uint sh_ = ah_ + 0x00000000u + c1_;
+      uint b1_ = 0u; uint ga = usubBorrow(sl_, 0x40000000u, b1_); uint gh_ = sh_ - 0x00000012u - b1_; bool ok = gh_ == 0u && ga < 0xd0000000u;
+      uint fw = ok ? gfind(uint(ga)) : 0xFFFFFFFFu;
+      if (fw != 0xFFFFFFFFu) atomicOr(gfast_.w[fw], r2); else if (ok) atomicOr(gmem_.w[uint(ga >> 2)], r2);
+    }
+    { uint xa = (r5 >> 16) & 0xFFFFu; uint xb = (r3 >> 16) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      r3 = res;
+    }
+    r3 = (r4 + r6 + r3);
+    r4 = (-r3 + cb14[3][0]);
+    r4 = (((r4 >> 1u) | (0u << 31u)) + r3);
+    r3 = 0xfffffff9u;
+    r4 = ((0x00000002u) >= 32u ? 0u : (r4 >> (0x00000002u)));
+    { uint
+[glsl] xa = (r4 >> 0) & 0xFFFFu; uint xb = (r3 >> 0) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb;
+      uint cc_ = r5;
+      uint res = prod + cc_;
+      r5 = res;
+    }
+    { uint xa = (r4 >> 0) & 0xFFFFu; uint xb = (r3 >> 16) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      res = (res & 0xFFFFu) | (xbu << 16);
+      r3 = res;
+    }
+    { uint xa = (r4 >> 16) & 0xFFFFu; uint xb = (r3 >> 16) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb; prod <<= 16;
+      uint cc_ = r5 + (xbu << 16);
+      uint res = prod + cc_;
+      r3 = res;
+    }
+    { bool cmp = (int(r3) == int(0x00000002u)); bool pp = true;
+      p2 = cmp && pp;
+    }
+    { bool cmp = (int(r3) == int(0x00000003u)); bool pp = true;
+      p0 = cmp && pp;
+    }
+    r0 = ((((int(r3) != int(0x00000001u))) && true) ? 0x3f800000u : 0u);
+    r1 = ((((int(r3) == int(0x00000001u))) && true) ? 0x3f800000u : 0u);
+    { bool cmp = (int(r3) == int(0x00000004u)); bool pp = true;
+      p1 = cmp && pp;
+    }
+    r2 = ((((int(r3) == int(0x00000003u))) && true) ? 0x3f800000u : 0u);
+  if (p2) {
+    r0 = 0x3f800000u;
+  }
+  if (p2) {
+    r1 = 0x3f800000u;
+  }
+  if (p0) {
+    r0 =
+[glsl] 0u;
+  }
+    { bool cmp = (int(r3) == int(0x00000005u)); bool pp = true;
+      p2 = cmp && pp;
+    }
+  if (p0) {
+    r1 = 0u;
+  }
+    { bool cmp = (int(r3) == int(0x00000006u)); bool pp = true;
+      p0 = cmp && pp;
+    }
+    r3 = 0x3f800000u;
+  if (p1) {
+    r2 = 0x3f800000u;
+  }
+  if (p1) {
+    r0 = 0x3f800000u;
+  }
+  if (p1) {
+    r1 = 0u;
+  }
+  if (p2) {
+    r2 = 0x3f800000u;
+  }
+  if (p2) {
+    r0 = 0u;
+  }
+  if (p2) {
+    r1 = 0x3f800000u;
+  }
+  if (p0) {
+    r2 = 0x3f800000u;
+  }
+  if (p0) {
+    r0 = 0x3f800000u;
+  }
+  if (p0) {
+    r1 = 0x3f800000u;
+  }
+    break;
+  } while (false);
+  c0[0] = as_f(r0);
+  c0[1] = as_f(r1);
+  c0[2] = as_f(r2);
+  c0[3] = as_f(r3);
+  if (ltint[0].w > 0.0f) { vec3 g = c0.rgb; float l = dot(g, vec3(0.299f, 0.587f, 0.114f));
+    c0.rgb = mix(g, ltint[0].rgb * pow(l, ltint[1].w) + ltint[1].rgb * l, ltint[0].w); }
+}
+
+[glsl] end
+[fsstore] glsl vs 12a46dd000: 8612 bytes
+[glsl]#version 460
+#extension GL_EXT_shader_explicit_arithmetic_types_int64 : require
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_shuffle : require
+#extension GL_KHR_shader_subgroup_shuffle_relative : require
+#extension GL_KHR_shader_subgroup_vote : require
+#extension GL_KHR_shader_subgroup_ballot : require
+#extension GL_EXT_texture_shadow_lod : require
+#extension GL_ARB_shader_draw_parameters : enable
+#define cbr(cb, off) cb[min((off) >> 4, uint(cb.length() - 1))][((off) >> 2) & 3u]
+uint as_u(float x) { return floatBitsToUint(x); }
+uint as_u(uint x) { return x; }
+uint as_u(int x) { return uint(x); }
+float as_f(uint x) { return uintBitsToFloat(x); }
+float as_f(int x) { return intBitsToFloat(x); }
+float as_f(float x) { return x; }
+int as_i(uint x) { return int(x); }
+int as_i(float x) { return floatBitsToInt(x); }
+int sx8(uint v) { return bitfieldExtract(int(v), 0, 8); }
+int sx8(int v) { return bitfieldExtract(v, 0, 8); }
+int sx16(uint v) { return bitfieldExtract(int(v), 0, 16); }
+int sx16(int v) { return bitfieldExtract(v, 0, 16); }
+float mw_saturate(float x) { return isnan(x) ? 0.0f : clamp(x, 0.0f, 1.0f); }
+vec2 mw_saturate(vec2 x) { return vec2(m
+[glsl]w_saturate(x.x), mw_saturate(x.y)); }
+float mw_fmin(float a, float b) { return isnan(a) ? b : (isnan(b) ? a : min(a, b)); }
+float mw_fmax(float a, float b) { return isnan(a) ? b : (isnan(b) ? a : max(a, b)); }
+uint mw_clz(uint v) { return v == 0u ? 32u : uint(31 - findMSB(v)); }
+uint mw_popcount(uint v) { return uint(bitCount(v)); }
+uint mw_mulhi(uint a, uint b) { uint hi, lo; umulExtended(a, b, hi, lo); return hi; }
+int mw_mulhi(int a, int b) { int hi, lo; imulExtended(a, b, hi, lo); return hi; }
+uint brev32(uint v) { return bitfieldReverse(v); }
+uint flo_sh(uint msb) { return msb == 0xFFFFFFFFu ? msb : 31u - msb; }
+uint bfe_u(uint v, uint ctl) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u) return 0u; if (pos >= 32u) return 0u; return bitfieldExtract(v, int(pos), int(min(len, 32u - pos))); }
+uint bfe_s(uint v, uint ctl) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u) return 0u; if (pos >= 32u) return (int(v) < 0) ? 0xFFFFFFFFu : 0u; return uint(bitfieldExtract(int(v), int(pos), int(min(len, 32u - pos)))); }
+uint bfi(uint ins, uint ctl, uint base) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u || pos >= 32u) return base; ret
+[glsl]urn bitfieldInsert(base, ins, int(pos), int(min(len, 32u - pos))); }
+float fswzadd(float a, float b, uint swz, uint lane) { uint m = (swz >> ((lane & 3u) * 2u)) & 3u; float ma = m == 1u ? -1.0f : (m == 3u ? 0.0f : 1.0f); float mb = m == 2u ? -1.0f : 1.0f; return a * ma + b * mb; }
+uvec2 rsc(uvec2 c, vec4 s) { return (s.x == 1.0f && s.y == 1.0f) ? c : uvec2(floor((vec2(c) + 0.5f) * s.xy)); }
+float h2f(uint h) { uint s = (h & 0x8000u) << 16, e = (h >> 10) & 0x1Fu, m = h & 0x3FFu; if (e == 0u) { float d = float(m) * 5.9604644775390625e-8; return s != 0u ? -d : d; } if (e == 31u) return uintBitsToFloat(s | 0x7F800000u | (m << 13)); return uintBitsToFloat(s | ((e + 112u) << 23) | (m << 13)); }
+vec2 unpack_h2(uint v) { return vec2(h2f(v & 0xFFFFu), h2f(v >> 16)); }
+vec2 hx(uint v, uint swz) { if (swz == 1u) return vec2(uintBitsToFloat(v)); vec2 h = unpack_h2(v); return swz == 2u ? h.xx : (swz == 3u ? h.yy : h); }
+uint hpack(vec2 r, uint merge, uint old) { if (merge == 1u) return floatBitsToUint(r.x); uint lo = packHalf2x16(vec2(r.x, 0.0f)), hi = packHalf2x16(vec2(r.y, 0.0f)); if (merge == 2u) return (old & 0xFFFF0000u) | lo; if (merge == 3u) return (old & 0xFFFFu) | (hi << 16); return lo
+[glsl] | (hi << 16); }
+uint prmt(uint a, uint b, uint sel) { uint r = 0u; for (uint i = 0u; i < 4u; i++) { uint s = (sel >> (i * 4u)) & 7u; uint bt = s < 4u ? (a >> (s * 8u)) & 0xFFu : (b >> ((s - 4u) * 8u)) & 0xFFu; r |= bt << (i * 8u); } return r; }
+#define mw_base_vertex gl_BaseVertex
+#define mw_lane gl_SubgroupInvocationID
+layout(std140, set = 0, binding = 4) uniform CB4 { uvec4 cb4[16]; };
+layout(std140, set = 0, binding = 14) uniform CB14 { uvec4 cb14[16]; };
+layout(location = 0) in vec4 a0;
+invariant gl_Position;
+precise gl_Position;
+layout(location = 0) out vec4 v0;
+void main() {
+  gl_Position = vec4(0, 0, 0, 1);
+  v0 = vec4(0, 0, 0, 1);
+  uint r0 = 0u;
+  uint r1 = 0u;
+  uint r2 = 0u;
+  uint r3 = 0u;
+  uint r4 = 0u;
+  uint r5 = 0u;
+  uint r6 = 0u;
+  uint r7 = 0u;
+  uint r8 = 0u;
+  bool p0 = false;
+  bool p1 = false;
+  uint pc = 8u; uint ssy[16]; uint ssy_n = 0u; uint pbk[16]; uint pbk_n = 0u; uint pcnt[16]; uint pcnt_n = 0u;
+  bool exit_now = false;
+  if (pc == 8u) do {
+    r3 = cb14[3][1];
+    r0 = as_u(a0[0]);
+    { bool v = (true && true); bool pp = true;
+      p0 = v && pp;
+    }
+    r1 = as_u(a0[1]);
+    r2 = 0u;
+    { bool cmp = (int(r3) == int(0x00000001u)); bool pp = true
+[glsl];
+      p1 = cmp && pp;
+    }
+  if (!p1) {
+    pc = 264u; break;
+  }
+    r0 = as_u((as_f(r0) * as_f(cb14[3][2])));
+    r5 = as_u(a0[2]);
+    r1 = as_u((as_f(r1) * as_f(cb14[3][2])));
+    r2 = as_u((as_f(r0) * as_f(cb14[0][0])));
+    r3 = as_u((as_f(r0) * as_f(cb14[1][0])));
+    r4 = as_u((as_f(r0) * as_f(cb14[2][0])));
+    r2 = as_u(fma(as_f(r1), as_f(cb14[0][1]), as_f(r2)));
+    r3 = as_u(fma(as_f(r1), as_f(cb14[1][1]), as_f(r3)));
+    r1 = as_u(fma(as_f(r1), as_f(cb14[2][1]), as_f(r4)));
+    r0 = as_u((as_f(r5) * as_f(cb14[3][2])));
+    r2 = as_u(fma(as_f(r0), as_f(cb14[0][2]), as_f(r2)));
+    r3 = as_u(fma(as_f(r0), as_f(cb14[1][2]), as_f(r3)));
+    r4 = as_u(fma(as_f(r0), as_f(cb14[2][2]), as_f(r1)));
+    r0 = as_u((as_f(r2) + as_f(cb14[0][3])));
+    r1 = as_u((as_f(r3) + as_f(cb14[1][3])));
+    r2 = as_u((as_f(r4) + as_f(cb14[2][3])));
+    pc = 560u; break;
+    pc = 264u;
+  } while (false);
+  if (!exit_now && pc == 264u) do {
+    { bool cmp = (int(r3) == int(0x00000002u)); bool pp = true;
+      p1 = cmp && pp;
+    }
+  if (!p1) {
+    pc = 464u; break;
+  }
+    r0 = as_u((as_f(r0) * as_f(cb14[3][3])));
+    r4 = as_u(a0[2]);
+    r8 = as_u((as_f(r1) * as_f(cb14[3][2])));
+    r1 = a
+[glsl]s_u((as_f(r0) * as_f(cb14[0][0])));
+    r2 = as_u((as_f(r0) * as_f(cb14[1][0])));
+    r3 = as_u((as_f(r0) * as_f(cb14[2][0])));
+    r1 = as_u(fma(as_f(r8), as_f(cb14[0][1]), as_f(r1)));
+    r2 = as_u(fma(as_f(r8), as_f(cb14[1][1]), as_f(r2)));
+    r3 = as_u(fma(as_f(r8), as_f(cb14[2][1]), as_f(r3)));
+    r0 = as_u((as_f(r4) * as_f(cb14[3][3])));
+    r1 = as_u(fma(as_f(r0), as_f(cb14[0][2]), as_f(r1)));
+    r2 = as_u(fma(as_f(r0), as_f(cb14[1][2]), as_f(r2)));
+    r3 = as_u(fma(as_f(r0), as_f(cb14[2][2]), as_f(r3)));
+    r0 = as_u((as_f(r1) + as_f(cb14[0][3])));
+    r1 = as_u((as_f(r2) + as_f(cb14[1][3])));
+    r2 = as_u((as_f(r3) + as_f(cb14[2][3])));
+    pc = 560u; break;
+    pc = 464u;
+  } while (false);
+  if (!exit_now && pc == 464u) do {
+    { bool v = (false && true); bool pp = true;
+      p0 = v && pp;
+    }
+    gl_Position[0] = as_f(r0);
+    r3 = 0x3f800000u;
+    v0[0] = as_f(r0);
+    gl_Position[1] = as_f(r1);
+    v0[1] = as_f(r1);
+    gl_Position[3] = as_f(r3);
+    v0[3] = as_f(r3);
+    gl_Position[2] = as_f(0u);
+    pc = 560u;
+  } while (false);
+  if (!exit_now && pc == 560u) do {
+  if (!p0) {
+    exit_now = true; break;
+  }
+    r6 = as_u((as_f(r0) * as_f(cb4[2][0])));
+  
+[glsl]  r3 = as_u((as_f(r0) * as_f(cb4[0][0])));
+    r4 = as_u((as_f(r0) * as_f(cb4[1][0])));
+    r7 = as_u((as_f(r0) * as_f(cb4[3][0])));
+    r0 = as_u(fma(as_f(r1), as_f(cb4[2][1]), as_f(r6)));
+    r3 = as_u(fma(as_f(r1), as_f(cb4[0][1]), as_f(r3)));
+    r4 = as_u(fma(as_f(r1), as_f(cb4[1][1]), as_f(r4)));
+    r7 = as_u(fma(as_f(r1), as_f(cb4[3][1]), as_f(r7)));
+    r0 = as_u(fma(as_f(r2), as_f(cb4[2][2]), as_f(r0)));
+    r3 = as_u(fma(as_f(r2), as_f(cb4[0][2]), as_f(r3)));
+    r4 = as_u(fma(as_f(r2), as_f(cb4[1][2]), as_f(r4)));
+    r7 = as_u(fma(as_f(r2), as_f(cb4[3][2]), as_f(r7)));
+    r0 = as_u((as_f(r0) + as_f(cb4[2][3])));
+    r3 = as_u((as_f(r3) + as_f(cb4[0][3])));
+    r4 = as_u((as_f(r4) + as_f(cb4[1][3])));
+    v0[0] = as_f(r3);
+    r7 = as_u((as_f(r7) + as_f(cb4[3][3])));
+    gl_Position[0] = as_f(r3);
+    r0 = as_u((as_f(r0) * as_f(0x3c23d70au)));
+    v0[1] = as_f(r4);
+    gl_Position[1] = as_f(r4);
+    v0[3] = as_f(r7);
+    gl_Position[3] = as_f(r7);
+    gl_Position[2] = as_f(r0);
+    exit_now = true; break;
+    pc = 840u;
+  } while (false);
+  if (!exit_now && pc >= 840u && pc < 848u) for (uint g_0 = 0u; g_0 < 1000u; g_0++) {
+  if (!exit_now && pc == 840u) do {
+    pc = 8
+[glsl]40u; break;
+    pc = 848u;
+  } while (false);
+  if (!exit_now && pc == 840u) continue;
+  break;
+  }
+  if (!exit_now && pc == 848u) do {
+    exit_now = true;
+  } while (false);
+  gl_Position.y = -gl_Position.y;
+}
+
+[glsl] end
+[vtxfmt] attr 0 raw 0x2e fmt 0x2e -> vk 109
+[gfxred] slots: 32 x 64 KB
+[gmem] draw: vs 12a46dd000 (gmem 0 store 0) fs 12a46dd400 (gmem 1 store 1) reads zero; sbuf v: 127e838900+140 f: 127e810e00+2400 127e813200+2400 (unique 8, draws so far 5292)
+[fsstore] draw #1 fs 12a46dd400 vs 12a46dd000 t=15218 ms rt 64x36
+[fsstore] draw #2 fs 12a46dd400 vs 12a46dd000 t=15218 ms rt 64x36
+[fsstore] draw #4 fs 12a46dd400 vs 12a46dd000 t=15218 ms rt 64x36
+[shader] derivadas: vs 12a46e1000 fswzadd 1 shuffle 0 | fs 12a46e1400 fswzadd 1 shuffle 0
+[fsstore] glsl fs 12a46e1400: 10259 bytes
+[glsl]#version 460
+#extension GL_EXT_shader_explicit_arithmetic_types_int64 : require
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_shuffle : require
+#extension GL_KHR_shader_subgroup_shuffle_relative : require
+#extension GL_KHR_shader_subgroup_vote : require
+#extension GL_KHR_shader_subgroup_ballot : require
+#extension GL_EXT_texture_shadow_lod : require
+#extension GL_ARB_shader_draw_parameters : enable
+#define cbr(cb, off) cb[min((off) >> 4, uint(cb.length() - 1))][((off) >> 2) & 3u]
+uint as_u(float x) { return floatBitsToUint(x); }
+uint as_u(uint x) { return x; }
+uint as_u(int x) { return uint(x); }
+float as_f(uint x) { return uintBitsToFloat(x); }
+float as_f(int x) { return intBitsToFloat(x); }
+float as_f(float x) { return x; }
+int as_i(uint x) { return int(x); }
+int as_i(float x) { return floatBitsToInt(x); }
+int sx8(uint v) { return bitfieldExtract(int(v), 0, 8); }
+int sx8(int v) { return bitfieldExtract(v, 0, 8); }
+int sx16(uint v) { return bitfieldExtract(int(v), 0, 16); }
+int sx16(int v) { return bitfieldExtract(v, 0, 16); }
+float mw_saturate(float x) { return isnan(x) ? 0.0f : clamp(x, 0.0f, 1.0f); }
+vec2 mw_saturate(vec2 x) { return vec2(m
+[glsl]w_saturate(x.x), mw_saturate(x.y)); }
+float mw_fmin(float a, float b) { return isnan(a) ? b : (isnan(b) ? a : min(a, b)); }
+float mw_fmax(float a, float b) { return isnan(a) ? b : (isnan(b) ? a : max(a, b)); }
+uint mw_clz(uint v) { return v == 0u ? 32u : uint(31 - findMSB(v)); }
+uint mw_popcount(uint v) { return uint(bitCount(v)); }
+uint mw_mulhi(uint a, uint b) { uint hi, lo; umulExtended(a, b, hi, lo); return hi; }
+int mw_mulhi(int a, int b) { int hi, lo; imulExtended(a, b, hi, lo); return hi; }
+uint brev32(uint v) { return bitfieldReverse(v); }
+uint flo_sh(uint msb) { return msb == 0xFFFFFFFFu ? msb : 31u - msb; }
+uint bfe_u(uint v, uint ctl) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u) return 0u; if (pos >= 32u) return 0u; return bitfieldExtract(v, int(pos), int(min(len, 32u - pos))); }
+uint bfe_s(uint v, uint ctl) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u) return 0u; if (pos >= 32u) return (int(v) < 0) ? 0xFFFFFFFFu : 0u; return uint(bitfieldExtract(int(v), int(pos), int(min(len, 32u - pos)))); }
+uint bfi(uint ins, uint ctl, uint base) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u || pos >= 32u) return base; ret
+[glsl]urn bitfieldInsert(base, ins, int(pos), int(min(len, 32u - pos))); }
+float fswzadd(float a, float b, uint swz, uint lane) { uint m = (swz >> ((lane & 3u) * 2u)) & 3u; float ma = m == 1u ? -1.0f : (m == 3u ? 0.0f : 1.0f); float mb = m == 2u ? -1.0f : 1.0f; return a * ma + b * mb; }
+uvec2 rsc(uvec2 c, vec4 s) { return (s.x == 1.0f && s.y == 1.0f) ? c : uvec2(floor((vec2(c) + 0.5f) * s.xy)); }
+float h2f(uint h) { uint s = (h & 0x8000u) << 16, e = (h >> 10) & 0x1Fu, m = h & 0x3FFu; if (e == 0u) { float d = float(m) * 5.9604644775390625e-8; return s != 0u ? -d : d; } if (e == 31u) return uintBitsToFloat(s | 0x7F800000u | (m << 13)); return uintBitsToFloat(s | ((e + 112u) << 23) | (m << 13)); }
+vec2 unpack_h2(uint v) { return vec2(h2f(v & 0xFFFFu), h2f(v >> 16)); }
+vec2 hx(uint v, uint swz) { if (swz == 1u) return vec2(uintBitsToFloat(v)); vec2 h = unpack_h2(v); return swz == 2u ? h.xx : (swz == 3u ? h.yy : h); }
+uint hpack(vec2 r, uint merge, uint old) { if (merge == 1u) return floatBitsToUint(r.x); uint lo = packHalf2x16(vec2(r.x, 0.0f)), hi = packHalf2x16(vec2(r.y, 0.0f)); if (merge == 2u) return (old & 0xFFFF0000u) | lo; if (merge == 3u) return (old & 0xFFFFu) | (hi << 16); return lo
+[glsl] | (hi << 16); }
+uint prmt(uint a, uint b, uint sel) { uint r = 0u; for (uint i = 0u; i < 4u; i++) { uint s = (sel >> (i * 4u)) & 7u; uint bt = s < 4u ? (a >> (s * 8u)) & 0xFFu : (b >> ((s - 4u) * 8u)) & 0xFFu; r |= bt << (i * 8u); } return r; }
+#define mw_base_vertex gl_BaseVertex
+#define mw_lane gl_SubgroupInvocationID
+layout(std140, set = 1, binding = 0) uniform CB0 { uvec4 cb0[96]; };
+layout(std140, set = 1, binding = 4) uniform CB4 { uvec4 cb4[80]; };
+layout(std140, set = 1, binding = 14) uniform CB14 { uvec4 cb14[16]; };
+layout(std430, set = 1, binding = 17) buffer GMem { uint w[]; } gmem_;
+layout(std140, set = 1, binding = 20) uniform GMap { uvec4 gmap[17]; };
+layout(std430, set = 1, binding = 21) buffer GFast { uint w[]; } gfast_;
+uint gfind(uint g) { uint n = gmap[16].x; for (uint i = 0u; i < n; i++) { uint o = g - gmap[i].x; if (g >= gmap[i].x && o < gmap[i].y) return gmap[i].z + (o >> 2); } return 0xFFFFFFFFu; }
+layout(std140, set = 1, binding = 19) uniform Tint { vec4 ltint[2]; };
+layout(location = 0) in vec4 v0;
+layout(location = 0) out vec4 c0;
+void main() {
+  uint r0 = 0u;
+  uint r1 = 0u;
+  uint r2 = 0u;
+  uint r3 = 0u;
+  uint r4 = 0u;
+  uint r5 = 0u;
+  uint r6 = 0u;
+[glsl]
+  bool p0 = false;
+  bool p1 = false;
+  bool p2 = false;
+  uint cc = 0u; bool ccz = false, ccs = false;
+  do {
+    r5 = 0x3f000000u;
+    r3 = as_u(gl_FragCoord[3]);
+    r4 = 0x00000001u;
+    r2 = as_u(float(int(cb4[69][1])));
+    r3 = as_u((1.0f / as_f(r3)));
+    r0 = as_u(v0[1] * gl_FragCoord.w * as_f(r3));
+    r1 = as_u(v0[2] * gl_FragCoord.w * as_f(r3));
+    r3 = (-r4 + cb4[69][1]);
+    r0 = as_u((as_f(r0) * as_f(cb4[70][2])));
+    r1 = as_u(((-as_f(r1)) + (-as_f(cb4[70][0]))));
+    r0 = as_u(fma(as_f(r0), as_f(0x3f000000u), as_f(r5)));
+    r1 = as_u((as_f(r1) * as_f(cb4[68][0])));
+    r1 = uint(int(clamp(floor(as_f(r1)), -2147483648.0f, 2147483520.0f)));
+    r2 = as_u((as_f(r2) * as_f(r0)));
+    r0 = (-r4 + cb4[69][2]);
+    r2 = uint(int(clamp(trunc(as_f(r2)), -2147483648.0f, 2147483520.0f)));
+    r0 = uint(true ? min(int(r1), int(r0)) : max(int(r1), int(r0)));
+    r3 = uint(true ? min(int(r2), int(r3)) : max(int(r2), int(r3)));
+    r2 = 0x00000001u;
+    r0 = uint(false ? min(int(0u), int(r0)) : max(int(0u), int(r0)));
+    r3 = uint(false ? min(int(0u), int(r3)) : max(int(0u), int(r3)));
+    { uint xa = (r3 >> 0) & 0xFFFFu; uint xb = (cb4[69][2] >> 0) & 0xFFFFu; uint xbu = cb4
+[glsl][69][2];
+      uint prod = xa * xb;
+      uint cc_ = r0;
+      uint res = prod + cc_;
+      r0 = res;
+    }
+    { uint xa = (r3 >> 0) & 0xFFFFu; uint xb = (cb4[69][2] >> 16) & 0xFFFFu; uint xbu = cb4[69][2];
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      res = (res & 0xFFFFu) | (xbu << 16);
+      r5 = res;
+    }
+    { uint xa = (r3 >> 16) & 0xFFFFu; uint xb = (r5 >> 16) & 0xFFFFu; uint xbu = r5;
+      uint prod = xa * xb; prod <<= 16;
+      uint cc_ = r0 + (xbu << 16);
+      uint res = prod + cc_;
+      r0 = res;
+    }
+    r5 = cb14[3][0];
+    r3 = 0x24924925u;
+    { uint s = r0 << 2u; uint t2 = cb0[82][0]; uint res = s + t2; cc = (res < s) ? 1u : 0u;
+      r0 = res;
+    }
+    { uint xa = (r5 >> 0) & 0xFFFFu; uint xb = (r3 >> 0) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      r4 = res;
+    }
+    { uint xa = (r5 >> 0) & 0xFFFFu; uint xb = (r3 >> 16) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      r6 = res;
+    }
+    r2 = ((r5 & 31u) == 0u ? r2 : ((r2 << (r5 & 31u)) | (0u >> (32u - (r5 & 31u)))));
+    r1 = (0u + cb0[82][1] + cc)
+[glsl];
+    { uint xa = (r5 >> 16) & 0xFFFFu; uint xb = (r3 >> 0) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb;
+      uint cc_ = r4 >> 16;
+      uint res = prod + cc_;
+      r4 = res;
+    }
+    { uint al_ = r0, ah_ = r1, c1_ = 0u; uint sl_ = uaddCarry(al_, 0x00000000u, c1_); uint sh_ = ah_ + 0x00000000u + c1_;
+      uint b1_ = 0u; uint ga = usubBorrow(sl_, 0x40000000u, b1_); uint gh_ = sh_ - 0x00000012u - b1_; bool ok = gh_ == 0u && ga < 0xd0000000u;
+      uint fw = ok ? gfind(uint(ga)) : 0xFFFFFFFFu;
+      if (fw != 0xFFFFFFFFu) atomicOr(gfast_.w[fw], r2); else if (ok) atomicOr(gmem_.w[uint(ga >> 2)], r2);
+    }
+    { uint xa = (r5 >> 16) & 0xFFFFu; uint xb = (r3 >> 16) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      r3 = res;
+    }
+    r3 = (r4 + r6 + r3);
+    r4 = (-r3 + cb14[3][0]);
+    r4 = (((r4 >> 1u) | (0u << 31u)) + r3);
+    r3 = 0xfffffff9u;
+    r4 = ((0x00000002u) >= 32u ? 0u : (r4 >> (0x00000002u)));
+    { uint xa = (r4 >> 0) & 0xFFFFu; uint xb = (r3 >> 0) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb;
+      uint cc_ = r5;
+      uint res = prod + cc_;
+      r5 = res;
+    }
+    { uint xa = (r4 >> 0) & 0x
+[glsl]FFFFu; uint xb = (r3 >> 16) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      res = (res & 0xFFFFu) | (xbu << 16);
+      r3 = res;
+    }
+    { uint xa = (r4 >> 16) & 0xFFFFu; uint xb = (r3 >> 16) & 0xFFFFu; uint xbu = r3;
+      uint prod = xa * xb; prod <<= 16;
+      uint cc_ = r5 + (xbu << 16);
+      uint res = prod + cc_;
+      r3 = res;
+    }
+    { bool cmp = (int(r3) == int(0x00000002u)); bool pp = true;
+      p2 = cmp && pp;
+    }
+    { bool cmp = (int(r3) == int(0x00000003u)); bool pp = true;
+      p0 = cmp && pp;
+    }
+    r0 = ((((int(r3) != int(0x00000001u))) && true) ? 0x3f800000u : 0u);
+    r1 = ((((int(r3) == int(0x00000001u))) && true) ? 0x3f800000u : 0u);
+    { bool cmp = (int(r3) == int(0x00000004u)); bool pp = true;
+      p1 = cmp && pp;
+    }
+    r2 = ((((int(r3) == int(0x00000003u))) && true) ? 0x3f800000u : 0u);
+  if (p2) {
+    r0 = 0x3f800000u;
+  }
+  if (p2) {
+    r1 = 0x3f800000u;
+  }
+  if (p0) {
+    r0 = 0u;
+  }
+    { bool cmp = (int(r3) == int(0x00000005u)); bool pp = true;
+      p2 = cmp && pp;
+    }
+  if (p0) {
+    r1 = 0u;
+  }
+    { bool cmp = (int(r3) == int(0x00000006u)); bool pp = true;
+      p0
+[glsl] = cmp && pp;
+    }
+    r3 = 0x3f800000u;
+  if (p1) {
+    r2 = 0x3f800000u;
+  }
+  if (p1) {
+    r0 = 0x3f800000u;
+  }
+  if (p1) {
+    r1 = 0u;
+  }
+  if (p2) {
+    r2 = 0x3f800000u;
+  }
+  if (p2) {
+    r0 = 0u;
+  }
+  if (p2) {
+    r1 = 0x3f800000u;
+  }
+  if (p0) {
+    r2 = 0x3f800000u;
+  }
+  if (p0) {
+    r0 = 0x3f800000u;
+  }
+  if (p0) {
+    r1 = 0x3f800000u;
+  }
+    break;
+  } while (false);
+  c0[0] = as_f(r0);
+  c0[1] = as_f(r1);
+  c0[2] = as_f(r2);
+  c0[3] = as_f(r3);
+  if (ltint[0].w > 0.0f) { vec3 g = c0.rgb; float l = dot(g, vec3(0.299f, 0.587f, 0.114f));
+    c0.rgb = mix(g, ltint[0].rgb * pow(l, ltint[1].w) + ltint[1].rgb * l, ltint[0].w); }
+}
+
+[glsl] end
+[fsstore] glsl vs 12a46e1000: 8083 bytes
+[glsl]#version 460
+#extension GL_EXT_shader_explicit_arithmetic_types_int64 : require
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_shuffle : require
+#extension GL_KHR_shader_subgroup_shuffle_relative : require
+#extension GL_KHR_shader_subgroup_vote : require
+#extension GL_KHR_shader_subgroup_ballot : require
+#extension GL_EXT_texture_shadow_lod : require
+#extension GL_ARB_shader_draw_parameters : enable
+#define cbr(cb, off) cb[min((off) >> 4, uint(cb.length() - 1))][((off) >> 2) & 3u]
+uint as_u(float x) { return floatBitsToUint(x); }
+uint as_u(uint x) { return x; }
+uint as_u(int x) { return uint(x); }
+float as_f(uint x) { return uintBitsToFloat(x); }
+float as_f(int x) { return intBitsToFloat(x); }
+float as_f(float x) { return x; }
+int as_i(uint x) { return int(x); }
+int as_i(float x) { return floatBitsToInt(x); }
+int sx8(uint v) { return bitfieldExtract(int(v), 0, 8); }
+int sx8(int v) { return bitfieldExtract(v, 0, 8); }
+int sx16(uint v) { return bitfieldExtract(int(v), 0, 16); }
+int sx16(int v) { return bitfieldExtract(v, 0, 16); }
+float mw_saturate(float x) { return isnan(x) ? 0.0f : clamp(x, 0.0f, 1.0f); }
+vec2 mw_saturate(vec2 x) { return vec2(m
+[glsl]w_saturate(x.x), mw_saturate(x.y)); }
+float mw_fmin(float a, float b) { return isnan(a) ? b : (isnan(b) ? a : min(a, b)); }
+float mw_fmax(float a, float b) { return isnan(a) ? b : (isnan(b) ? a : max(a, b)); }
+uint mw_clz(uint v) { return v == 0u ? 32u : uint(31 - findMSB(v)); }
+uint mw_popcount(uint v) { return uint(bitCount(v)); }
+uint mw_mulhi(uint a, uint b) { uint hi, lo; umulExtended(a, b, hi, lo); return hi; }
+int mw_mulhi(int a, int b) { int hi, lo; imulExtended(a, b, hi, lo); return hi; }
+uint brev32(uint v) { return bitfieldReverse(v); }
+uint flo_sh(uint msb) { return msb == 0xFFFFFFFFu ? msb : 31u - msb; }
+uint bfe_u(uint v, uint ctl) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u) return 0u; if (pos >= 32u) return 0u; return bitfieldExtract(v, int(pos), int(min(len, 32u - pos))); }
+uint bfe_s(uint v, uint ctl) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u) return 0u; if (pos >= 32u) return (int(v) < 0) ? 0xFFFFFFFFu : 0u; return uint(bitfieldExtract(int(v), int(pos), int(min(len, 32u - pos)))); }
+uint bfi(uint ins, uint ctl, uint base) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u || pos >= 32u) return base; ret
+[glsl]urn bitfieldInsert(base, ins, int(pos), int(min(len, 32u - pos))); }
+float fswzadd(float a, float b, uint swz, uint lane) { uint m = (swz >> ((lane & 3u) * 2u)) & 3u; float ma = m == 1u ? -1.0f : (m == 3u ? 0.0f : 1.0f); float mb = m == 2u ? -1.0f : 1.0f; return a * ma + b * mb; }
+uvec2 rsc(uvec2 c, vec4 s) { return (s.x == 1.0f && s.y == 1.0f) ? c : uvec2(floor((vec2(c) + 0.5f) * s.xy)); }
+float h2f(uint h) { uint s = (h & 0x8000u) << 16, e = (h >> 10) & 0x1Fu, m = h & 0x3FFu; if (e == 0u) { float d = float(m) * 5.9604644775390625e-8; return s != 0u ? -d : d; } if (e == 31u) return uintBitsToFloat(s | 0x7F800000u | (m << 13)); return uintBitsToFloat(s | ((e + 112u) << 23) | (m << 13)); }
+vec2 unpack_h2(uint v) { return vec2(h2f(v & 0xFFFFu), h2f(v >> 16)); }
+vec2 hx(uint v, uint swz) { if (swz == 1u) return vec2(uintBitsToFloat(v)); vec2 h = unpack_h2(v); return swz == 2u ? h.xx : (swz == 3u ? h.yy : h); }
+uint hpack(vec2 r, uint merge, uint old) { if (merge == 1u) return floatBitsToUint(r.x); uint lo = packHalf2x16(vec2(r.x, 0.0f)), hi = packHalf2x16(vec2(r.y, 0.0f)); if (merge == 2u) return (old & 0xFFFF0000u) | lo; if (merge == 3u) return (old & 0xFFFFu) | (hi << 16); return lo
+[glsl] | (hi << 16); }
+uint prmt(uint a, uint b, uint sel) { uint r = 0u; for (uint i = 0u; i < 4u; i++) { uint s = (sel >> (i * 4u)) & 7u; uint bt = s < 4u ? (a >> (s * 8u)) & 0xFFu : (b >> ((s - 4u) * 8u)) & 0xFFu; r |= bt << (i * 8u); } return r; }
+#define mw_base_vertex gl_BaseVertex
+#define mw_lane gl_SubgroupInvocationID
+layout(std140, set = 0, binding = 4) uniform CB4 { uvec4 cb4[80]; };
+layout(std140, set = 0, binding = 14) uniform CB14 { uvec4 cb14[16]; };
+layout(location = 0) in vec4 a0;
+invariant gl_Position;
+precise gl_Position;
+layout(location = 0) out vec4 v0;
+void main() {
+  gl_Position = vec4(0, 0, 0, 1);
+  v0 = vec4(0, 0, 0, 1);
+  uint r0 = 0u;
+  uint r1 = 0u;
+  uint r2 = 0u;
+  uint r3 = 0u;
+  uint r4 = 0u;
+  uint r5 = 0u;
+  uint r6 = 0u;
+  uint r8 = 0u;
+  bool p0 = false;
+  bool p1 = false;
+  uint pc = 8u; uint ssy[16]; uint ssy_n = 0u; uint pbk[16]; uint pbk_n = 0u; uint pcnt[16]; uint pcnt_n = 0u;
+  bool exit_now = false;
+  if (pc == 8u) do {
+    r3 = cb14[3][1];
+    r0 = as_u(a0[0]);
+    { bool v = (true && true); bool pp = true;
+      p0 = v && pp;
+    }
+    r1 = as_u(a0[1]);
+    r2 = 0u;
+    { bool cmp = (int(r3) == int(0x00000001u)); bool pp = true;
+      p1 = cmp
+[glsl] && pp;
+    }
+  if (!p1) {
+    pc = 264u; break;
+  }
+    r0 = as_u((as_f(r0) * as_f(cb14[3][2])));
+    r5 = as_u(a0[2]);
+    r1 = as_u((as_f(r1) * as_f(cb14[3][2])));
+    r2 = as_u((as_f(r0) * as_f(cb14[0][0])));
+    r3 = as_u((as_f(r0) * as_f(cb14[1][0])));
+    r4 = as_u((as_f(r0) * as_f(cb14[2][0])));
+    r2 = as_u(fma(as_f(r1), as_f(cb14[0][1]), as_f(r2)));
+    r3 = as_u(fma(as_f(r1), as_f(cb14[1][1]), as_f(r3)));
+    r1 = as_u(fma(as_f(r1), as_f(cb14[2][1]), as_f(r4)));
+    r0 = as_u((as_f(r5) * as_f(cb14[3][2])));
+    r2 = as_u(fma(as_f(r0), as_f(cb14[0][2]), as_f(r2)));
+    r3 = as_u(fma(as_f(r0), as_f(cb14[1][2]), as_f(r3)));
+    r4 = as_u(fma(as_f(r0), as_f(cb14[2][2]), as_f(r1)));
+    r0 = as_u((as_f(r2) + as_f(cb14[0][3])));
+    r1 = as_u((as_f(r3) + as_f(cb14[1][3])));
+    r2 = as_u((as_f(r4) + as_f(cb14[2][3])));
+    pc = 528u; break;
+    pc = 264u;
+  } while (false);
+  if (!exit_now && pc == 264u) do {
+    { bool cmp = (int(r3) == int(0x00000002u)); bool pp = true;
+      p1 = cmp && pp;
+    }
+  if (!p1) {
+    pc = 464u; break;
+  }
+    r0 = as_u((as_f(r0) * as_f(cb14[3][3])));
+    r4 = as_u(a0[2]);
+    r8 = as_u((as_f(r1) * as_f(cb14[3][2])));
+    r1 = as_u((as_f(r0) * 
+[glsl]as_f(cb14[0][0])));
+    r2 = as_u((as_f(r0) * as_f(cb14[1][0])));
+    r3 = as_u((as_f(r0) * as_f(cb14[2][0])));
+    r1 = as_u(fma(as_f(r8), as_f(cb14[0][1]), as_f(r1)));
+    r2 = as_u(fma(as_f(r8), as_f(cb14[1][1]), as_f(r2)));
+    r3 = as_u(fma(as_f(r8), as_f(cb14[2][1]), as_f(r3)));
+    r0 = as_u((as_f(r4) * as_f(cb14[3][3])));
+    r1 = as_u(fma(as_f(r0), as_f(cb14[0][2]), as_f(r1)));
+    r2 = as_u(fma(as_f(r0), as_f(cb14[1][2]), as_f(r2)));
+    r3 = as_u(fma(as_f(r0), as_f(cb14[2][2]), as_f(r3)));
+    r0 = as_u((as_f(r1) + as_f(cb14[0][3])));
+    r1 = as_u((as_f(r2) + as_f(cb14[1][3])));
+    r2 = as_u((as_f(r3) + as_f(cb14[2][3])));
+    pc = 528u; break;
+    pc = 464u;
+  } while (false);
+  if (!exit_now && pc == 464u) do {
+    { bool v = (false && true); bool pp = true;
+      p0 = v && pp;
+    }
+    gl_Position[0] = as_f(r0);
+    r3 = 0x3f800000u;
+    gl_Position[1] = as_f(r1);
+    gl_Position[3] = as_f(r3);
+    gl_Position[2] = as_f(0u);
+    pc = 528u;
+  } while (false);
+  if (!exit_now && pc == 528u) do {
+  if (!p0) {
+    exit_now = true; break;
+  }
+    r3 = as_u((as_f(r0) * as_f(cb4[11][0])));
+    gl_Position[2] = as_f(0u);
+    r0 = as_u((as_f(r0) * as_f(cb4[10][0])));
+    r4
+[glsl] = cb4[70][0];
+    r6 = 0x3f800000u;
+    r3 = as_u(fma(as_f(r1), as_f(cb4[11][1]), as_f(r3)));
+    gl_Position[3] = as_f(r6);
+    r1 = as_u(fma(as_f(r1), as_f(cb4[10][1]), as_f(r0)));
+    r0 = as_u(((-as_f(r4)) + as_f(cb4[70][1])));
+    r0 = as_u((1.0f / as_f(r0)));
+    r3 = as_u(fma(as_f(r2), as_f(cb4[11][2]), as_f(r3)));
+    r2 = as_u(fma(as_f(r2), as_f(cb4[10][2]), as_f(r1)));
+    r3 = as_u((as_f(r3) + as_f(cb4[11][3])));
+    r2 = as_u((as_f(r2) + as_f(cb4[10][3])));
+    v0[2] = as_f(r3);
+    r1 = as_u(((-as_f(r3)) + (-as_f(cb4[70][0]))));
+    v0[1] = as_f(r2);
+    r4 = as_u((as_f(r2) * as_f(cb4[70][2])));
+    r1 = as_u((as_f(r1) * as_f(r0)));
+    gl_Position[1] = as_f(r4);
+    r1 = as_u(fma(as_f(r1), as_f(0x40000000u), (-as_f(r6))));
+    gl_Position[0] = as_f(r1);
+    exit_now = true; break;
+    exit_now = true;
+  } while (false);
+  gl_Position.y = -gl_Position.y;
+}
+
+[glsl] end
+[gmem] draw: vs 12a46e1000 (gmem 0 store 0) fs 12a46e1400 (gmem 1 store 1) reads zero; sbuf v: 127e838900+140 f: 127e810e00+2400 127e815600+2400 (unique 9, draws so far 5299)
+[fsstore] draw #8 fs 12a46e1400 vs 12a46e1000 t=15235 ms rt 128x72
+[shfl] fs 12a5c2ae00: 15 shuffles
+[shfl]   subgroupShuffle(r34, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r16, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r17, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r18, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r19, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r34, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r17, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r18, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r19, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r23, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r22, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r35, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r32, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r34, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r15, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shader] derivadas: vs 12a5c26100 fswzadd 1 shuffle 0 | fs 12a5c2ae00 fswzadd 1 shuffle 15
+[gfxred] sync #1: 2 slots ORed back, avg 12.34 ms
+[tex] nvn fmt 0x4c -> vk 142 (view 142) swz 2301 (view) alpha1 0 type 1 256x256 levels 9
+[tex] nvn fmt 0x42 -> vk 133 (view 133) swz 2345 (view) alpha1 0 type 1 256x256 levels 9
+[tex] nvn fmt 0x35 -> vk 130 (view 130) swz 2345 (view) alpha1 0 type 4 1024x1024 levels 1
+[tex] nvn fmt 0x25 -> vk 37 (view 37) swz 2345 (view) alpha1 0 type 3 2x2 levels 2
+[gmem] draw: vs 12a5c26100 (gmem 1 store 0) fs 12a5c2ae00 (gmem 1 store 0) reads zero; sbuf v: 127e838900+140 f: 127e810e00+2400 127e815600+2400 (unique 10, draws so far 5324)
+[shfl] fs 12ee66f300: 15 shuffles
+[shfl]   subgroupShuffle(r22, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r23, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r24, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r25, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r26, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r22, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r25, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r26, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r27, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r31, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r40, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r39, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r41, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r24, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r22, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shader] derivadas: vs 12ee677700 fswzadd 1 shuffle 0 | fs 12ee66f300 fswzadd 1 shuffle 15
+[tex] nvn fmt 0x49 -> vk 139 (view 139) swz 2222 (view) alpha1 0 type 1 64x64 levels 1
+[gmem] draw: vs 12ee677700 (gmem 1 store 0) fs 12ee66f300 (gmem 1 store 0) reads zero; sbuf v: 127e838900+140 f: 127e810e00+2400 127e815600+2400 (unique 11, draws so far 5325)
+[vtxfmt] attr 1 raw 0x40012 fmt 0x12 -> vk 77
+[shfl] fs 12a625a800: 15 shuffles
+[shfl]   subgroupShuffle(r16, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r17, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r18, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r19, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r33, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r16, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r19, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r27, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r33, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r34, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r23, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r35, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r36, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r18, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shfl]   subgroupShuffle(r16, ok_ ? sl_ : gl_SubgroupInvocationID)
+[shader] derivadas: vs 12a6283000 fswzadd 1 shuffle 0 | fs 12a625a800 fswzadd 1 shuffle 15
+[gmem] draw: vs 12a6283000 (gmem 1 store 0) fs 12a625a800 (gmem 1 store 0) reads zero; sbuf v: 127e838900+140 f: 127e810e00+2400 127e815600+2400 (unique 12, draws so far 5333)
+[shader] derivadas: vs 12a5c26100 fswzadd 1 shuffle 0 | fs 12a5c2ae00 fswzadd 1 shuffle 15
+[vtxfmt] attr 1 raw 0x30011 fmt 0x11 -> vk 83
+[shader] derivadas: vs 12ee677700 fswzadd 1 shuffle 0 | fs 12ee63bf00 fswzadd 1 shuffle 15
+[vtxfmt] attr 9 raw 0x18026 fmt 0x26 -> vk 38
+[gmem] draw: vs 12ee677700 (gmem 1 store 0) fs 12ee63bf00 (gmem 1 store 0) reads zero; sbuf v: 127e838900+140 f: 127e810e00+2400 127e815600+2400 (unique 13, draws so far 5343)
+[shader] derivadas: vs 12a7dbb000 fswzadd 1 shuffle 0 | fs 12a7dbb500 fswzadd 1 shuffle 0
+[tex] nvn fmt 0x35 -> vk 130 (view 130) swz 2345 (view) alpha1 0 type 1 1408x792 levels 1
+[shader] derivadas: vs 12eafb7400 fswzadd 1 shuffle 0 | fs 12eb398a00 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12eafb8d00 fswzadd 1 shuffle 0 | fs 12eafbb000 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12eafaa500 fswzadd 1 shuffle 0 | fs 12eafac600 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12eafacd00 fswzadd 1 shuffle 0 | fs 12ea142600 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12eafaf600 fswzadd 1 shuffle 0 | fs 12eafb6d00 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12eafb1d00 fswzadd 1 shuffle 0 | fs 12eafb4400 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12eafb4b00 fswzadd 1 shuffle 0 | fs 12eafb6d00 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12eafbb700 fswzadd 1 shuffle 0 | fs 12eafbcd00 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12eafa8e00 fswzadd 1 shuffle 0 | fs 12ea624200 fswzadd 1 shuffle 0
+[vk] copy alias: 3 made, 2 renamed, 0 stencil-only, 2 copied later (live 1)
+[vk] t=15.6 frame 1616 126.4 fps max 633ms level - (2167 draws, 4 skipped, 1349 passes, 24 dispatches, 620 flushes, wait 126ms, compile 70, fbcopy 1, upload 57.8MB | skipped: compute program 4)
+[fs] read region_common/navMesh/OP_Dungeon/Area0000Chunk0006.bfnvms
+[fs] read region_common/navMesh/OP_Dungeon/Area0000Chunk0007.bfnvms
+[fs] read region_common/navMesh/OP_Dungeon/Area0000Chunk0008.bfnvms
+[fs] read region_common/navMesh/OP_Dungeon/Area0000Chunk0012.bfnvms
+[fs] read region_common/navMesh/OP_Dungeon/Area0000Chunk0013.bfnvms
+[fs] read region_common/navMesh/OP_Dungeon/Area0000Chunk0014.bfnvms
+[fs] read region_common/navMesh/OP_Dungeon/Area0000Chunk0018.bfnvms
+[fs] read region_common/navMesh/OP_Dungeon/Area0000Chunk0019.bfnvms
+[fs] read region_common/navMesh/OP_Dungeon/Area0000Chunk0020.bfnvms
+[shader] derivadas: vs 12ef3a8000 fswzadd 1 shuffle 0 | fs 12ef3a8200 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ef15f000 fswzadd 1 shuffle 0 | fs 12ef15f300 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ef3b5000 fswzadd 1 shuffle 0 | fs 12ef3b5200 fswzadd 1 shuffle 0
+[gfast] cs 12a46fe000 escritura #1: [127e809000+100 CAMBIO 1 0 -0 -163.5] [127e82c800+500 igual 2.25606 0 0 -368.867]
+[gfast] cs 12a4705000 escritura #1: [127e809000+1300 CAMBIO 1 0 -0 -163.5]
+[gfast] cs 12a4701000 escritura #1: [127e809000+100 igual 1 0 -0 -163.5] [127e82c800+500 CAMBIO 2.25606 0 0 -368.867]
+[gfast] cs 12a4709000 escritura #1: [126b4a8e00+200 CAMBIO -0.831469 -0.159642 -0.53214 228.091] [127e809000+100 igual 1 0 -0 -163.5]
+[fsstore] draw #16 fs 12a46dd400 vs 12a46dd000 t=15659 ms rt 64x36
+[gfxred] sync #2: 2 slots ORed back, avg 6.79 ms
+[shader] derivadas: vs 12ef197000 fswzadd 1 shuffle 0 | fs 12ef197400 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ef19b000 fswzadd 1 shuffle 0 | fs 12ef19b200 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ef172000 fswzadd 1 shuffle 0 | fs 12ef172600 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ef177000 fswzadd 1 shuffle 0 | fs 12ef177200 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ef37c000 fswzadd 1 shuffle 0 | fs 12ef37c200 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12ef2ae000 fswzadd 1 shuffle 0 | fs 12ef31cb00 fswzadd 1 shuffle 0
+[gfast] cs 12a46fe000 escritura #2: [127e809100+100 CAMBIO 1 0 -0 -163.5] [127e82cd00+500 igual 2.25606 0 0 -368.867]
+[gfast] cs 12a4705000 escritura #2: [127e809100+100 igual 1 0 -0 -163.5] [127e80a300+500 CAMBIO -0.0550838 -0.0105761 -0.0352535 15.1107]
+[gfast] cs 12a4701000 escritura #2: [127e809100+100 igual 1 0 -0 -163.5] [127e82cd00+500 CAMBIO 2.25606 0 0 -368.867]
+[gfast] cs 12a4709000 escritura #2: [126b4e8e00+200 CAMBIO -0.831469 -0.159642 -0.53214 228.091] [127e809100+100 igual 1 0 -0 -163.5]
+[fsstore] draw #32 fs 12a46dd400 vs 12a46dd000 t=15709 ms rt 64x36
+[gfxred] sync #3: 2 slots ORed back, avg 4.96 ms
+[gfast] cs 12a46fe000 escritura #3: [127e809000+100 CAMBIO 1 0 -0 -163.5] [127e82c800+500 igual 2.25606 0 0 -368.867]
+[gfast] cs 12a4705000 escritura #3: [127e809000+1300 CAMBIO 1 0 -0 -163.5]
+[gfast] cs 12a4701000 escritura #3: [127e809000+100 igual 1 0 -0 -163.5] [127e82c800+500 CAMBIO 2.25606 0 0 -368.867]
+[gfast] cs 12a4709000 escritura #3: [126b4a8e00+200 CAMBIO -0.831469 -0.159642 -0.53214 228.091] [127e809000+100 igual 1 0 -0 -163.5]
+[gfast] cs 12a46fe000 escritura #4: [127e809100+100 CAMBIO 1 0 -0 -163.5] [127e82cd00+500 igual 2.25606 0 0 -368.867]
+[gfast] cs 12a4705000 escritura #4: [127e809100+100 igual 1 0 -0 -163.5] [127e80a300+500 CAMBIO -0.0550838 -0.0105761 -0.0352535 15.1107]
+[gfast] cs 12a4701000 escritura #4: [127e809100+100 igual 1 0 -0 -163.5] [127e82cd00+500 CAMBIO 2.25606 0 0 -368.867]
+[gfast] cs 12a4709000 escritura #4: [126b4e8e00+200 CAMBIO -0.831469 -0.159642 -0.53214 228.091] [127e809100+100 igual 1 0 -0 -163.5]
+[fsstore] draw #64 fs 12a46e1400 vs 12a46e1000 t=15796 ms rt 128x72
+[fsstore] draw #128 fs 12a46dd400 vs 12a46dd000 t=16012 ms rt 64x36
+[pace] frames don't fit 60 fps (12 of the last 60 over 16.2 ms busy): the game's 30 fps mode
+[fsstore] draw #256 fs 12a46dd400 vs 12a46dd000 t=16472 ms rt 64x36
+[gmem] 8192 draws with graphics gmem so far
+[shader] derivadas: vs 12eb59f200 fswzadd 1 shuffle 0 | fs 12e9debe00 fswzadd 1 shuffle 0
+[gmem] draw: vs 12eb59f200 (gmem 0 store 0) fs 12e9debe00 (gmem 1 store 0) reads zero; sbuf v: 127e838900+140 f: 127e80ea00+2400 127e813200+2400 (unique 14, draws so far 9229)
+[shader] derivadas: vs 12d9abfb00 fswzadd 1 shuffle 0 | fs 12d9ac0b00 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12d9ab2100 fswzadd 1 shuffle 0 | fs 12d9ab1c00 fswzadd 1 shuffle 0
+[tex] nvn fmt 0x8a -> vk 164 (view 164) swz 2345 (view) alpha1 0 type 1 104x104 levels 1
+[shader] derivadas: vs 12d9abbe00 fswzadd 1 shuffle 0 | fs 12d9aafb00 fswzadd 1 shuffle 0
+[fsstore] draw #512 fs 12a46e1400 vs 12a46e1000 t=17332 ms rt 128x72
+[shader] derivadas: vs 12eb598800 fswzadd 1 shuffle 0 | fs 12eb592500 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12eb26cc00 fswzadd 1 shuffle 0 | fs 12eb592500 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12eb59aa00 fswzadd 1 shuffle 0 | fs 12eb268300 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12d9a9af00 fswzadd 1 shuffle 0 | fs 12d9ab1f00 fswzadd 1 shuffle 0
+[shader] derivadas: vs 12d9ab8c00 fswzadd 1 shuffle 0 | fs 12d9aafe00 fswzadd 1 shuffle 0
+[vk] copy alias: 41 made, 0 renamed, 0 stencil-only, 42 copied later (live 0)
+[vk] t=17.6 frame 1657 20.2 fps max 105ms level - (6710 draws, 0 skipped, 1785 passes, 492 dispatches, 328 flushes, wait 1382ms, compile 39, fbcopy 82, upload 146.0MB)
+[fs] read region_common/audio/stream/BGM_DUGEON_OP_DUNGEON.bfstm
+[shader] derivadas: vs 12a6bdfa00 fswzadd 1 shuffle 0 | fs 12a6c05000 fswzadd 1 shuffle 15
+[glsl] fs 12a6c05000: 54430 bytes
+[glsl]#version 460
+#extension GL_EXT_shader_explicit_arithmetic_types_int64 : require
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_shuffle : require
+#extension GL_KHR_shader_subgroup_shuffle_relative : require
+#extension GL_KHR_shader_subgroup_vote : require
+#extension GL_KHR_shader_subgroup_ballot : require
+#extension GL_EXT_texture_shadow_lod : require
+#extension GL_ARB_shader_draw_parameters : enable
+#define cbr(cb, off) cb[min((off) >> 4, uint(cb.length() - 1))][((off) >> 2) & 3u]
+uint as_u(float x) { return floatBitsToUint(x); }
+uint as_u(uint x) { return x; }
+uint as_u(int x) { return uint(x); }
+float as_f(uint x) { return uintBitsToFloat(x); }
+float as_f(int x) { return intBitsToFloat(x); }
+float as_f(float x) { return x; }
+int as_i(uint x) { return int(x); }
+int as_i(float x) { return floatBitsToInt(x); }
+int sx8(uint v) { return bitfieldExtract(int(v), 0, 8); }
+int sx8(int v) { return bitfieldExtract(v, 0, 8); }
+int sx16(uint v) { return bitfieldExtract(int(v), 0, 16); }
+int sx16(int v) { return bitfieldExtract(v, 0, 16); }
+float mw_saturate(float x) { return isnan(x) ? 0.0f : clamp(x, 0.0f, 1.0f); }
+vec2 mw_saturate(vec2 x) { return vec2(m
+[glsl]w_saturate(x.x), mw_saturate(x.y)); }
+float mw_fmin(float a, float b) { return isnan(a) ? b : (isnan(b) ? a : min(a, b)); }
+float mw_fmax(float a, float b) { return isnan(a) ? b : (isnan(b) ? a : max(a, b)); }
+uint mw_clz(uint v) { return v == 0u ? 32u : uint(31 - findMSB(v)); }
+uint mw_popcount(uint v) { return uint(bitCount(v)); }
+uint mw_mulhi(uint a, uint b) { uint hi, lo; umulExtended(a, b, hi, lo); return hi; }
+int mw_mulhi(int a, int b) { int hi, lo; imulExtended(a, b, hi, lo); return hi; }
+uint brev32(uint v) { return bitfieldReverse(v); }
+uint flo_sh(uint msb) { return msb == 0xFFFFFFFFu ? msb : 31u - msb; }
+uint bfe_u(uint v, uint ctl) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u) return 0u; if (pos >= 32u) return 0u; return bitfieldExtract(v, int(pos), int(min(len, 32u - pos))); }
+uint bfe_s(uint v, uint ctl) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u) return 0u; if (pos >= 32u) return (int(v) < 0) ? 0xFFFFFFFFu : 0u; return uint(bitfieldExtract(int(v), int(pos), int(min(len, 32u - pos)))); }
+uint bfi(uint ins, uint ctl, uint base) { uint pos = ctl & 0xFFu, len = (ctl >> 8) & 0xFFu; if (len == 0u || pos >= 32u) return base; ret
+[glsl]urn bitfieldInsert(base, ins, int(pos), int(min(len, 32u - pos))); }
+float fswzadd(float a, float b, uint swz, uint lane) { uint m = (swz >> ((lane & 3u) * 2u)) & 3u; float ma = m == 1u ? -1.0f : (m == 3u ? 0.0f : 1.0f); float mb = m == 2u ? -1.0f : 1.0f; return a * ma + b * mb; }
+uvec2 rsc(uvec2 c, vec4 s) { return (s.x == 1.0f && s.y == 1.0f) ? c : uvec2(floor((vec2(c) + 0.5f) * s.xy)); }
+float h2f(uint h) { uint s = (h & 0x8000u) << 16, e = (h >> 10) & 0x1Fu, m = h & 0x3FFu; if (e == 0u) { float d = float(m) * 5.9604644775390625e-8; return s != 0u ? -d : d; } if (e == 31u) return uintBitsToFloat(s | 0x7F800000u | (m << 13)); return uintBitsToFloat(s | ((e + 112u) << 23) | (m << 13)); }
+vec2 unpack_h2(uint v) { return vec2(h2f(v & 0xFFFFu), h2f(v >> 16)); }
+vec2 hx(uint v, uint swz) { if (swz == 1u) return vec2(uintBitsToFloat(v)); vec2 h = unpack_h2(v); return swz == 2u ? h.xx : (swz == 3u ? h.yy : h); }
+uint hpack(vec2 r, uint merge, uint old) { if (merge == 1u) return floatBitsToUint(r.x); uint lo = packHalf2x16(vec2(r.x, 0.0f)), hi = packHalf2x16(vec2(r.y, 0.0f)); if (merge == 2u) return (old & 0xFFFF0000u) | lo; if (merge == 3u) return (old & 0xFFFFu) | (hi << 16); return lo
+[glsl] | (hi << 16); }
+uint prmt(uint a, uint b, uint sel) { uint r = 0u; for (uint i = 0u; i < 4u; i++) { uint s = (sel >> (i * 4u)) & 7u; uint bt = s < 4u ? (a >> (s * 8u)) & 0xFFu : (b >> ((s - 4u) * 8u)) & 0xFFu; r |= bt << (i * 8u); } return r; }
+#define mw_base_vertex gl_BaseVertex
+#define mw_lane gl_SubgroupInvocationID
+layout(std140, set = 1, binding = 0) uniform CB0 { uvec4 cb0[96]; };
+layout(std140, set = 1, binding = 1) uniform CB1 { uvec4 cb1[16]; };
+layout(std140, set = 1, binding = 3) uniform CB3 { uvec4 cb3[32]; };
+layout(std140, set = 1, binding = 4) uniform CB4 { uvec4 cb4[80]; };
+layout(std140, set = 1, binding = 7) uniform CB7 { uvec4 cb7[16]; };
+layout(std140, set = 1, binding = 10) uniform CB10 { uvec4 cb10[4096]; };
+layout(std140, set = 1, binding = 11) uniform CB11 { uvec4 cb11[16]; };
+layout(std140, set = 1, binding = 12) uniform CB12 { uvec4 cb12[16]; };
+layout(std430, set = 1, binding = 17) readonly buffer GMem { uint w[]; } gmem_;
+layout(std140, set = 1, binding = 20) uniform GMap { uvec4 gmap[17]; };
+layout(std430, set = 1, binding = 21) readonly buffer GFast { uint w[]; } gfast_;
+uint gfind(uint g) { uint n = gmap[16].x; for (uint i = 0u; i < n; i++) { uint o
+[glsl] = g - gmap[i].x; if (g >= gmap[i].x && o < gmap[i].y) return gmap[i].z + (o >> 2); } return 0xFFFFFFFFu; }
+layout(std140, set = 1, binding = 18) uniform RScale { vec4 rscale[65]; };
+layout(std140, set = 1, binding = 19) uniform Tint { vec4 ltint[2]; };
+layout(set = 1, binding = 32) uniform sampler2D t0;
+ivec3 tsize0(int l) { return ivec3(textureSize(t0, l), 1); }
+layout(set = 1, binding = 33) uniform sampler2D t1;
+ivec3 tsize1(int l) { return ivec3(textureSize(t1, l), 1); }
+layout(set = 1, binding = 34) uniform sampler2DArrayShadow t2;
+ivec3 tsize2(int l) { return textureSize(t2, l); }
+layout(set = 1, binding = 35) uniform sampler2D t3;
+ivec3 tsize3(int l) { return ivec3(textureSize(t3, l), 1); }
+layout(set = 1, binding = 36) uniform sampler2D t4;
+ivec3 tsize4(int l) { return ivec3(textureSize(t4, l), 1); }
+layout(set = 1, binding = 37) uniform samplerCube t5;
+ivec3 tsize5(int l) { return ivec3(textureSize(t5, l), 1); }
+layout(set = 1, binding = 38) uniform samplerCube t6;
+ivec3 tsize6(int l) { return ivec3(textureSize(t6, l), 1); }
+layout(set = 1, binding = 39) uniform sampler2D t7;
+ivec3 tsize7(int l) { return ivec3(textureSize(t7, l), 1); }
+layout(location = 0) in vec4 v0;
+layo
+[glsl]ut(location = 1) in vec4 v1;
+layout(location = 2) in vec4 v2;
+layout(location = 3) in vec4 v3;
+layout(location = 4) in vec4 v4;
+layout(location = 5) in vec4 v5;
+layout(location = 6) in vec4 v6;
+layout(location = 7) in vec4 v7;
+layout(location = 8) in vec4 v8;
+layout(location = 9) in vec4 v9;
+layout(location = 0) out vec4 c0;
+void main() {
+  uint r0 = 0u;
+  uint r1 = 0u;
+  uint r2 = 0u;
+  uint r3 = 0u;
+  uint r4 = 0u;
+  uint r5 = 0u;
+  uint r6 = 0u;
+  uint r7 = 0u;
+  uint r8 = 0u;
+  uint r9 = 0u;
+  uint r10 = 0u;
+  uint r11 = 0u;
+  uint r12 = 0u;
+  uint r13 = 0u;
+  uint r14 = 0u;
+  uint r15 = 0u;
+  uint r16 = 0u;
+  uint r17 = 0u;
+  uint r18 = 0u;
+  uint r19 = 0u;
+  uint r20 = 0u;
+  uint r21 = 0u;
+  uint r22 = 0u;
+  uint r23 = 0u;
+  uint r24 = 0u;
+  uint r25 = 0u;
+  uint r26 = 0u;
+  uint r27 = 0u;
+  uint r28 = 0u;
+  uint r29 = 0u;
+  uint r30 = 0u;
+  uint r31 = 0u;
+  uint r32 = 0u;
+  uint r33 = 0u;
+  uint r34 = 0u;
+  uint r35 = 0u;
+  uint r36 = 0u;
+  uint r37 = 0u;
+  uint r38 = 0u;
+  uint r39 = 0u;
+  uint r40 = 0u;
+  bool p0 = false;
+  uint cc = 0u; bool ccz = false, ccs = false;
+  uint pc = 8u; uint ssy[16]; uint ssy_n = 0u; uint pbk[16]; uint pbk_n = 0u; uint pcnt[16]; uint pcnt_n =
+[glsl] 0u;
+  bool exit_now = false;
+  if (pc == 8u) do {
+    r10 = cb4[37][0];
+    r8 = as_u(gl_FragCoord[3]);
+    r8 = as_u((1.0f / as_f(r8)));
+    r24 = as_u(v0[0] * gl_FragCoord.w * as_f(r8));
+    r25 = as_u(v0[1] * gl_FragCoord.w * as_f(r8));
+    { vec4 t = texture(t0, vec2(as_f(r24), as_f(r25)));
+      r6 = as_u(t[0]);
+      r7 = as_u(t[1]);
+    }
+    { vec4 t = texture(t1, vec2(as_f(r24), as_f(r25)));
+      r18 = as_u(t[0]);
+      r19 = as_u(t[1]);
+      r0 = as_u(t[2]);
+    }
+    r12 = as_u(v2[0] * gl_FragCoord.w * as_f(r8));
+    r5 = as_u(v2[1] * gl_FragCoord.w * as_f(r8));
+    r13 = as_u(v2[2] * gl_FragCoord.w * as_f(r8));
+    r15 = as_u(v5[3] * gl_FragCoord.w * as_f(r8));
+    r14 = as_u(v5[1] * gl_FragCoord.w * as_f(r8));
+    r9 = as_u(v5[0] * gl_FragCoord.w * as_f(r8));
+    { uint xa = (r10 >> 0) & 0xFFFFu; uint xb = (0x90u >> 0) & 0xFFFFu; uint xbu = 0x90u;
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      r4 = res;
+    }
+    r1 = as_u(v4[1] * gl_FragCoord.w * as_f(r8));
+    r23 = 0x3f000000u;
+    r3 = as_u(v4[2] * gl_FragCoord.w * as_f(r8));
+    r26 = cb4[69][0];
+    r16 = as_u(v3[0] * gl_FragCoord.w * as_f(r8));
+    { uint xa = (r10 >> 16) &
+[glsl] 0xFFFFu; uint xb = (0x90u >> 0) & 0xFFFFu; uint xbu = 0x90u;
+      uint prod = xa * xb; prod <<= 16;
+      uint cc_ = r4;
+      uint res = prod + cc_;
+      r4 = res;
+    }
+    r20 = as_u(float(int(cb4[69][0])));
+    r35 = cb4[58][1];
+    r27 = as_u(v3[1] * gl_FragCoord.w * as_f(r8));
+    { uint c1_ = 0u, c2_ = 0u; uint s_ = uaddCarry(r26, 0xffffffffu, c1_);
+      r26 = s_;
+    }
+    r39 = as_u(v3[2] * gl_FragCoord.w * as_f(r8));
+    r10 = cbr(cb10, (r4) + 64u);
+    r11 = cbr(cb10, (r4) + 68u);
+    r4 = cbr(cb10, (r4) + 72u);
+    r2 = as_u((as_f(r12) * as_f(r12)));
+    r21 = as_u((1.0f / as_f(r15)));
+    r17 = as_u((as_f(r14) + as_f(r15)));
+    r14 = as_u(float(int(cb4[69][1])));
+    r22 = as_u((as_f(r9) + as_f(r15)));
+    r1 = as_u((as_f(r1) * as_f(cb4[70][2])));
+    r2 = as_u(fma(as_f(r5), as_f(r5), as_f(r2)));
+    r15 = as_u((as_f(r17) * as_f(0x3f000000u)));
+    r9 = as_u(fma(as_f(r1), as_f(0x3f000000u), as_f(r23)));
+    r1 = as_u(v1[0] * gl_FragCoord.w * as_f(r8));
+    r2 = as_u(fma(as_f(r13), as_f(r13), as_f(r2)));
+    r17 = as_u((as_f(r21) * as_f(r22) * 0.5f));
+    r2 = as_u(inversesqrt(as_f(r2)));
+    r21 = as_u(fma(as_f(r15), (-as_f(r21)), as_f(cb1[0][0])));
+    r15 = as_u
+[glsl]((as_f(r14) * as_f(r9)));
+    r22 = cb4[69][2];
+    r15 = uint(int(clamp(trunc(as_f(r15)), -2147483648.0f, 2147483520.0f)));
+    r9 = as_u((as_f(r16) * as_f(r16)));
+    r23 = as_u((as_f(r17) * as_f(r20)));
+    r17 = as_u(((-as_f(r3)) + (-as_f(cb4[70][0]))));
+    r23 = uint(int(clamp(trunc(as_f(r23)), -2147483648.0f, 2147483520.0f)));
+    r14 = as_u((as_f(r14) * as_f(r21)));
+    { uint c1_ = 0u, c2_ = 0u; uint s_ = uaddCarry(r22, 0xffffffffu, c1_);
+      r22 = s_;
+    }
+    r28 = uint(int(clamp(trunc(as_f(r14)), -2147483648.0f, 2147483520.0f)));
+    r12 = as_u((as_f(r12) * as_f(r2)));
+    r5 = as_u((as_f(r5) * as_f(r2)));
+    r13 = as_u((as_f(r13) * as_f(r2)));
+    r2 = as_u(v1[1] * gl_FragCoord.w * as_f(r8));
+    r20 = as_u((as_f(r17) * as_f(cb4[68][0])));
+    r17 = as_u(fma(as_f(r27), as_f(r27), as_f(r9)));
+    r9 = as_u(v1[3] * gl_FragCoord.w * as_f(r8));
+    r10 = as_u((as_f(r12) * (-as_f(r10))));
+    r21 = uint(int(clamp(floor(as_f(r20)), -2147483648.0f, 2147483520.0f)));
+    r23 = uint(true ? min(int(r23), int(r26)) : max(int(r23), int(r26)));
+    r17 = as_u(fma(as_f(r39), as_f(r39), as_f(r17)));
+    r11 = as_u(fma(as_f(r5), (-as_f(r11)), as_f(r10)));
+    r17 = as_u(inversesqr
+[glsl]t(as_f(r17)));
+    r10 = cb4[69][1];
+    r31 = as_u((as_f(r1) + (-as_f(cb4[8][0]))));
+    r23 = uint(false ? min(int(0u), int(r23)) : max(int(0u), int(r23)));
+    r11 = as_u(mw_saturate(fma(as_f(r13), (-as_f(r4)), as_f(r11))));
+    r4 = as_u(v1[2] * gl_FragCoord.w * as_f(r8));
+    { uint c1_ = 0u, c2_ = 0u; uint s_ = uaddCarry(r10, 0xffffffffu, c1_);
+      r10 = s_;
+    }
+    r21 = uint(true ? min(int(r21), int(r22)) : max(int(r21), int(r22)));
+    r20 = hpack(fma(hx(r11, 1u), (-hx(r11, 1u)), hx(cb1[0][0], 1u)), 1u, r20);
+    r11 = as_u((1.0f / as_f(r11)));
+    r15 = uint(true ? min(int(r10), int(r15)) : max(int(r10), int(r15)));
+    r29 = as_u(inversesqrt(as_f(r20)));
+    r22 = uint(false ? min(int(0u), int(r21)) : max(int(0u), int(r21)));
+    r30 = as_u(sqrt(as_f(r20)));
+    r21 = as_u((as_f(r1) * as_f(cb4[45][0])));
+    r14 = uint(true ? min(int(r10), int(r28)) : max(int(r10), int(r28)));
+    r16 = as_u((as_f(r16) * as_f(r17)));
+    r27 = as_u((as_f(r27) * as_f(r17)));
+    r26 = as_u((1.0f / as_f(r29)));
+    r15 = uint(false ? min(int(0u), int(r15)) : max(int(0u), int(r15)));
+    r21 = as_u(fma(as_f(r2), as_f(cb4[45][1]), as_f(r21)));
+    r39 = as_u((as_f(r39) * as_f(r17)));
+   
+[glsl] r17 = as_u((as_f(r1) * as_f(cb4[44][0])));
+    r14 = uint(false ? min(int(0u), int(r14)) : max(int(0u), int(r14)));
+    { uint xa = (r15 >> 0) & 0xFFFFu; uint xb = (cb4[69][2] >> 0) & 0xFFFFu; uint xbu = cb4[69][2];
+      uint prod = xa * xb;
+      uint cc_ = r22;
+      uint res = prod + cc_;
+      r10 = res;
+    }
+    { uint xa = (r15 >> 0) & 0xFFFFu; uint xb = (cb4[69][2] >> 16) & 0xFFFFu; uint xbu = cb4[69][2];
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      res = (res & 0xFFFFu) | (xbu << 16);
+      r28 = res;
+    }
+    r20 = as_u(fma(as_f(r4), as_f(cb4[45][2]), as_f(r21)));
+    r22 = as_u(fma(as_f(r2), as_f(cb4[44][1]), as_f(r17)));
+    { uint xa = (r14 >> 0) & 0xFFFFu; uint xb = (cb4[69][0] >> 0) & 0xFFFFu; uint xbu = cb4[69][0];
+      uint prod = xa * xb;
+      uint cc_ = r23;
+      uint res = prod + cc_;
+      r23 = res;
+    }
+    r34 = as_u((as_f(r12) * as_f(r39)));
+    { uint xa = (r15 >> 16) & 0xFFFFu; uint xb = (r28 >> 16) & 0xFFFFu; uint xbu = r28;
+      uint prod = xa * xb; prod <<= 16;
+      uint cc_ = r10 + (xbu << 16);
+      uint res = prod + cc_;
+      r10 = res;
+    }
+    r15 = hpack((hx(r11, 1u) * hx(r30, 1u)), 1u, r15);
+    r
+[glsl]11 = as_u((as_f(r26) * as_f(cb4[58][3])));
+    { uint xa = (r14 >> 0) & 0xFFFFu; uint xb = (cb4[69][0] >> 16) & 0xFFFFu; uint xbu = cb4[69][0];
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      res = (res & 0xFFFFu) | (xbu << 16);
+      r28 = res;
+    }
+    r21 = as_u(fma(as_f(r9), as_f(cb4[45][3]), as_f(r20)));
+    r26 = as_u(fma(as_f(r4), as_f(cb4[44][2]), as_f(r22)));
+    r22 = as_u(v3[3] * gl_FragCoord.w * as_f(r8));
+    r30 = as_u((as_f(r13) * as_f(r27)));
+    r29 = as_u((1.0f / as_f(r21)));
+    r17 = as_u((true ? mw_fmin(as_f(r15), as_f(cb4[58][2])) : mw_fmax(as_f(r15), as_f(cb4[58][2]))));
+    r15 = as_u(fma(as_f(r12), as_f(r11), as_f(r1)));
+    { uint xa = (r14 >> 16) & 0xFFFFu; uint xb = (r28 >> 16) & 0xFFFFu; uint xbu = r28;
+      uint prod = xa * xb; prod <<= 16;
+      uint cc_ = r23 + (xbu << 16);
+      uint res = prod + cc_;
+      r14 = res;
+    }
+    r36 = as_u(fma(as_f(r13), as_f(r16), (-as_f(r34))));
+    r26 = as_u(fma(as_f(r9), as_f(cb4[44][3]), as_f(r26)));
+    r33 = as_u(fma(as_f(r5), as_f(r39), (-as_f(r30))));
+    r35 = as_u(fma(as_f(r17), as_f(r35), as_f(cb4[58][0])));
+    r20 = as_u((as_f(r15) * as_f(cb4[43][0])));
+    r23 = as
+[glsl]_u((as_f(r15) * as_f(cb4[42][0])));
+    r17 = as_u(fma(as_f(r5), as_f(r11), as_f(r2)));
+    r15 = as_u((as_f(r15) * as_f(cb4[45][0])));
+    r11 = as_u(fma(as_f(r13), as_f(r11), as_f(r4)));
+    r35 = as_u(fma(as_f(r26), as_f(r29), (-as_f(r35))));
+    { uint s = r10 << 2u; uint t2 = cb0[82][0]; uint res = s + t2; cc = (res < s) ? 1u : 0u;
+      r10 = res;
+    }
+    r20 = as_u(fma(as_f(r17), as_f(cb4[43][1]), as_f(r20)));
+    r21 = as_u(fma(as_f(r17), as_f(cb4[45][1]), as_f(r15)));
+    r28 = as_u(fma(as_f(r17), as_f(cb4[42][1]), as_f(r23)));
+    r23 = as_u((as_f(r2) + (-as_f(cb4[8][1]))));
+    r17 = as_u((as_f(r31) * as_f(r31)));
+    r15 = as_u((as_f(r4) + (-as_f(cb4[8][2]))));
+    r26 = as_u(fma(as_f(r11), as_f(cb4[43][2]), as_f(r20)));
+    r20 = (gl_FrontFacing ? 0xFFFFFFFFu : 0u);
+    r8 = as_u(fma(as_f(r11), as_f(cb4[45][2]), as_f(r21)));
+    r28 = as_u(fma(as_f(r11), as_f(cb4[42][2]), as_f(r28)));
+    r11 = (0u + cb0[82][1] + cc);
+    r17 = as_u(fma(as_f(r23), as_f(r23), as_f(r17)));
+    r21 = as_u((as_f(r5) * as_f(r16)));
+    r29 = as_u(fma(as_f(r9), as_f(cb4[43][3]), as_f(r26)));
+    r32 = as_u(fma(as_f(r9), as_f(cb4[45][3]), as_f(r8)));
+    r28 = as_u(fma(as_f(r9), as_f(cb4[42
+[glsl]][3]), as_f(r28)));
+    { uint s = r14 << 2u; uint t2 = cb0[81][0]; uint res = s + t2; cc = (res < s) ? 1u : 0u;
+      r8 = res;
+    }
+    r14 = as_u((1.0f / as_f(r32)));
+    r30 = as_u(fma(as_f(r15), as_f(r15), as_f(r17)));
+    r37 = as_u(fma(as_f(r12), as_f(r27), (-as_f(r21))));
+    r30 = as_u(inversesqrt(as_f(r30)));
+    r26 = as_u((as_f(r33) * as_f(r22)));
+    { uint al_ = r10, ah_ = r11, c1_ = 0u; uint sl_ = uaddCarry(al_, 0x00000000u, c1_); uint sh_ = ah_ + 0x00000000u + c1_;
+      uint b1_ = 0u; uint ga = usubBorrow(sl_, 0x40000000u, b1_); uint gh_ = sh_ - 0x00000012u - b1_; bool ok = gh_ == 0u && ga < 0xd0000000u;
+      uint fw = ok ? gfind(uint(ga)) : 0xFFFFFFFFu;
+      r33 = fw != 0xFFFFFFFFu ? gfast_.w[fw + 0u] : ok ? gmem_.w[uint(ga >> 2) + 0u] : 0u;
+    }
+    r21 = as_u((as_f(r36) * as_f(r22)));
+    r9 = (0u + cb0[81][1] + cc);
+    { uint al_ = r8, ah_ = r9, c1_ = 0u; uint sl_ = uaddCarry(al_, 0x00000000u, c1_); uint sh_ = ah_ + 0x00000000u + c1_;
+      uint b1_ = 0u; uint ga = usubBorrow(sl_, 0x40000000u, b1_); uint gh_ = sh_ - 0x00000012u - b1_; bool ok = gh_ == 0u && ga < 0xd0000000u;
+      uint fw = ok ? gfind(uint(ga)) : 0xFFFFFFFFu;
+      r34 = fw != 0xFFFFFFFFu 
+[glsl]? gfast_.w[fw + 0u] : ok ? gmem_.w[uint(ga >> 2) + 0u] : 0u;
+    }
+    r22 = as_u((as_f(r37) * as_f(r22)));
+    r17 = as_u((as_f(r28) * as_f(r14)));
+    r20 = as_u(float(int(r20)));
+    r14 = as_u((as_f(r29) * as_f(r14)));
+    r29 = as_u(fma(as_f(r23), (-as_f(r30)), (-as_f(cb10[4][1]))));
+    r11 = 0x3f800000u;
+    r8 = as_u(fma(as_f(r15), (-as_f(r30)), (-as_f(cb10[4][2]))));
+    r20 = as_u(fma(as_f(r20), as_f(0xc0000000u), (-as_f(r11))));
+    r28 = as_u((as_f(r7) * as_f(r7)));
+    r32 = as_u(fma(as_f(r6), as_f(r6), as_f(r28)));
+    r28 = as_u(fma(as_f(r31), (-as_f(r30)), (-as_f(cb10[4][0]))));
+    r37 = as_u((as_f(r7) * as_f(r26)));
+    r32 = as_u(mw_saturate(((-as_f(r32)) + as_f(0x3f800000u))));
+    r10 = as_u((as_f(r28) * as_f(r28)));
+    r26 = as_u(sqrt(as_f(r32)));
+    r37 = as_u(fma(as_f(r16), as_f(r6), as_f(r37)));
+    r21 = as_u((as_f(r7) * as_f(r21)));
+    r10 = as_u(fma(as_f(r29), as_f(r29), as_f(r10)));
+    r9 = as_u((as_f(r7) * as_f(r22)));
+    r27 = as_u(fma(as_f(r27), as_f(r6), as_f(r21)));
+    r7 = ((((int(r20) > int(0u))) && true) ? 0x3f800000u : 0u);
+    r10 = as_u(fma(as_f(r8), as_f(r8), as_f(r10)));
+    r37 = as_u(fma(as_f(r12), as_f(r26), as_f(r37)));
+    r10 = 
+[glsl]as_u(inversesqrt(as_f(r10)));
+    r39 = as_u(fma(as_f(r39), as_f(r6), as_f(r9)));
+    r6 = as_u(fma(as_f(r5), as_f(r26), as_f(r27)));
+    r12 = as_u((as_f(r37) * as_f(r7)));
+    r13 = as_u(fma(as_f(r13), as_f(r26), as_f(r39)));
+    r9 = as_u((as_f(r6) * as_f(r7)));
+    r5 = as_u(fma(as_f(r12), as_f(0x40000000u), (-as_f(r37))));
+    r28 = as_u((as_f(r28) * as_f(r10)));
+    r29 = as_u((as_f(r29) * as_f(r10)));
+    r7 = as_u((as_f(r13) * as_f(r7)));
+    r6 = as_u(fma(as_f(r9), as_f(0x40000000u), (-as_f(r6))));
+    r12 = as_u((as_f(r28) * as_f(r5)));
+    r28 = as_u((as_f(r28) * (-as_f(cb10[4][0]))));
+    r8 = as_u((as_f(r8) * as_f(r10)));
+    r7 = as_u(fma(as_f(r7), as_f(0x40000000u), (-as_f(r13))));
+    r9 = as_u(fma(as_f(r29), as_f(r6), as_f(r12)));
+    r29 = as_u(fma(as_f(r29), (-as_f(cb10[4][1])), as_f(r28)));
+    r9 = as_u(mw_saturate(fma(as_f(r8), as_f(r7), as_f(r9))));
+    r32 = as_u(mw_saturate(fma(as_f(r8), (-as_f(cb10[4][2])), as_f(r29))));
+    r8 = as_u((as_f(r9) * as_f(r9)));
+    r8 = as_u((as_f(r9) * as_f(r8)));
+    r10 = r14;
+    r12 = 0u;
+    r13 = as_u((as_f(r17) + as_f(cb4[40][0])));
+    r36 = as_u((as_f(r9) * as_f(r8)));
+    r8 = 0u;
+    r9 = as_u((as_f(r17) + (-as_f(
+[glsl]cb4[40][0]))));
+    { vec4 t = vec4(texture(t2, vec4(vec2(as_f(r9), as_f(r10)), float(min(uint(r8), uint(tsize2(0).z) - 1u)), as_f(r35))));
+      r8 = as_u(t[0]);
+    }
+    { vec4 t = vec4(texture(t2, vec4(vec2(as_f(r13), as_f(r14)), float(min(uint(r12), uint(tsize2(0).z) - 1u)), as_f(r35))));
+      r13 = as_u(t[0]);
+    }
+    { vec4 t = texture(t3, vec2(as_f(r24), as_f(r25)));
+      r28 = as_u(t[0]);
+      r29 = as_u(t[1]);
+      r24 = as_u(t[2]);
+      r25 = as_u(t[3]);
+    }
+    r11 = as_u(fma(as_f(r18), (-as_f(cb7[1][0])), as_f(r11)));
+    r16 = 0u;
+    r18 = as_u((as_f(r14) + as_f(cb4[40][1])));
+    { vec4 t = vec4(texture(t2, vec4(vec2(as_f(r17), as_f(r18)), float(min(uint(r16), uint(tsize2(0).z) - 1u)), as_f(r35))));
+      r16 = as_u(t[0]);
+    }
+    r20 = 0u;
+    r22 = as_u((as_f(r14) + (-as_f(cb4[40][1]))));
+    r21 = r17;
+    { vec4 t = vec4(texture(t2, vec4(vec2(as_f(r21), as_f(r22)), float(min(uint(r20), uint(tsize2(0).z) - 1u)), as_f(r35))));
+      r20 = as_u(t[0]);
+    }
+    { vec4 t = texture(t4, vec2(as_f(r32), as_f(r11)));
+      r26 = as_u(t[0]);
+      r27 = as_u(t[1]);
+    }
+    r36 = as_u((as_f(r36) * as_f(r36)));
+    { vec4 t = texture(t4, vec2(as_f(r36), as_f(r
+[glsl]11)));
+      r36 = as_u(t[2]);
+    }
+    r37 = cb4[39][0];
+    r37 = as_u(((-as_f(r37)) + as_f(cb4[39][1])));
+    r37 = as_u((1.0f / as_f(r37)));
+    r9 = as_u((as_f(r15) * as_f(r30)));
+    r15 = cb7[1][0];
+    r38 = as_u((as_f(r37) * (-as_f(cb4[39][0]))));
+    r38 = as_u(mw_saturate(fma(as_f(r3), (-as_f(r37)), as_f(r38))));
+    r3 = 0x40400000u;
+    r14 = as_u(fma(as_f(r38), as_f(0xc0000000u), as_f(r3)));
+    r3 = as_u((as_f(r38) * as_f(r38)));
+    r19 = as_u((as_f(r19) * as_f(cb7[1][0])));
+    r14 = as_u((as_f(r14) * as_f(r3)));
+    r3 = as_u((as_f(r31) * as_f(r30)));
+    r22 = as_u((as_f(r32) * as_f(r32) * 4.0f));
+    r22 = as_u((false ? mw_fmin(as_f(r22), as_f(cb1[0][3])) : mw_fmax(as_f(r22), as_f(cb1[0][3]))));
+    r34 = ((r34 & 0xfffffffeu & r33));
+    r13 = as_u((as_f(r13) + as_f(r8)));
+    r10 = as_u((as_f(r28) + (-as_f(cb7[0][0]))));
+    r12 = as_u((as_f(r29) + (-as_f(cb7[0][1]))));
+    r13 = as_u((as_f(r13) + as_f(r16)));
+    r24 = as_u((as_f(r24) + (-as_f(cb7[0][2]))));
+    r10 = as_u(fma(as_f(r10), as_f(r15), as_f(cb7[0][0])));
+    r20 = as_u((as_f(r13) + as_f(r20)));
+    r12 = as_u(fma(as_f(r12), as_f(r15), as_f(cb7[0][1])));
+    r13 = as_u(fma(as_f(r24), as_f(r15), as
+[glsl]_f(cb7[0][2])));
+    r16 = hpack((hx(r10, 1u) + hx(cb1[0][1], 1u)), 2u, r16);
+    r15 = as_u((as_f(r5) * (-as_f(cb10[4][0]))));
+    r20 = hpack((hx(r20, 1u) * hx(0x34003400u, 0u)), 1u, r20);
+    r8 = as_u((as_f(r23) * as_f(r30)));
+    r17 = hpack((hx(r12, 1u) + hx(cb1[0][1], 1u)), 2u, r17);
+    r30 = hpack((hx(r13, 1u) + hx(cb1[0][1], 1u)), 2u, r30);
+    r16 = hpack(fma(hx(r19, 1u), hx(r16, 2u), hx(cb1[0][2], 1u)), 1u, r16);
+    r18 = as_u(fma(as_f(r6), (-as_f(cb10[4][1])), as_f(r15)));
+    r14 = as_u(fma(as_f(r20), (-as_f(r14)), as_f(r14)));
+    r17 = hpack(fma(hx(r19, 1u), hx(r17, 2u), hx(cb1[0][2], 1u)), 1u, r17);
+    r24 = hpack(fma(hx(r19, 1u), hx(r30, 2u), hx(cb1[0][2], 1u)), 1u, r24);
+    r15 = as_u(fma(as_f(r27), (-as_f(r16)), as_f(r27)));
+    r18 = as_u(mw_saturate(fma(as_f(r7), (-as_f(cb10[4][2])), as_f(r18))));
+    r21 = as_u((as_f(r20) + as_f(r14)));
+    r14 = as_u((1.0f / as_f(r22)));
+    r20 = as_u(fma(as_f(r27), (-as_f(r17)), as_f(r27)));
+    r27 = as_u(fma(as_f(r27), (-as_f(r24)), as_f(r27)));
+    r15 = as_u(fma(as_f(r26), as_f(r16), as_f(r15)));
+    r36 = as_u((as_f(r36) * as_f(r18)));
+    r21 = hpack((hx(r21, 1u) * hx(r18, 1u)), 1u, r21);
+    r18 = as_u(fma(as_f(r
+[glsl]26), as_f(r17), as_f(r20)));
+    r27 = as_u(fma(as_f(r26), as_f(r24), as_f(r27)));
+    r23 = hpack(((-hx(0u, 2u)) + hx(cb1[1][0], 1u)), 2u, r23);
+    r20 = as_u((as_f(r36) * as_f(r15)));
+    r26 = as_u((as_f(r21) * as_f(cb10[0][2])));
+    { bool vp_ = true;
+      r15 = subgroupBallot(vp_).x;
+    }
+    r21 = as_u((as_f(r36) * as_f(r18)));
+    r27 = as_u((as_f(r36) * as_f(r27)));
+    r23 = hpack(fma(hx(r19, 1u), (-hx(cb1[1][0], 1u)), hx(r23, 2u)), 1u, r23);
+    r22 = as_u((as_f(r26) * as_f(cb10[1][1])));
+    r18 = as_u((as_f(r26) * as_f(cb10[1][0])));
+    r29 = as_u((as_f(r26) * as_f(cb10[1][2])));
+    { bool cmp = (r15 == 0xffffffffu); bool pp = true;
+      p0 = cmp && pp;
+    }
+    r20 = as_u((as_f(r20) * as_f(r14)));
+    r21 = as_u((as_f(r21) * as_f(r14)));
+    r14 = as_u((as_f(r27) * as_f(r14)));
+    r31 = as_u((as_f(r22) * as_f(r23)));
+    r33 = as_u((as_f(r18) * as_f(r23)));
+    r32 = as_u((as_f(r29) * as_f(r23)));
+    r28 = as_u((as_f(r20) * as_f(r18)));
+    r26 = as_u((as_f(r14) * as_f(r29)));
+    r29 = as_u((as_f(r12) * as_f(r31)));
+    r27 = as_u((as_f(r21) * as_f(r22)));
+    r33 = as_u((as_f(r10) * as_f(r33)));
+    r31 = as_u((as_f(r13) * as_f(r32)));
+  if (!p0) {
+    pc =
+[glsl] 3128u; break;
+  }
+    { uint sl_ = (gl_SubgroupInvocationID ^ (1u)); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r34, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r15 = ok_ ? sv_ : r34;
+    }
+    r15 = (r34 | r15);
+    { uint sl_ = (gl_SubgroupInvocationID ^ (2u)); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r15, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r14 = ok_ ? sv_ : r15;
+    }
+    r14 = (r15 | r14);
+    { uint sl_ = (gl_SubgroupInvocationID ^ (4u)); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r14, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r20 = ok_ ? sv_ : r14;
+    }
+    r20 = (r14 | r20);
+    { uint sl_ = (gl_SubgroupInvocationID ^ (8u)); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r20, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r18 = ok_ ? sv_ : r20;
+    }
+    r18 = (r20 | r18);
+    { uint sl_ = (gl_SubgroupInvocationID ^ (16u)); bool ok_ = sl_ < gl_SubgroupSize 
+[glsl]&& subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r18, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r21 = ok_ ? sv_ : r18;
+    }
+    r22 = (r18 | r21);
+    pc = 3368u; break;
+    pc = 3128u;
+  } while (false);
+  if (!exit_now && pc == 3128u) do {
+    { bool vp_ = true;
+      r14 = subgroupBallot(vp_).x;
+    }
+    r20 = 0u /* sr 0x39 */;
+    r15 = (31u - mw_clz(r15));
+    r21 = 0u;
+    r14 = (r14 & r20);
+    r14 = (31u - mw_clz(r14));
+    r20 = (true ? min(r14, r21) : max(r14, r21));
+    { uint sl_ = (r20); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r34, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r21 = ok_ ? sv_ : r34;
+    }
+    { uint sl_ = (r20); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r20, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r18 = ok_ ? sv_ : r20;
+    }
+    r21 = (r34 | r21);
+    { uint sl_ = (r18); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r18, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r32 = ok
+[glsl]_ ? sv_ : r18;
+    }
+    { uint sl_ = (r18); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r21, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r22 = ok_ ? sv_ : r21;
+    }
+    { uint sl_ = (r32); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r32, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r36 = ok_ ? sv_ : r32;
+    }
+    r35 = (r21 | r22);
+    { uint sl_ = (r32); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r35, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r22 = ok_ ? sv_ : r35;
+    }
+    { uint sl_ = (r36); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r36, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r38 = ok_ ? sv_ : r36;
+    }
+    r37 = (r35 | r22);
+    { uint sl_ = (r36); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r37, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r14 = ok_ ? sv_ : r37;
+    }
+    r39 = (r3
+[glsl]7 | r14);
+    { uint sl_ = (r38); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r39, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r14 = ok_ ? sv_ : r39;
+    }
+    r14 = (r39 | r14);
+    { uint sl_ = (r15); bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);
+      uint sv_ = subgroupShuffle(r14, ok_ ? sl_ : gl_SubgroupInvocationID);
+      r22 = ok_ ? sv_ : r14;
+    }
+    pc = 3368u;
+  } while (false);
+  if (!exit_now && pc == 3368u) do {
+    { bool cmp = (r22 == 0u); bool pp = true;
+      p0 = cmp && pp;
+    }
+    ssy[ssy_n++] = 6160u;
+  if (p0) {
+    pc = ssy[--ssy_n]; break;
+  }
+    pc = 3400u;
+  } while (false);
+  if (!exit_now && pc >= 3400u && pc < 6152u) for (uint g_0 = 0u; g_0 < 1000u; g_0++) {
+  if (!exit_now && pc == 3400u) do {
+    r14 = bfe_u(brev32(r22), 0x00002000u);
+    pbk[pbk_n++] = 6128u;
+    r15 = 0x00000001u;
+    r21 = flo_sh((31u - mw_clz(r14)));
+    { uint xa = (r21 >> 0) & 0xFFFFu; uint xb = (0x90u >> 0) & 0xFFFFu; uint xbu = 0x90u;
+      uint prod = xa * xb;
+      uint cc_ = 0u;
+      uint res = prod + cc_;
+      r18 = res;
+    }
+    r15 = ((r21 & 31
+[glsl]u) == 0u ? r15 : ((r15 << (r21 & 31u)) | (0u >> (32u - (r21 & 31u)))));
+    { uint xa = (r21 >> 16) & 0xFFFFu; uint xb = (0x90u >> 0) & 0xFFFFu; uint xbu = 0x90u;
+      uint prod = xa * xb; prod <<= 16;
+      uint cc_ = r18;
+      uint res = prod + cc_;
+      r18 = res;
+    }
+    r22 = (r22 & (~r15));
+    r20 = cbr(cb10, (r18) + 0u);
+    { bool cmp = (int(r20) != int(0u)); bool pp = true;
+      p0 = cmp && pp;
+    }
+  if (p0) {
+    pc = 4152u; break;
+  }
+    r20 = cbr(cb10, (r18) + 64u);
+    r21 = cbr(cb10, (r18) + 68u);
+    r36 = cbr(cb10, (r18) + 72u);
+    r15 = as_u(((-as_f(r3)) + (-as_f(r20))));
+    r32 = as_u(((-as_f(r8)) + (-as_f(r21))));
+    r14 = as_u((as_f(r15) * as_f(r15)));
+    r35 = as_u(fma(as_f(r32), as_f(r32), as_f(r14)));
+    r14 = as_u(((-as_f(r9)) + (-as_f(r36))));
+    r35 = as_u(fma(as_f(r14), as_f(r14), as_f(r35)));
+    r37 = as_u(inversesqrt(as_f(r35)));
+    r15 = as_u((as_f(r15) * as_f(r37)));
+    r32 = as_u((as_f(r32) * as_f(r37)));
+    r14 = as_u((as_f(r14) * as_f(r37)));
+    r39 = as_u((as_f(r5) * as_f(r15)));
+    r15 = as_u((as_f(r20) * (-as_f(r15))));
+    r37 = as_u(fma(as_f(r6), as_f(r32), as_f(r39)));
+    r15 = as_u(fma(as_f(r21), (-as_f(r32)), as_f(r15
+[glsl])));
+    r37 = as_u(mw_saturate(fma(as_f(r7), as_f(r14), as_f(r37))));
+    r32 = as_u(mw_saturate(fma(as_f(r36), (-as_f(r14)), as_f(r15))));
+    r34 = as_u((as_f(r37) * as_f(r37)));
+    r34 = as_u((as_f(r37) * as_f(r34)));
+    r34 = as_u((as_f(r37) * as_f(r34)));
+    r34 = as_u((as_f(r34) * as_f(r34)));
+    { vec4 t = texture(t4, vec2(as_f(r34), as_f(r11)));
+      r34 = as_u(t[2]);
+    }
+    { vec4 t = texture(t4, vec2(as_f(r32), as_f(r11)));
+      r14 = as_u(t[0]);
+      r15 = as_u(t[1]);
+    }
+    r20 = as_u((as_f(r5) * (-as_f(r20))));
+    r35 = cbr(cb10, (r18) + 8u);
+    r21 = as_u(fma(as_f(r6), (-as_f(r21)), as_f(r20)));
+    r38 = cbr(cb10, (r18) + 24u);
+    r36 = as_u(mw_saturate(fma(as_f(r7), (-as_f(r36)), as_f(r21))));
+    r20 = cbr(cb10, (r18) + 16u);
+    r21 = cbr(cb10, (r18) + 20u);
+    r35 = as_u((as_f(r36) * as_f(r35)));
+    r21 = as_u((as_f(r35) * as_f(r21)));
+    r37 = as_u((as_f(r35) * as_f(r20)));
+    r20 = as_u((as_f(r35) * as_f(r38)));
+    r38 = as_u((as_f(r23) * as_f(r21)));
+    r35 = as_u((as_f(r23) * as_f(r37)));
+    r29 = as_u(fma(as_f(r12), as_f(r38), as_f(r29)));
+    r38 = as_u((as_f(r32) * as_f(r32) * 4.0f));
+    r33 = as_u(fma(as_f(r10), as_f(r35), as_f(r3
+[glsl]3)));
+    r32 = as_u(fma(as_f(r17), (-as_f(r15)), as_f(r15)));
+    r35 = as_u(fma(as_f(r16), (-as_f(r15)), as_f(r15)));
+    r39 = as_u(fma(as_f(r24), (-as_f(r15)), as_f(r15)));
+    r15 = as_u((false ? mw_fmin(as_f(r38), as_f(cb1[0][3])) : mw_fmax(as_f(r38), as_f(cb1[0][3]))));
+    r34 = as_u((as_f(r34) * as_f(r36)));
+    r15 = as_u((1.0f / as_f(r15)));
+    r32 = as_u(fma(as_f(r17), as_f(r14), as_f(r32)));
+    r35 = as_u(fma(as_f(r16), as_f(r14), as_f(r35)));
+    r39 = as_u(fma(as_f(r24), as_f(r14), as_f(r39)));
+    r36 = as_u((as_f(r23) * as_f(r20)));
+    r32 = as_u((as_f(r32) * as_f(r34)));
+    r14 = as_u((as_f(r35) * as_f(r34)));
+    r34 = as_u((as_f(r39) * as_f(r34)));
+    r31 = as_u(fma(as_f(r13), as_f(r36), as_f(r31)));
+    r32 = as_u((as_f(r32) * as_f(r15)));
+    r14 = as_u((as_f(r14) * as_f(r15)));
+    r35 = as_u((as_f(r34) * as_f(r15)));
+    r27 = as_u(fma(as_f(r32), as_f(r21), as_f(r27)));
+    r28 = as_u(fma(as_f(r14), as_f(r37), as_f(r28)));
+    r26 = as_u(fma(as_f(r35), as_f(r20), as_f(r26)));
+    pc = pbk[--pbk_n]; break;
+    pc = 4152u;
+  } while (false);
+  if (!exit_now && pc == 4152u) do {
+    r14 = cbr(cb10, (r18) + 0u);
+    { bool cmp = (int(r14) == int(0x00000001u
+[glsl])); bool pp = true;
+      p0 = cmp && pp;
+    }
+  if (!p0) {
+    pc = 5072u; break;
+  }
+    r14 = cbr(cb10, (r18) + 48u);
+    r15 = cbr(cb10, (r18) + 52u);
+    r21 = cbr(cb10, (r18) + 56u);
+    r39 = cbr(cb10, (r18) + 128u);
+    r14 = as_u(((-as_f(r1)) + as_f(r14)));
+    r39 = as_u((1.0f / as_f(r39)));
+    r15 = as_u(((-as_f(r2)) + as_f(r15)));
+    r32 = as_u(((-as_f(r4)) + as_f(r21)));
+    r20 = as_u((as_f(r14) * as_f(r14)));
+    r21 = as_u(fma(as_f(r15), as_f(r15), as_f(r20)));
+    r37 = as_u(fma(as_f(r32), as_f(r32), as_f(r21)));
+    r37 = as_u(inversesqrt(as_f(r37)));
+    r20 = as_u((as_f(r14) * as_f(r37)));
+    r21 = as_u((as_f(r15) * as_f(r37)));
+    r32 = as_u((as_f(r32) * as_f(r37)));
+    r37 = as_u((1.0f / as_f(r37)));
+    r14 = as_u(((-as_f(r3)) + as_f(r20)));
+    r34 = as_u(((-as_f(r8)) + as_f(r21)));
+    r15 = as_u((as_f(r14) * as_f(r14)));
+    r36 = as_u(fma(as_f(r34), as_f(r34), as_f(r15)));
+    r15 = as_u(((-as_f(r9)) + as_f(r32)));
+    r38 = as_u(fma(as_f(r15), as_f(r15), as_f(r36)));
+    r36 = as_u(inversesqrt(as_f(r38)));
+    r14 = as_u((as_f(r14) * as_f(r36)));
+    r35 = as_u((as_f(r34) * as_f(r36)));
+    r34 = as_u((as_f(r15) * as_f(r36)));
+    r36 = as_u((as_f(
+[glsl]r5) * as_f(r14)));
+    r14 = as_u((as_f(r20) * as_f(r14)));
+    r36 = as_u(fma(as_f(r6), as_f(r35), as_f(r36)));
+    r35 = as_u(fma(as_f(r21), as_f(r35), as_f(r14)));
+    r14 = as_u(mw_saturate(fma(as_f(r7), as_f(r34), as_f(r36))));
+    r34 = as_u(mw_saturate(fma(as_f(r32), as_f(r34), as_f(r35))));
+    r36 = as_u(mw_saturate((as_f(r39) * as_f(r37))));
+    r15 = as_u((as_f(r14) * as_f(r14)));
+    r15 = as_u((as_f(r14) * as_f(r15)));
+    r15 = as_u((as_f(r14) * as_f(r15)));
+    r38 = as_u((as_f(r15) * as_f(r15)));
+    { vec4 t = texture(t4, vec2(as_f(r38), as_f(r11)));
+      r35 = as_u(t[2]);
+    }
+    { vec4 t = texture(t4, vec2(as_f(r34), as_f(r11)));
+      r14 = as_u(t[0]);
+      r15 = as_u(t[1]);
+    }
+    r20 = as_u((as_f(r5) * as_f(r20)));
+    r36 = as_u(((-as_f(r36)) + as_f(0x3f800000u)));
+    r36 = as_u(log2(as_f(r36)));
+    r21 = as_u(fma(as_f(r6), as_f(r21), as_f(r20)));
+    r20 = cbr(cb10, (r18) + 8u);
+    r32 = as_u(mw_saturate(fma(as_f(r7), as_f(r32), as_f(r21))));
+    r38 = cbr(cb10, (r18) + 24u);
+    r37 = as_u((as_f(r36) * as_f(0x400ccccdu)));
+    r36 = as_u(as_f(r37));
+    r37 = as_u(exp2(as_f(r36)));
+    r37 = as_u((as_f(r37) * as_f(r20)));
+    r20 = cbr(cb10, (r18)
+[glsl] + 16u);
+    r21 = cbr(cb10, (r18) + 20u);
+    r39 = as_u((as_f(r32) * as_f(r37)));
+    r38 = as_u((as_f(r38) * as_f(r39)));
+    r34 = as_u((as_f(r34) * as_f(r34) * 4.0f));
+    r37 = as_u((as_f(r21) * as_f(r39)));
+    r21 = as_u((as_f(r20) * as_f(r39)));
+    r20 = as_u((as_f(r37) * as_f(0x3f490fdbu)));
+    r21 = as_u((as_f(r21) * as_f(0x3f490fdbu)));
+    r36 = as_u((as_f(r23) * as_f(r21)));
+    r33 = as_u(fma(as_f(r10), as_f(r36), as_f(r33)));
+    r35 = as_u((as_f(r32) * as_f(r35)));
+    r32 = as_u((as_f(r38) * as_f(0x3f490fdbu)));
+    r37 = as_u(fma(as_f(r16), (-as_f(r15)), as_f(r15)));
+    r39 = as_u(fma(as_f(r24), (-as_f(r15)), as_f(r15)));
+    r38 = as_u((as_f(r23) * as_f(r20)));
+    r36 = as_u((as_f(r23) * as_f(r32)));
+    r37 = as_u(fma(as_f(r16), as_f(r14), as_f(r37)));
+    r29 = as_u(fma(as_f(r12), as_f(r38), as_f(r29)));
+    r31 = as_u(fma(as_f(r13), as_f(r36), as_f(r31)));
+    r36 = as_u(fma(as_f(r17), (-as_f(r15)), as_f(r15)));
+    r37 = as_u((as_f(r37) * as_f(r35)));
+    r15 = as_u((false ? mw_fmin(as_f(r34), as_f(cb1[0][3])) : mw_fmax(as_f(r34), as_f(cb1[0][3]))));
+    r15 = as_u((1.0f / as_f(r15)));
+    r36 = as_u(fma(as_f(r17), as_f(r14), as_f(r36)));
+    r14 = as_u(
+[glsl]fma(as_f(r24), as_f(r14), as_f(r39)));
+    r36 = as_u((as_f(r36) * as_f(r35)));
+    r14 = as_u((as_f(r14) * as_f(r35)));
+    r34 = as_u((as_f(r37) * as_f(r15)));
+    r18 = as_u((as_f(r36) * as_f(r15)));
+    r35 = as_u((as_f(r14) * as_f(r15)));
+    r28 = as_u(fma(as_f(r34), as_f(r21), as_f(r28)));
+    r27 = as_u(fma(as_f(r18), as_f(r20), as_f(r27)));
+    r26 = as_u(fma(as_f(r35), as_f(r32), as_f(r26)));
+    pc = pbk[--pbk_n]; break;
+    pc = 5072u;
+  } while (false);
+  if (!exit_now && pc == 5072u) do {
+    r14 = cbr(cb10, (r18) + 0u);
+    { bool cmp = (int(r14) == int(0x00000002u)); bool pp = true;
+      p0 = cmp && pp;
+    }
+  if (!p0) {
+    pc = pbk[--pbk_n]; break;
+  }
+    r14 = cbr(cb10, (r18) + 48u);
+    r15 = cbr(cb10, (r18) + 52u);
+    r21 = cbr(cb10, (r18) + 56u);
+    r14 = as_u(((-as_f(r1)) + as_f(r14)));
+    r15 = as_u(((-as_f(r2)) + as_f(r15)));
+    r36 = as_u(((-as_f(r4)) + as_f(r21)));
+    r20 = as_u((as_f(r14) * as_f(r14)));
+    r34 = as_u(fma(as_f(r15), as_f(r15), as_f(r20)));
+    r34 = as_u(fma(as_f(r36), as_f(r36), as_f(r34)));
+    r37 = as_u(inversesqrt(as_f(r34)));
+    r20 = as_u((as_f(r14) * as_f(r37)));
+    r21 = as_u((as_f(r15) * as_f(r37)));
+    r36 = as_u((a
+[glsl]s_f(r36) * as_f(r37)));
+    r14 = as_u(((-as_f(r3)) + as_f(r20)));
+    r32 = as_u(((-as_f(r8)) + as_f(r21)));
+    r15 = as_u((as_f(r14) * as_f(r14)));
+    r37 = as_u(fma(as_f(r32), as_f(r32), as_f(r15)));
+    r15 = as_u(((-as_f(r9)) + as_f(r36)));
+    r37 = as_u(fma(as_f(r15), as_f(r15), as_f(r37)));
+    r37 = as_u(inversesqrt(as_f(r37)));
+    r35 = as_u((as_f(r14) * as_f(r37)));
+    r14 = as_u((as_f(r15) * as_f(r37)));
+    r32 = as_u((as_f(r32) * as_f(r37)));
+    r15 = as_u((as_f(r5) * as_f(r35)));
+    r35 = as_u((as_f(r20) * as_f(r35)));
+    r15 = as_u(fma(as_f(r6), as_f(r32), as_f(r15)));
+    r39 = as_u(fma(as_f(r21), as_f(r32), as_f(r35)));
+    r35 = as_u(mw_saturate(fma(as_f(r7), as_f(r14), as_f(r15))));
+    r32 = as_u(mw_saturate(fma(as_f(r36), as_f(r14), as_f(r39))));
+    r14 = cbr(cb10, (r18) + 64u);
+    r15 = cbr(cb10, (r18) + 68u);
+    r14 = as_u((as_f(r20) * (-as_f(r14))));
+    r20 = as_u((as_f(r5) * as_f(r20)));
+    r15 = as_u(fma(as_f(r21), (-as_f(r15)), as_f(r14)));
+    r14 = cbr(cb10, (r18) + 72u);
+    r37 = as_u(fma(as_f(r6), as_f(r21), as_f(r20)));
+    r20 = cbr(cb10, (r18) + 128u);
+    r21 = cbr(cb10, (r18) + 132u);
+    r14 = as_u(fma(as_f(r36), (-as_f(r14)), as_f
+[glsl](r15)));
+    r15 = cbr(cb10, (r18) + 136u);
+    r36 = as_u(mw_saturate(fma(as_f(r7), as_f(r36), as_f(r37))));
+    r21 = as_u((as_f(r21) + (-as_f(r15))));
+    r38 = as_u((false ? mw_fmin(as_f(r21), as_f(cb1[1][1])) : mw_fmax(as_f(r21), as_f(cb1[1][1]))));
+    r38 = as_u((1.0f / as_f(r38)));
+    r21 = as_u((as_f(r15) * (-as_f(r38))));
+    r21 = as_u(mw_saturate(fma(as_f(r14), as_f(r38), as_f(r21))));
+    r14 = as_u((as_f(r35) * as_f(r35)));
+    r14 = as_u((as_f(r35) * as_f(r14)));
+    r14 = as_u((as_f(r35) * as_f(r14)));
+    r37 = as_u((as_f(r14) * as_f(r14)));
+    { vec4 t = texture(t4, vec2(as_f(r37), as_f(r11)));
+      r35 = as_u(t[2]);
+    }
+    { vec4 t = texture(t4, vec2(as_f(r32), as_f(r11)));
+      r14 = as_u(t[0]);
+      r15 = as_u(t[1]);
+    }
+    r39 = as_u((as_f(r20) * as_f(r20)));
+    r20 = cbr(cb10, (r18) + 8u);
+    r38 = as_u((false ? mw_fmin(as_f(r34), as_f(0x38d1c000u)) : mw_fmax(as_f(r34), as_f(0x38d1c000u))));
+    r39 = as_u((1.0f / as_f(r39)));
+    r21 = as_u((as_f(r21) * as_f(r21)));
+    r37 = cbr(cb10, (r18) + 24u);
+    r30 = hpack((hx(r34, 1u) * hx(r39, 1u)), 3u, r30);
+    r34 = as_u((1.0f / as_f(r38)));
+    r30 = hpack(mw_saturate(fma(hx(r30, 3u), (-hx(r30, 3u
+[glsl])), hx(cb1[0][0], 1u))), 3u, r30);
+    r30 = hpack((hx(r30, 3u) * hx(r30, 3u)), 3u, r30);
+    r34 = hpack((hx(r30, 3u) * hx(r34, 1u)), 1u, r34);
+    r20 = as_u((as_f(r34) * as_f(r20)));
+    r34 = as_u((as_f(r21) * as_f(r20)));
+    r20 = cbr(cb10, (r18) + 16u);
+    r21 = cbr(cb10, (r18) + 20u);
+    r34 = as_u((as_f(r36) * as_f(r34)));
+    r37 = as_u((as_f(r37) * as_f(r34)));
+    r38 = as_u((as_f(r21) * as_f(r34)));
+    r21 = as_u((as_f(r20) * as_f(r34)));
+    r20 = as_u((as_f(r38) * as_f(0x3ea2f983u)));
+    r21 = as_u((as_f(r21) * as_f(0x3ea2f983u)));
+    r38 = as_u((as_f(r32) * as_f(r32) * 4.0f));
+    r34 = as_u((as_f(r23) * as_f(r20)));
+    r39 = as_u((as_f(r23) * as_f(r21)));
+    r29 = as_u(fma(as_f(r12), as_f(r34), as_f(r29)));
+    r33 = as_u(fma(as_f(r10), as_f(r39), as_f(r33)));
+    r35 = as_u((as_f(r36) * as_f(r35)));
+    r36 = as_u((as_f(r37) * as_f(0x3ea2f983u)));
+    r32 = as_u(fma(as_f(r17), (-as_f(r15)), as_f(r15)));
+    r37 = as_u(fma(as_f(r16), (-as_f(r15)), as_f(r15)));
+    r39 = as_u(fma(as_f(r24), (-as_f(r15)), as_f(r15)));
+    r15 = as_u((false ? mw_fmin(as_f(r38), as_f(cb1[0][3])) : mw_fmax(as_f(r38), as_f(cb1[0][3]))));
+    r15 = as_u((1.0f / as_f(r15)));
+    r32
+[glsl] = as_u(fma(as_f(r17), as_f(r14), as_f(r32)));
+    r37 = as_u(fma(as_f(r16), as_f(r14), as_f(r37)));
+    r14 = as_u(fma(as_f(r24), as_f(r14), as_f(r39)));
+    r34 = as_u((as_f(r23) * as_f(r36)));
+    r32 = as_u((as_f(r32) * as_f(r35)));
+    r37 = as_u((as_f(r37) * as_f(r35)));
+    r14 = as_u((as_f(r14) * as_f(r35)));
+    r31 = as_u(fma(as_f(r13), as_f(r34), as_f(r31)));
+    r34 = as_u((as_f(r32) * as_f(r15)));
+    r18 = as_u((as_f(r37) * as_f(r15)));
+    r35 = as_u((as_f(r14) * as_f(r15)));
+    r27 = as_u(fma(as_f(r20), as_f(r34), as_f(r27)));
+    r28 = as_u(fma(as_f(r21), as_f(r18), as_f(r28)));
+    r26 = as_u(fma(as_f(r36), as_f(r35), as_f(r26)));
+    pc = pbk[--pbk_n]; break;
+    pc = 6128u;
+  } while (false);
+  if (!exit_now && pc == 6128u) do {
+    { bool cmp = (r22 == 0u); bool pp = true;
+      p0 = cmp && pp;
+    }
+  if (!p0) {
+    pc = 3400u; break;
+  }
+    pc = 6152u;
+  } while (false);
+  if (!exit_now && pc == 3400u) continue;
+  break;
+  }
+  if (!exit_now && pc == 6152u) do {
+    pc = ssy[--ssy_n]; break;
+    pc = 6160u;
+  } while (false);
+  if (!exit_now && pc == 6160u) do {
+    r15 = 0u;
+    { uint lv = r15; uvec4 q = uvec4(uint(floor(float(tsize5(int(lv)).x) / rscale[6
+[glsl]].x + 0.5f)), uint(floor(float(tsize5(int(lv)).y) / rscale[6].y + 0.5f)), 1u, uint(textureQueryLevels(t5)));
+      r15 = q[3];
+    }
+    r1 = hpack(((-hx(r5, 1u)) * hx(r3, 1u)), 3u, r1);
+    { bool cmp = (int(0u) < int(cb11[0][0])); bool pp = true;
+      p0 = cmp && pp;
+    }
+    r1 = hpack(fma(hx(r6, 1u), (-hx(r8, 1u)), hx(r1, 3u)), 2u, r1);
+    r2 = hpack(fma(hx(r7, 1u), (-hx(r9, 1u)), hx(r1, 2u)), 2u, r2);
+    r1 = hpack((hx(r5, 1u) * hx(r2, 2u)), 3u, r1);
+    r2 = hpack((hx(r6, 1u) * hx(r2, 2u)), 3u, r2);
+    r2 = hpack((hx(r7, 1u) * hx(r2, 2u)), 2u, r2);
+    r3 = hpack(fma(hx(r1, 3u), hx(0xc000c000u, 0u), (-hx(r3, 1u))), 1u, r3);
+    r8 = hpack(fma(hx(r2, 3u), hx(0xc000c000u, 0u), (-hx(r8, 1u))), 1u, r8);
+    r2 = hpack(fma(hx(r2, 2u), hx(0xc000c000u, 0u), (-hx(r9, 1u))), 1u, r2);
+    r14 = as_u((as_f(r3) * as_f(r3)));
+    r4 = as_u(fma(as_f(r8), as_f(r8), as_f(r14)));
+    r4 = as_u(fma(as_f(r2), as_f(r2), as_f(r4)));
+    r17 = as_u(inversesqrt(as_f(r4)));
+    r18 = as_u((as_f(r8) * as_f(r17)));
+    r21 = as_u((as_f(r3) * as_f(r17)));
+    r20 = as_u((as_f(r2) * as_f(r17)));
+    r2 = hpack(((-hx(r11, 1u)) + hx(0x3c003c00u, 0u)), 1u, r2);
+    r3 = as_u((false ? mw_fmin(abs(as_f(
+[glsl]r18)), abs(as_f(r21))) : mw_fmax(abs(as_f(r18)), abs(as_f(r21)))));
+    r2 = as_u(fma(as_f(r2), (-as_f(r2)), as_f(cb1[0][0])));
+    r22 = as_u((false ? mw_fmin(abs(as_f(r20)), as_f(r3)) : mw_fmax(abs(as_f(r20)), as_f(r3))));
+    r23 = as_u((1.0f / as_f(r22)));
+    r3 = as_u((as_f(r18) * (-as_f(r23))));
+    r16 = as_u((as_f(r20) * as_f(r23)));
+    r15 = as_u(float(int(r15)));
+    r2 = hpack((hx(r15, 1u) * hx(r2, 1u)), 1u, r2);
+    r17 = as_u((true ? mw_fmin(as_f(r2), as_f(r15)) : mw_fmax(as_f(r2), as_f(r15))));
+    r2 = as_u((as_f(r21) * (-as_f(r23))));
+    r17 = as_u((false ? mw_fmin(as_f(0u), as_f(r17)) : mw_fmax(as_f(0u), as_f(r17))));
+  if (p0) {
+    { vec4 t = textureLod(t6, vec3(as_f(r2), as_f(r3), as_f(r16)), as_f(r17));
+      r14 = as_u(t[0]);
+      r15 = as_u(t[1]);
+      r8 = as_u(t[2]);
+    }
+  }
+  if (!p0) {
+    { vec4 t = textureLod(t5, vec3(as_f(r2), as_f(r3), as_f(r16)), as_f(r17));
+      r14 = as_u(t[0]);
+      r15 = as_u(t[1]);
+      r8 = as_u(t[2]);
+    }
+  }
+    r4 = as_u(gl_FragCoord[3]);
+    r4 = as_u((1.0f / as_f(r4)));
+    r23 = as_u(v5[3] * gl_FragCoord.w * as_f(r4));
+    r32 = as_u(v5[0] * gl_FragCoord.w * as_f(r4));
+    r24 = as_u(v5[1] * gl_FragCoord.w * a
+[glsl]s_f(r4));
+    r22 = as_u((1.0f / as_f(r23)));
+    r32 = as_u((as_f(r32) + as_f(r23)));
+    r24 = as_u((as_f(r24) + as_f(r23)));
+    r39 = as_u((as_f(r22) * as_f(r32) * 0.5f));
+    r22 = as_u((as_f(r22) * as_f(r24) * 0.5f));
+    { vec4 t = texture(t7, vec2(as_f(r39), as_f(r22)));
+      r22 = as_u(t[0]);
+    }
+    r37 = as_u(v8[0] * gl_FragCoord.w * as_f(r4));
+    r36 = as_u(v9[0] * gl_FragCoord.w * as_f(r4));
+    r34 = as_u(v7[0] * gl_FragCoord.w * as_f(r4));
+    r23 = as_u(v8[1] * gl_FragCoord.w * as_f(r4));
+    r35 = as_u(v9[1] * gl_FragCoord.w * as_f(r4));
+    r32 = as_u(v7[1] * gl_FragCoord.w * as_f(r4));
+    r24 = as_u(v9[2] * gl_FragCoord.w * as_f(r4));
+    r33 = as_u((as_f(r28) + as_f(r33)));
+    r17 = as_u(v8[2] * gl_FragCoord.w * as_f(r4));
+    r28 = as_u((as_f(r6) * as_f(cb3[25][1])));
+    r3 = as_u(v9[3] * gl_FragCoord.w * as_f(r4));
+    r27 = as_u((as_f(r27) + as_f(r29)));
+    r16 = as_u(v7[2] * gl_FragCoord.w * as_f(r4));
+    r26 = as_u((as_f(r26) + as_f(r31)));
+    r31 = as_u((as_f(r5) * as_f(cb3[3][0])));
+    r9 = hpack(mw_saturate(fma(hx(r7, 1u), (-hx(r9, 1u)), hx(r1, 2u))), 2u, r9);
+    r1 = as_u(v7[3] * gl_FragCoord.w * as_f(r4));
+    r30 = hpack(((-hx(0u, 2u)) + h
+[glsl]x(cb1[0][2], 1u)), 3u, r30);
+    r29 = hpack((hx(r28, 1u) * hx(cb1[1][2], 1u)), 1u, r29);
+    r28 = as_u((as_f(r7) * as_f(cb3[25][2])));
+    r30 = hpack(fma(hx(r19, 1u), hx(r30, 2u), hx(cb1[0][2], 1u)), 2u, r30);
+    { bool cmp = (int(0u) != int(cb12[2][1])); bool pp = true;
+      p0 = cmp && pp;
+    }
+    r2 = as_u((as_f(r37) * as_f(0x3e906ec1u)));
+    r36 = as_u((as_f(r36) * as_f(0x3e906ec1u)));
+    r34 = as_u((as_f(r34) * as_f(0x3e906ec1u)));
+    r23 = as_u(fma(as_f(r29), as_f(r23), as_f(r2)));
+    r2 = as_u(v8[3] * gl_FragCoord.w * as_f(r4));
+    r35 = as_u(fma(as_f(r29), as_f(r35), as_f(r36)));
+    r29 = as_u(fma(as_f(r29), as_f(r32), as_f(r34)));
+    r32 = as_u(fma(as_f(r6), as_f(cb3[3][1]), as_f(r31)));
+    r6 = hpack((hx(r28, 1u) * hx(cb1[1][3], 1u)), 1u, r6);
+    r28 = hpack((hx(r9, 2u) * hx(cb1[2][0], 1u)), 1u, r28);
+    r9 = hpack(((-hx(r11, 1u)) + hx(0x3c003c00u, 0u)), 2u, r9);
+    r36 = cb3[1][2];
+    r7 = as_u(fma(as_f(r7), as_f(cb3[3][2]), as_f(r32)));
+    r34 = as_u(fma(as_f(r6), as_f(r24), as_f(r35)));
+    r24 = as_u((as_f(r5) * as_f(cb3[25][0])));
+    r31 = as_u(fma(as_f(r6), as_f(r17), as_f(r23)));
+    r23 = as_u(fma(as_f(r6), as_f(r16), as_f(r29)));
+    r6 = 0x3
+[glsl]f000000u;
+    r29 = cb3[1][1];
+    r35 = as_u(as_f(r28));
+    r24 = hpack((hx(r24, 1u) * hx(cb1[1][2], 1u)), 1u, r24);
+    r17 = as_u(exp2(as_f(r35)));
+    r5 = hpack(((-hx(0u, 2u)) + hx(cb1[2][2], 1u)), 3u, r5);
+    r28 = as_u(fma(as_f(r7), as_f(0x3f000000u), as_f(r6)));
+    r32 = hpack((hx(r9, 2u) * hx(r9, 2u)), 1u, r32);
+    r7 = as_u(((-as_f(r36)) + as_f(cb3[2][2])));
+    r5 = hpack(((-hx(0u, 2u)) + hx(cb1[3][0], 1u)), 2u, r5);
+    r34 = as_u(fma(as_f(r24), as_f(r3), as_f(r34)));
+    r3 = cb3[1][0];
+    r5 = hpack(fma(hx(r11, 1u), hx(cb1[2][1], 1u), hx(r5, 3u)), 3u, r5);
+    r23 = as_u(fma(as_f(r24), as_f(r1), as_f(r23)));
+    r1 = hpack((hx(r10, 1u) + hx(cb1[0][1], 1u)), 2u, r1);
+    r5 = hpack(fma(hx(r11, 1u), hx(cb1[2][3], 1u), hx(r5, 2u)), 2u, r5);
+    r16 = as_u(fma(as_f(r24), as_f(r2), as_f(r31)));
+    r2 = as_u(((-as_f(r3)) + as_f(cb3[2][0])));
+    r3 = as_u(((-as_f(r29)) + as_f(cb3[2][1])));
+    r29 = as_u((as_f(r21) * (-as_f(cb3[3][0]))));
+    r11 = hpack(fma(hx(r11, 1u), hx(cb1[3][1], 1u), (-hx(r30, 3u))), 2u, r11);
+    r32 = as_u((true ? mw_fmin(as_f(r32), as_f(r17)) : mw_fmax(as_f(r32), as_f(r17))));
+    r1 = hpack((hx(r12, 1u) + hx(cb1[0][1], 1u)), 3u, r1);
+    r17
+[glsl] = as_u(fma(as_f(r28), as_f(r2), as_f(cb3[1][0])));
+    r21 = as_u(fma(as_f(r28), as_f(r3), as_f(cb3[1][1])));
+    r18 = as_u(fma(as_f(r18), (-as_f(cb3[3][1])), as_f(r29)));
+    r28 = as_u(fma(as_f(r28), as_f(r7), as_f(cb3[1][2])));
+    r5 = hpack(fma(hx(r32, 1u), hx(r9, 2u), hx(r5, 3u)), 3u, r5);
+    r1 = hpack(fma(hx(r19, 1u), hx(r1, 0u), hx(cb1[0][2], 1u)), 0u, r1);
+    r17 = as_u((as_f(r23) * as_f(r17)));
+    r21 = as_u((as_f(r16) * as_f(r21)));
+    r16 = as_u(fma(as_f(r16), (-as_f(cb3[21][1])), as_f(r16)));
+    r20 = as_u(fma(as_f(r20), as_f(cb3[3][2]), as_f(r18)));
+    r28 = as_u((as_f(r34) * as_f(r28)));
+    r23 = as_u(fma(as_f(r23), (-as_f(cb3[21][1])), as_f(r23)));
+    r17 = as_u((as_f(r17) * as_f(cb3[21][1])));
+    r21 = as_u((as_f(r21) * as_f(cb3[21][1])));
+    r34 = as_u(fma(as_f(r34), (-as_f(cb3[21][1])), as_f(r34)));
+    r20 = as_u(fma(as_f(r20), as_f(0x3f000000u), as_f(r6)));
+    r28 = as_u((as_f(r28) * as_f(cb3[21][1])));
+    r5 = hpack(fma(hx(r5, 3u), hx(cb1[3][2], 1u), hx(r5, 2u)), 2u, r5);
+    r17 = as_u(fma(as_f(r17), as_f(0x40000000u), as_f(r23)));
+    r16 = as_u(fma(as_f(r21), as_f(0x40000000u), as_f(r16)));
+    r11 = hpack(fma(hx(r5, 3u), hx(cb1[3][0], 1u), h
+[glsl]x(r11, 2u)), 2u, r11);
+    r7 = as_u(fma(as_f(r7), as_f(r20), as_f(cb3[1][2])));
+    r28 = as_u(fma(as_f(r28), as_f(0x40000000u), as_f(r34)));
+    r17 = hpack(fma(hx(r19, 1u), (-hx(r17, 1u)), hx(r17, 1u)), 1u, r17);
+    r9 = hpack(fma(hx(r19, 1u), (-hx(r16, 1u)), hx(r16, 1u)), 1u, r9);
+    r1 = hpack(fma(hx(r1, 0u), hx(r5, 2u), hx(r11, 2u)), 0u, r1);
+    r5 = hpack(fma(hx(r30, 2u), hx(r5, 2u), hx(r11, 2u)), 2u, r5);
+    r19 = hpack(fma(hx(r19, 1u), (-hx(r28, 1u)), hx(r28, 1u)), 1u, r19);
+    r10 = as_u((as_f(r10) * as_f(r17)));
+    r6 = as_u((as_f(r12) * as_f(r9)));
+    r9 = as_u(fma(as_f(r2), as_f(r20), as_f(cb3[1][0])));
+    r2 = as_u(fma(as_f(r3), as_f(r20), as_f(cb3[1][1])));
+    r19 = as_u((as_f(r13) * as_f(r19)));
+    r10 = as_u(fma(as_f(r0), as_f(r10), as_f(r33)));
+    r6 = as_u(fma(as_f(r0), as_f(r6), as_f(r27)));
+    r19 = as_u(fma(as_f(r0), as_f(r19), as_f(r26)));
+    r14 = as_u((as_f(r14) * as_f(cb3[21][0])));
+    r15 = as_u((as_f(r15) * as_f(cb3[21][0])));
+    r8 = as_u((as_f(r8) * as_f(cb3[21][0])));
+    r9 = as_u((as_f(r14) * as_f(r9)));
+    r2 = as_u((as_f(r15) * as_f(r2)));
+    r7 = as_u((as_f(r8) * as_f(r7)));
+    r14 = as_u(fma(as_f(r14), (-as_f(cb3[21][1])), as_f
+[glsl](r14)));
+    r15 = as_u(fma(as_f(r15), (-as_f(cb3[21][1])), as_f(r15)));
+    r8 = as_u(fma(as_f(r8), (-as_f(cb3[21][1])), as_f(r8)));
+    r9 = as_u((as_f(r9) * as_f(cb3[21][1])));
+    r2 = as_u((as_f(r2) * as_f(cb3[21][1])));
+    r7 = as_u((as_f(r7) * as_f(cb3[21][1])));
+    r14 = as_u(fma(as_f(r9), as_f(0x40000000u), as_f(r14)));
+    r2 = as_u(fma(as_f(r2), as_f(0x40000000u), as_f(r15)));
+    r7 = as_u(fma(as_f(r7), as_f(0x40000000u), as_f(r8)));
+    r3 = hpack((hx(r14, 1u) * hx(r1, 2u)), 1u, r3);
+    r1 = hpack((hx(r2, 1u) * hx(r1, 3u)), 1u, r1);
+    r5 = hpack((hx(r7, 1u) * hx(r5, 2u)), 1u, r5);
+    r3 = as_u(fma(as_f(r0), as_f(r3), as_f(r10)));
+    r1 = as_u(fma(as_f(r0), as_f(r1), as_f(r6)));
+    r5 = as_u(fma(as_f(r0), as_f(r5), as_f(r19)));
+    r3 = as_u((true ? mw_fmin(as_f(r3), as_f(cb3[24][0])) : mw_fmax(as_f(r3), as_f(cb3[24][0]))));
+    r1 = as_u((true ? mw_fmin(as_f(r1), as_f(cb3[24][0])) : mw_fmax(as_f(r1), as_f(cb3[24][0]))));
+    r5 = as_u((true ? mw_fmin(as_f(r5), as_f(cb3[24][0])) : mw_fmax(as_f(r5), as_f(cb3[24][0]))));
+    r0 = as_u((as_f(r3) * as_f(r22)));
+    r1 = as_u((as_f(r1) * as_f(r22)));
+    r2 = as_u((as_f(r5) * as_f(r22)));
+  if (!p0) {
+    pc = 8400u;
+[glsl] break;
+  }
+    r9 = cb12[2][1];
+    r7 = as_u(v4[2] * gl_FragCoord.w * as_f(r4));
+    r6 = cb3[4][3];
+    r8 = as_u(v6[1] * gl_FragCoord.w * as_f(r4));
+    { bool cmp = (int(r9) == int(0x00000001u)); bool pp = true;
+      p0 = cmp && pp;
+    }
+  if (p0) {
+    r3 = cb3[6][1];
+  }
+  if (p0) {
+    r3 = as_u((as_f(r3) + (-as_f(cb3[6][0]))));
+  }
+  if (p0) {
+    r3 = as_u((1.0f / as_f(r3)));
+  }
+  if (p0) {
+    r5 = as_u((as_f(r7) + as_f(cb3[6][1])));
+  }
+  if (p0) {
+    r3 = as_u((as_f(r5) * as_f(r3)));
+  }
+  if (p0) {
+    pc = 8168u; break;
+  }
+    r3 = as_u((as_f(r7) * as_f(cb3[6][2])));
+    { bool cmp = (int(r9) == int(0x00000003u)); bool pp = true;
+      p0 = cmp && pp;
+    }
+    r3 = as_u((as_f(r3) * as_f(0x3fb8aa3bu)));
+    r5 = as_u(as_f(r3));
+    r3 = as_u(exp2(as_f(r5)));
+  if (p0) {
+    r3 = as_u((as_f(r3) * as_f(r3)));
+  }
+    pc = 8168u;
+  } while (false);
+  if (!exit_now && pc == 8168u) do {
+    r5 = as_u(((-as_f(r6)) + as_f(0x3f800000u)));
+    r9 = as_u(v6[2] * gl_FragCoord.w * as_f(r4));
+    r3 = as_u((true ? mw_fmin(as_f(r3), as_f(0x3f800000u)) : mw_fmax(as_f(r3), as_f(0x3f800000u))));
+    r6 = as_u((as_f(r2) + (-as_f(cb3[5][2]))));
+    r2 = as_u((as_f(r2) + (-as_f(cb3
+[glsl][4][2]))));
+    r7 = as_u((false ? mw_fmin(as_f(r3), as_f(r5)) : mw_fmax(as_f(r3), as_f(r5))));
+    r3 = as_u((as_f(r0) + (-as_f(cb3[5][0]))));
+    r5 = as_u((as_f(r1) + (-as_f(cb3[5][1]))));
+    r0 = as_u((as_f(r0) + (-as_f(cb3[4][0]))));
+    r1 = as_u((as_f(r1) + (-as_f(cb3[4][1]))));
+    r6 = as_u(fma(as_f(r6), as_f(r8), as_f(cb3[5][2])));
+    r3 = as_u(fma(as_f(r3), as_f(r8), as_f(cb3[5][0])));
+    r5 = as_u(fma(as_f(r5), as_f(r8), as_f(cb3[5][1])));
+    r0 = as_u(fma(as_f(r0), as_f(r7), as_f(cb3[4][0])));
+    r4 = as_u(fma(as_f(r1), as_f(r7), as_f(cb3[4][1])));
+    r7 = as_u(fma(as_f(r2), as_f(r7), as_f(cb3[4][2])));
+    r0 = as_u(((-as_f(r3)) + as_f(r0)));
+    r4 = as_u(((-as_f(r5)) + as_f(r4)));
+    r7 = as_u(((-as_f(r6)) + as_f(r7)));
+    r0 = as_u(fma(as_f(r0), as_f(r9), as_f(r3)));
+    r1 = as_u(fma(as_f(r4), as_f(r9), as_f(r5)));
+    r2 = as_u(fma(as_f(r7), as_f(r9), as_f(r6)));
+    pc = 8400u;
+  } while (false);
+  if (!exit_now && pc == 8400u) do {
+    r3 = r25;
+    exit_now = true; break;
+    pc = 8424u;
+  } while (false);
+  if (!exit_now && pc >= 8424u && pc < 8432u) for (uint g_1 = 0u; g_1 < 1000u; g_1++) {
+  if (!exit_now && pc == 8424u) do {
+    pc = 8424u; break;
+
+[glsl]    pc = 8432u;
+  } while (false);
+  if (!exit_now && pc == 8424u) continue;
+  break;
+  }
+  if (!exit_now && pc == 8432u) do {
+    exit_now = true;
+  } while (false);
+  c0[0] = as_f(r0);
+  c0[1] = as_f(r1);
+  c0[2] = as_f(r2);
+  c0[3] = as_f(r3);
+  if (ltint[0].w > 0.0f) { vec3 g = c0.rgb; float l = dot(g, vec3(0.299f, 0.587f, 0.114f));
+    c0.rgb = mix(g, ltint[0].rgb * pow(l, ltint[1].w) + ltint[1].rgb * l, ltint[0].w); }
+}
+
+[glsl] end
+[gmem] draw: vs 12a6bdfa00 (gmem 1 store 0) fs 12a6c05000 (gmem 1 store 0) reads zero; sbuf v: 127e838900+140 f: 127e80ea00+2400 127e813200+2400 (unique 15, draws so far 11254)
+[sbufdump] fs 12a6c05000 draw #1 gfx_gmap=1: [sbuf0 127e80ea00+2400 nz 1396/2304 w: 00000000 00000000 00000000 00000000 00000000 00000000] [sbuf1 127e813200+2400 nz 748/2304 w: 00000000 00000000 00000000 00000000 00000000 00000000]
+[shader] derivadas: vs 12a64cd800 fswzadd 1 shuffle 0 | fs 12a64d0300 fswzadd 1 shuffle 15
+[tex] nvn fmt 0x4e -> vk 146 (view 146) swz 2345 (view) alpha1 0 type 1 512x512 levels 10
+[gmem] draw: vs 12a64cd800 (gmem 1 store 0) fs 12a64d0300 (gmem 1 store 0) reads zero; sbuf v: 127e838900+140 f: 127e80ea00+2400 127e813200+2400 (unique 16, draws so far 12199)
+[fs] read region_common/navMesh/OP_Dungeon/Area0000Chunk0000.bfnvms
+[fs] read region_common/navMesh/OP_Dungeon/Area0000Chunk0001.bfnvms
+[fs] read region_common/navMesh/OP_Dungeon/Area0000Chunk0002.bfnvms
+[fsstore] draw #1024 fs 12a46dd400 vs 12a46dd000 t=19129 ms rt 64x36
+[vk] copy alias: 41 made, 0 renamed, 0 stencil-only, 41 copied later (live 0)
+[vk] t=19.6 frame 1698 20.3 fps max 73ms level - (8313 draws, 0 skipped, 1821 passes, 492 dispatches, 328 flushes, wait 1409ms, compile 7, fbcopy 82, upload 165.1MB)
+[gmem] 16384 draws with graphics gmem so far
+[vk] t=21.6 frame 1732 16.8 fps max 83ms level - (7688 draws, 0 skipped, 1529 passes, 408 dispatches, 272 flushes, wait 1536ms, compile 0, fbcopy 68, upload 156.2MB)
+[cswr] cs 12a46d9000 run #151: [127e80ea00+2400 nz 2280/2304 w: 00000040 00000040 00000040 00000040] [127e813200+2400 nz 1310/2304 w: 00000000 00000000 00000000 00000000]
+[fsstore] draw #2048 fs 12a46e1400 vs 12a46e1000 t=23198 ms rt 128x72
+[vk] t=23.6 frame 1764 15.9 fps max 66ms level - (7937 draws, 0 skipped, 1424 passes, 384 dispatches, 256 flushes, wait 1566ms, compile 0, fbcopy 78, upload 148.1MB)
+[sbufdump] fs 12a6c05000 draw #701 gfx_gmap=1: [sbuf0 127e810e00+2400 nz 2304/2304 w: 00000140 00000140 00000140 00000140 00000140 00000140] [sbuf1 127e815600+2400 nz 1398/2304 w: 00000000 00000000 00000000 00000000 00000000 00000000]
+[vk] t=25.7 frame 1796 15.9 fps max 65ms level - (8086 draws, 0 skipped, 1415 passes, 384 dispatches, 256 flushes, wait 1524ms, compile 0, fbcopy 71, upload 149.7MB)
+[input] GetNpadState id 0 lr 1001683f9c
+[gmem] 32768 draws with graphics gmem so far
+[vk] t=27.9 frame 1826 13.2 fps max 429ms level - (7579 draws, 0 skipped, 1320 passes, 360 dispatches, 240 flushes, wait 1833ms, compile 0, fbcopy 60, upload 141.1MB)
+[vk] t=30.0 frame 1852 12.9 fps max 393ms level - (6611 draws, 0 skipped, 1144 passes, 312 dispatches, 208 flushes, wait 1653ms, compile 0, fbcopy 52, upload 121.5MB)
+[sbufdump] fs 12a6c05000 draw #1401 gfx_gmap=1: [sbuf0 127e810e00+2400 nz 2304/2304 w: 000001c0 000001c0 000001c0 000001c0 000001c0 000001c0] [sbuf1 127e815600+2400 nz 1407/2304 w: 00000000 00000000 00000000 00000000 00000000 00000000]
+[vk] t=32.0 frame 1884 15.8 fps max 66ms level - (8143 draws, 0 skipped, 1408 passes, 384 dispatches, 256 flushes, wait 1576ms, compile 0, fbcopy 64, upload 149.1MB)
+[cswr] cs 12a46d9000 run #301: [127e80ea00+2400 nz 2304/2304 w: 000001c0 00000140 000001c0 00000140] [127e813200+2400 nz 1409/2304 w: 00000000 00000000 00000000 00000000]
+[vk] t=34.0 frame 1916 15.7 fps max 66ms level - (8124 draws, 0 skipped, 1408 passes, 384 dispatches, 256 flushes, wait 1591ms, compile 0, fbcopy 64, upload 150.6MB)
+[vk] t=36.1 frame 1948 15.7 fps max 67ms level - (8182 draws, 0 skipped, 1408 passes, 384 dispatches, 256 flushes, wait 1548ms, compile 0, fbcopy 64, upload 149.6MB)
+[sbufdump] fs 12a6c05000 draw #2101 gfx_gmap=1: [sbuf0 127e80ea00+2400 nz 2304/2304 w: 000001c0 000001c0 000001c0 000001c0 000001c0 000001c0] [sbuf1 127e813200+2400 nz 1439/2304 w: 00000000 00000000 00000000 00000000 00000000 00000000]
+[vk] t=38.1 frame 1980 15.8 fps max 65ms level - (8165 draws, 0 skipped, 1408 passes, 384 dispatches, 256 flushes, wait 1546ms, compile 0, fbcopy 64, upload 148.7MB)
+[vk] t=40.1 frame 2012 15.8 fps max 65ms level - (8168 draws, 0 skipped, 1408 passes, 384 dispatches, 256 flushes, wait 1567ms, compile 0, fbcopy 64, upload 148.7MB)
+[sbufdump] fs 12a6c05000 draw #2801 gfx_gmap=1: [sbuf0 127e80ea00+2400 nz 2304/2304 w: 000001c0 000001c0 000001c0 000001c0 000001c0 000001c0] [sbuf1 127e813200+2400 nz 1439/2304 w: 00000000 00000000 00000000 00000000 00000000 00000000]
+[vk] t=42.2 frame 2044 15.6 fps max 71ms level - (8193 draws, 0 skipped, 1408 passes, 384 dispatches, 256 flushes, wait 1436ms, compile 0, fbcopy 64, upload 148.7MB)
+[cswr] cs 12a46d9000 run #451: [127e80ea00+2400 nz 2304/2304 w: 000001c0 000001c0 000001c0 000001c0] [127e813200+2400 nz 1439/2304 w: 00000000 00000000 00000000 00000000]
+[gmem] 65536 draws with graphics gmem so far
+[fs] read region_common/audio/stream/BGM_DUGEON_OP_DUNGEON.bfstm
+[vk] t=44.3 frame 2061 7.9 fps max 430ms level - (4344 draws, 0 skipped, 748 passes, 204 dispatches, 136 flushes, wait 1708ms, compile 0, fbcopy 34, upload 79.0MB)
+[vk] t=46.4 frame 2093 15.7 fps max 67ms level - (8159 draws, 0 skipped, 1408 passes, 384 dispatches, 256 flushes, wait 1379ms, compile 0, fbcopy 64, upload 148.7MB)
+[vk] in the background: drawing paused
+[gfxred] sync #500: 2 slots ORed back, avg 1.38 ms
+[vk] t=48.4 frame 2115 10.7 fps max 129ms level - (5621 draws, 0 skipped, 968 passes, 264 dispatches, 156 flushes, wait 777ms, compile 0, fbcopy 44, upload 102.2MB)
+[sbufdump] fs 12a6c05000 draw #3501 gfx_gmap=1: [sbuf0 127e810e00+2400 nz 2304/2304 w: 000001c0 000001c0 000001c0 000001c0 000001c0 000001c0] [sbuf1 127e815600+2400 nz 1440/2304 w: 00000000 00000000 00000000 00000000 00000000 00000000]
+[vk] t=50.5 frame 2136 10.3 fps max 111ms level - (5372 draws, 0 skipped, 924 passes, 252 dispatches, 147 flushes, wait 815ms, compile 0, fbcopy 42, upload 97.6MB)
+[vk] t=52.5 frame 2157 10.3 fps max 115ms level - (5388 draws, 0 skipped, 924 passes, 252 dispatches, 147 flushes, wait 801ms, compile 0, fbcopy 42, upload 97.6MB)
+[vk] t=55.0 frame 2170 5.1 fps max 959ms level - (3299 draws, 0 skipped, 572 passes, 156 dispatches, 91 flushes, wait 803ms, compile 0, fbcopy 26, upload 60.4MB)
+[vk] t=57.1 frame 2173 1.4 fps max 1268ms level - (753 draws, 0 skipped, 132 passes, 36 dispatches, 21 flushes, wait 142ms, compile 0, fbcopy 6, upload 13.9MB)
+[vk] t=59.8 frame 2177 1.5 fps max 1729ms level - (1021 draws, 0 skipped, 176 passes, 48 dispatches, 28 flushes, wait 210ms, compile 0, fbcopy 8, upload 18.6MB)
+[vk] t=61.8 frame 2191 6.9 fps max 255ms level - (3584 draws, 0 skipped, 616 passes, 168 dispatches, 98 flushes, wait 497ms, compile 0, fbcopy 28, upload 65.1MB)
+[cswr] cs 12a46d9000 run #601: [127e80ea00+2400 nz 2304/2304 w: 000001c0 000001c0 000001c0 000001c0] [127e813200+2400 nz 1439/2304 w: 00000000 00000000 00000000 00000000]
+[vk] t=63.9 frame 2213 10.5 fps max 114ms level - (5614 draws, 0 skipped, 968 passes, 264 dispatches, 154 flushes, wait 752ms, compile 0, fbcopy 44, upload 102.2MB)
+[sbufdump] fs 12a6c05000 draw #4201 gfx_gmap=1: [sbuf0 127e810e00+2400 nz 2304/2304 w: 000001c0 000001c0 000001c0 000001c0 000001c0 000001c0] [sbuf1 127e815600+2400 nz 1440/2304 w: 00000000 00000000 00000000 00000000 00000000 00000000]
+[vk] t=66.0 frame 2227 6.5 fps max 477ms level - (3595 draws, 0 skipped, 616 passes, 168 dispatches, 98 flushes, wait 1295ms, compile 0, fbcopy 28, upload 65.1MB)
+[vk] t=68.0 frame 2247 9.9 fps max 138ms level - (5083 draws, 0 skipped, 880 passes, 240 dispatches, 140 flushes, wait 831ms, compile 0, fbcopy 40, upload 92.9MB)
+[vk] copy alias: 567 made, 0 renamed, 0 stencil-only, 567 copied later (live 0)
+[vk] t=70.1 frame 2265 8.8 fps max 481ms level - (4606 draws, 0 skipped, 792 passes, 216 dispatches, 126 flushes, wait 1009ms, compile 0, fbcopy 36, upload 83.7MB)
+[vk] t=72.1 frame 2284 9.2 fps max 151ms level - (4843 draws, 0 skipped, 836 passes, 228 dispatches, 133 flushes, wait 777ms, compile 0, fbcopy 38, upload 88.3MB)
+[sbufdump] fs 12a6c05000 draw #4901 gfx_gmap=1: [sbuf0 127e80ea00+2400 nz 2304/2304 w: 000001c0 000001c0 000001c0 000001c0 000001c0 000001c0] [sbuf1 127e813200+2400 nz 1439/2304 w: 00000000 00000000 00000000 00000000 00000000 00000000]
+[vk] t=74.2 frame 2303 9.2 fps max 131ms level - (4860 draws, 0 skipped, 836 passes, 228 dispatches, 133 flushes, wait 814ms, compile 0, fbcopy 38, upload 88.3MB)
+[vk] t=76.4 frame 2321 8.4 fps max 442ms level - (4555 draws, 0 skipped, 792 passes, 216 dispatches, 126 flushes, wait 1053ms, compile 0, fbcopy 36, upload 83.6MB)
+[vk] t=78.4 frame 2337 7.9 fps max 455ms level - (4104 draws, 0 skipped, 704 passes, 192 dispatches, 112 flushes, wait 1077ms, compile 0, fbcopy 32, upload 74.4MB)
+[cswr] cs 12a46d9000 run #751: [127e80ea00+2400 nz 2304/2304 w: 000001c0 000001c0 000001c0 000001c0] [127e813200+2400 nz 1439/2304 w: 00000000 00000000 00000000 00000000]
+[vk] t=80.4 frame 2352 7.4 fps max 430ms level - (3826 draws, 0 skipped, 660 passes, 180 dispatches, 105 flushes, wait 1068ms, compile 0, fbcopy 30, upload 69.7MB)
+[vk] t=82.5 frame 2367 7.3 fps max 457ms level - (3841 draws, 0 skipped, 660 passes, 180 dispatches, 105 flushes, wait 1011ms, compile 0, fbcopy 30, upload 69.7MB)
+[vk] t=84.6 frame 2384 8.1 fps max 133ms level - (4332 draws, 0 skipped, 748 passes, 204 dispatches, 119 flushes, wait 951ms, compile 0, fbcopy 34, upload 79.0MB)
+[sbufdump] fs 12a6c05000 draw #5601 gfx_gmap=1: [sbuf0 127e80ea00+2400 nz 2304/2304 w: 000001c0 000001c0 000001c0 000001c0 000001c0 000001c0] [sbuf1 127e813200+2400 nz 1439/2304 w: 00000000 00000000 00000000 00000000 00000000 00000000]
+[vk] t=86.7 frame 2402 8.5 fps max 137ms level - (4591 draws, 0 skipped, 792 passes, 216 dispatches, 126 flushes, wait 948ms, compile 0, fbcopy 36, upload 83.6MB)
+[input] GetNpadState id 0 lr 1001683f9c
+[vk] t=88.8 frame 2420 8.6 fps max 139ms level - (4562 draws, 0 skipped, 792 passes, 216 dispatches, 126 flushes, wait 936ms, compile 0, fbcopy 36, upload 83.6MB)
+[vk] t=90.9 frame 2439 9.0 fps max 120ms level - (4893 draws, 0 skipped, 836 passes, 228 dispatches, 133 flushes, wait 841ms, compile 0, fbcopy 38, upload 88.3MB)
+[vi] vsync timer late by 677ms (host throttling?)
+[vi] vsync timer late by 407ms (host throttling?)
+[vi] vsync timer late by 360ms (host throttling?)
+[vi] vsync timer late by 264ms (host throttling?)
+[vi] vsync timer late by 383ms (host throttling?)
+[vi] vsync timer late by 369ms (host throttling?)
+[vi] vsync timer late by 358ms (host throttling?)
+[vi] vsync timer late by 395ms (host throttling?)
+[vi] vsync timer late by 343ms (host throttling?)
+[vi] vsync timer late by 387ms (host throttling?)
+[vi] vsync timer late by 393ms (host throttling?)
+[vi] vsync timer late by 404ms (host throttling?)
+[vi] vsync timer late by 283ms (host throttling?)
+[vi] vsync timer late by 380ms (host throttling?)
+[vi] vsync timer late by 233ms (host throttling?)
+[vi] vsync timer late by 230ms (host throttling?)
+[vi] vsync timer late by 404ms (host throttling?)
+[vi] vsync timer late by 230ms (host throttling?)
+[vi] vsync timer late by 210ms (host throttling?)
+[vi] vsync timer late by 206ms (host throttling?)
