@@ -234,10 +234,18 @@ jobs:
           grep -n "have12" runtime/nvn/vulkan/device.c
           grep -n "EXP" runtime/nvn/vulkan/exec.c runtime/nvn/maxwell/translate.c
 
-      - name: Crear firma GPT independiente
+      - name: Recuperar firma GPT estable
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: eow-gpt-signing-keystore-v1
+
+      - name: Crear firma GPT solo si aún no existe
         run: |
           mkdir -p ~/.android
-          keytool -genkeypair -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=EoW GPT, O=Personal, C=PA"
+          if [ ! -f ~/.android/debug.keystore ]; then
+            keytool -genkeypair -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=EoW GPT, O=Personal, C=PA"
+          fi
           keytool -list -keystore ~/.android/debug.keystore -storepass android | head -5
 
       - name: Dependencias nativas (FFmpeg, shaderc, etc.)
