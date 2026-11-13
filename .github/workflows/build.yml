@@ -226,7 +226,7 @@ jobs:
           s = s.replace(a, b)
           open(p, 'w').write(s)
           EOF5
-          sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
+          grep -n "applicationId" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
           grep -n "applicationId" android/app/build.gradle
@@ -245,7 +245,13 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.8-experimental -PeowVersionCode=13 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowApplicationId=com.eowrecomp.android.exp -PeowVersionName=0.5.8-experimental -PeowVersionCode=13 -x eowOnDeviceAssets
+
+      - name: Verificar identificador del paquete APK
+        run: |
+          APK=android/app/build/outputs/apk/release/app-release.apk
+          AAPT=$(find "$ANDROID_HOME/build-tools" -name aapt -type f | sort -V | tail -1)
+          "$AAPT" dump badging "$APK" | grep -F "package: name='com.eowrecomp.android.exp'"
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
