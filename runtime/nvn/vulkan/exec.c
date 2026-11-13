@@ -314,7 +314,7 @@ static char dl_ring[64][128];
 static unsigned dl_n;
 static int dl_on = -1;
 static void dl_note(const char *fmt, ...) {
-    if (dl_on < 0) dl_on = getenv("EOWRECOMP_VK_DEVLOST_TRACE") ? atoi(getenv("EOWRECOMP_VK_DEVLOST_TRACE")) : 0;
+    if (dl_on < 0) { dl_on = getenv("EOWRECOMP_VK_DEVLOST_TRACE") ? atoi(getenv("EOWRECOMP_VK_DEVLOST_TRACE")) : 1; if (dl_on) LOG("[vk] device-loss trace enabled\\n"); }
     if (!dl_on) return;
     va_list ap;
     va_start(ap, fmt);
