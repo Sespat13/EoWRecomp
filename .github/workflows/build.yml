@@ -1,5 +1,9 @@
-name: EoWRecomp 0.5.7 Experimental
-on: workflow_dispatch
+name: EoWRecomp 0.5.8 Experimental
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - gpt-experimental
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -241,7 +245,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.7-experimental -PeowVersionCode=12 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.8-experimental -PeowVersionCode=13 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
