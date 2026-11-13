@@ -23,7 +23,7 @@ android {
 
     defaultConfig {
         // GPT can use a separate package ID without changing the Java/Kotlin namespace.
-        applicationId (project.findProperty('eowApplicationId') ?: 'com.eowrecomp.android')
+        applicationId (project.findProperty('eowApplicationId') ?: 'com.eowrecomp.android.exp')
         minSdk 30          // Android 11: Vulkan 1.1+, AAudio, MAP_FIXED_NOREPLACE kernels
         targetSdk 36
         versionCode((project.findProperty('eowVersionCode') ?: '1') as int)
