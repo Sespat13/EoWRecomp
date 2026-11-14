@@ -15,6 +15,11 @@
 #include "vk.h"
 #include "../output_scale.h"
 #include "../renderer.h"
+#ifdef __ANDROID__
+#include <dlfcn.h>
+#include <adrenotools/driver.h>
+#include "../../platform/android.h"
+#endif
 
 VkG g_vk;
 static SDL_Window *window;
@@ -30,9 +35,44 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debug_cb(VkDebugUtilsMessageSeverityFlagBi
     return VK_FALSE;
 }
 
+#ifdef __ANDROID__
+// ---- a Vulkan driver in place of the system's (Mesa Turnip on Adreno: the one the APK carries, or one installed;
+// GpuDrivers.java). libadrenotools loads a private copy of the system's Vulkan loader whose driver lookup is hooked to
+// that driver; volk takes its vkGetInstanceProcAddr. SDL's own handle is on the system loader, which doesn't know the
+// instance: the window surface is then made here (create_surface). Anything failing: the system driver, logged.
+// (Adapted from LASRecomp-Android-Plus.)
+static bool custom_driver_on;
+static char driver_probe[512];  // GpuDrivers' marker: removed once the driver has presented a few frames
+
+static bool custom_driver(void) {
+    AndroidGpuDriver d;
+    if (!android_gpu_driver_config(&d)) {
+        const char *failed = android_gpu_driver_failed();
+        if (failed) LOG("[vk] GPU driver %s failed at its last start: back to the system driver\n", failed);
+        else LOG("[vk] GPU driver: the system's\n");
+        return false;
+    }
+    void *lib = adrenotools_open_libvulkan(RTLD_NOW | RTLD_LOCAL, ADRENOTOOLS_DRIVER_CUSTOM, d.tmp_dir, d.hook_dir, d.dir, d.lib,
+                                           NULL, NULL);
+    PFN_vkGetInstanceProcAddr gipa = lib ? (PFN_vkGetInstanceProcAddr)dlsym(lib, "vkGetInstanceProcAddr") : NULL;
+    if (!gipa) {  // (the probe stays: the next start goes back to the system driver and says so)
+        LOG("[vk] GPU driver %s%s: %s (hooks in %s); using the system driver\n", d.dir, d.lib,
+            lib ? "no vkGetInstanceProcAddr" : "libadrenotools could not load it", d.hook_dir);
+        return false;
+    }
+    volkInitializeCustom(gipa);
+    snprintf(driver_probe, sizeof driver_probe, "%s", d.probe);
+    LOG("[vk] GPU driver: %s%s\n", d.dir, d.lib);
+    return custom_driver_on = true;
+}
+#endif
+
 // EOWRECOMP_VK_VALIDATION=1: Khronos validation layer (MSYS2 package vulkan-validation-layers)
 static void create_instance(void) {
 #ifdef VK_NO_PROTOTYPES
+#ifdef __ANDROID__
+    if (!custom_driver())
+#endif
     if (volkInitialize() != VK_SUCCESS) FATAL("no Vulkan driver\n");
 #endif
     Uint32 n_sdl = 0;
@@ -62,6 +102,14 @@ static void create_instance(void) {
         validate = false;
         r = vkCreateInstance(&ci, NULL, &g_vk.inst);
     }
+#ifdef __ANDROID__
+    if (r != VK_SUCCESS && custom_driver_on) {
+        LOG("[vk] vkCreateInstance with the installed GPU driver: %d; using the system driver\n", r);
+        custom_driver_on = false, driver_probe[0] = 0;  // (the probe stays: the next start is back on the system driver)
+        if (volkInitialize() != VK_SUCCESS) FATAL("no Vulkan driver\n");
+        r = vkCreateInstance(&ci, NULL, &g_vk.inst);
+    }
+#endif
     if (r != VK_SUCCESS) FATAL("vkCreateInstance: %d (is a Vulkan 1.3 driver installed?)\n", r);
 #ifdef VK_NO_PROTOTYPES
     volkLoadInstance(g_vk.inst);
@@ -396,6 +444,21 @@ static bool SDLCALL lifecycle_watch(void *user, SDL_Event *e) {
     return true;
 }
 
+// The window's Vulkan surface (false: SDL_GetError says why)
+static bool create_surface(void) {
+#ifdef __ANDROID__
+    if (custom_driver_on) {  // (as SDL's Android_Vulkan_CreateSurface, through the installed driver's loader)
+        struct ANativeWindow *nw = SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_ANDROID_WINDOW_POINTER, NULL);
+        if (!nw) return SDL_SetError("no native window (the app is in the background)");
+        VkAndroidSurfaceCreateInfoKHR si = {.sType = VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR, .window = nw};
+        VkResult r = vkCreateAndroidSurfaceKHR(g_vk.inst, &si, NULL, &g_vk.surface);
+        if (r != VK_SUCCESS) return SDL_SetError("vkCreateAndroidSurfaceKHR: %d", r);
+        return true;
+    }
+#endif
+    return SDL_Vulkan_CreateSurface(window, g_vk.inst, NULL, &g_vk.surface);
+}
+
 static void new_surface(void) {
     vkDeviceWaitIdle(g_vk.dev);
     for (uint32_t i = 0; i < g_vk.sc_count; i++) vkDestroyImageView(g_vk.dev, g_vk.sc_views[i], NULL);
@@ -404,7 +467,7 @@ static void new_surface(void) {
     g_vk.swapchain = VK_NULL_HANDLE;
     if (g_vk.surface) vkDestroySurfaceKHR(g_vk.inst, g_vk.surface, NULL);
     g_vk.surface = VK_NULL_HANDLE;
-    if (!SDL_Vulkan_CreateSurface(window, g_vk.inst, NULL, &g_vk.surface)) {
+    if (!create_surface()) {
         LOG("[vk] new surface: %s\n", SDL_GetError());
         atomic_store(&g_surface_stale, true);  // (the window isn't back yet: next frame)
         return;
@@ -535,6 +598,10 @@ void vk_frame_end(const char *shot_path) {
     VkPresentInfoKHR pi = {.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR, .waitSemaphoreCount = 1, .pWaitSemaphores = &done_sem[img],
                            .swapchainCount = 1, .pSwapchains = &g_vk.swapchain, .pImageIndices = &img};
     VkResult r = vkQueuePresentKHR(g_vk.queue, &pi);
+#ifdef __ANDROID__
+    static int presented;
+    if (driver_probe[0] && r >= 0 && ++presented == 60) unlink(driver_probe), driver_probe[0] = 0;  // (the driver works)
+#endif
     if (r == VK_ERROR_SURFACE_LOST_KHR) atomic_store(&g_surface_stale, true);
     // (a swapchain the system turns, IDENTITY on a rotated display, is "suboptimal" at every present: that's this,
     // not a new size - recreating it each frame would cost the frame)
@@ -791,7 +858,7 @@ void ui_window_init(void) {
     // the Fullscreen setting applies from the start screen on (not only once the game runs); test windows stay windows
     if (g_settings.fullscreen && !getenv("EOWRECOMP_WINDOW") && !getenv("EOWRECOMP_HIDDEN")) SDL_SetWindowFullscreen(window, true);
     create_instance();
-    if (!SDL_Vulkan_CreateSurface(window, g_vk.inst, NULL, &g_vk.surface)) FATAL("SDL_Vulkan_CreateSurface: %s\n", SDL_GetError());
+    if (!create_surface()) FATAL("SDL_Vulkan_CreateSurface: %s\n", SDL_GetError());
     pick_device();
     create_device();
     create_swapchain();

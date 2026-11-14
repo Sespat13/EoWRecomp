@@ -85,6 +85,44 @@ int android_open_document(const char *uri) {
     return fd;
 }
 
+// ---- custom GPU driver (EowActivity.gpuDriver*, GpuDrivers.java)
+// A static String method without arguments, copied into buf; NULL when it returned null or failed
+static const char *call_string(const char *name, char *buf, size_t cap) {
+    JNIEnv *env;
+    jclass cls;
+    jmethodID m = activity_method(&env, &cls, name, "()Ljava/lang/String;");
+    if (!m) return NULL;
+    jstring r = (jstring)(*env)->CallStaticObjectMethod(env, cls, m);
+    (*env)->DeleteLocalRef(env, cls);
+    if ((*env)->ExceptionCheck(env)) { (*env)->ExceptionClear(env); return NULL; }
+    if (!r) return NULL;
+    take_string(env, r, buf, cap);
+    return buf;
+}
+
+const char *android_gpu_driver_failed(void) {
+    static char name[256];
+    return call_string("gpuDriverFailed", name, sizeof name);
+}
+
+bool android_gpu_driver_config(AndroidGpuDriver *out) {
+    static char cfg[2600];
+    memset(out, 0, sizeof *out);
+    if (!call_string("gpuDriverConfig", cfg, sizeof cfg) || !cfg[0]) return false;
+    // one per line: driver folder, library, hook folder, temporary folder, probe file (GpuDrivers.config)
+    char *fields[5] = {out->dir, out->lib, out->hook_dir, out->tmp_dir, out->probe};
+    size_t caps[5] = {sizeof out->dir, sizeof out->lib, sizeof out->hook_dir, sizeof out->tmp_dir, sizeof out->probe};
+    char *p = cfg;
+    for (int i = 0; i < 5; i++) {
+        char *nl = strchr(p, '\n');
+        if (nl) *nl = 0;
+        snprintf(fields[i], caps[i], "%s", p);
+        if (!nl) return i == 4;
+        p = nl + 1;
+    }
+    return true;
+}
+
 // ---- building the game code on the phone (EowActivity.buildTools / BuildService)
 const char *android_build_tools(void) {
     static char dir[1024];

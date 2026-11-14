@@ -137,3 +137,11 @@ Linux** (Intel Iris Xe, Mesa ANV). Metal não foi tocado nem testado.
 ### Pendências conhecidas
 - `docs/linux.md` / `docs/BUILD-windows.md` ainda são do LAS.
 - Widescreen, ícones de botão, menu sem abas específicas do EoW: M7.
+
+### Android: driver Turnip (ramo `claude-turnip`, app experimental "EoWRecomp 0.6 Turnip")
+- Carga do Mesa Turnip R9v2 (o da APK, `tools/android/build_deps.sh`) via libadrenotools no lugar do driver Adreno de
+  fábrica: `runtime/nvn/vulkan/device.c` (`custom_driver`, `create_surface`), `GpuDrivers.java`, `android/app/CMakeLists.txt`.
+  Adaptado do LASRecomp-Android-Plus. Se o driver falha no início, o próximo início usa o do sistema (arquivo `.probe`).
+- `env.txt`: `EOWRECOMP_GPU_DRIVER=system` mantém o driver de fábrica; `=turnip` tenta o Turnip de novo após uma falha.
+  Um `driver.zip` colocado em `Android/data/<pacote>/files/` é instalado no início seguinte (testar outro Turnip sem recompilar).
+- Não verificado em aparelho: o que o Turnip faz na Adreno 740 (compilar e testar). O log mostra `[vk] GPU driver: ...`.

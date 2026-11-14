@@ -29,6 +29,14 @@ const char *android_build_tools(void);
 // The build's foreground service (keeps the app running with the screen off: wake lock, a notification); on = false
 // ends it. text: what the notification says (any thread).
 void android_build_service(bool on, const char *title);
+
+// ---- a custom Vulkan driver (Mesa Turnip on Adreno: GpuDrivers.java), loaded by runtime/nvn/vulkan/device.c through
+// libadrenotools. The driver for this start: false = the system's. Folders end with '/'. probe: a file removed once the
+// driver has presented frames (left behind, the next start runs the system driver).
+typedef struct { char dir[512], lib[128], hook_dir[512], tmp_dir[512], probe[512]; } AndroidGpuDriver;
+bool android_gpu_driver_config(AndroidGpuDriver *out);
+// The name of a driver that failed at its last start (the system's runs instead), once; else NULL
+const char *android_gpu_driver_failed(void);
 void android_build_progress(int percent, const char *text);
 
 #ifdef __cplusplus

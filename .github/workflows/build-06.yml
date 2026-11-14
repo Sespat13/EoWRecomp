@@ -1,0 +1,1311 @@
+name: EoWRecomp 0.6 Turnip
+# Rama claude-turnip: se compila al hacer push con "[build]" en el mensaje del commit (o a mano con Run workflow, si
+# GitHub la lista). No toca main ni gpt-experimental.
+on:
+  push:
+    branches: [claude-turnip]
+  workflow_dispatch:
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[build]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Herramientas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build nasm cmake python3 zip unzip
+
+      - name: Android SDK y NDK
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;27.2.12479018" "platforms;android-36" "cmake;3.22.1"
+          echo "sdk.dir=$ANDROID_HOME" > android/local.properties
+
+      - name: Descargar la APK original del release y comprobarla
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/orig
+          gh release download alpha_1 --repo Nycolazs/EoWRecomp --pattern 'EoWRecomp-alpha_1-Android-arm64.apk' --output build/orig/eow.apk
+          echo "8d7a0d38f710fbd6d294eacd5f0e67d7925a7332c365aa04a81945989dafba0a  build/orig/eow.apk" | sha256sum -c -
+
+      - name: Reutilizar las piezas ya compiladas de la APK original
+        run: |
+          unzip -q build/orig/eow.apk 'lib/arm64-v8a/*' 'assets/ondevice.zip' 'assets/licenses/*' -d build/orig/x
+          mkdir -p build/ondevice/stage/jniLibs/arm64-v8a build/ondevice/assets
+          for f in libzig libpython3.14 libunicorn libcapstone libeowpython; do
+            cp build/orig/x/lib/arm64-v8a/$f.so build/ondevice/stage/jniLibs/arm64-v8a/
+          done
+          cp build/orig/x/assets/ondevice.zip build/ondevice/assets/
+          cp -R build/orig/x/assets/licenses build/ondevice/assets/
+          ls -l build/ondevice/stage/jniLibs/arm64-v8a build/ondevice/assets
+
+      - name: Aplicar los cambios experimentales
+        run: |
+          python3 - <<'EOF'
+          p = 'runtime/nvn/vulkan/device.c'
+          s = open(p).read()
+          a = '    VkPhysicalDeviceFeatures2 have = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};\n'
+          b = ('    VkPhysicalDeviceVulkan12Features have12 = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES};\n'
+               '    VkPhysicalDeviceFeatures2 have = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2, .pNext = &have12};\n')
+          assert s.count(a) == 1, 'bloque 1 no encontrado'
+          s = s.replace(a, b)
+          c = '    vkGetPhysicalDeviceFeatures2(g_vk.phys, &have);\n'
+          d = c + '    if (!have12.uniformAndStorageBuffer8BitAccess) LOG("[vk] warning: no uniformAndStorageBuffer8BitAccess (not requested)\\n");\n'
+          assert s.count(c) == 1, 'bloque 2 no encontrado'
+          s = s.replace(c, d)
+          e = '.uniformAndStorageBuffer8BitAccess = VK_TRUE, .storageBuffer8BitAccess = VK_TRUE,'
+          f = '.uniformAndStorageBuffer8BitAccess = have12.uniformAndStorageBuffer8BitAccess, .storageBuffer8BitAccess = VK_TRUE,'
+          assert s.count(e) == 1, 'bloque 3 no encontrado'
+          s = s.replace(e, f)
+          open(p, 'w').write(s)
+          EOF
+          python3 - <<'EOF2'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          def rep(a, b):
+              global s
+              assert s.count(a) == 1, 'no encontrado (o repetido): ' + a[:60]
+              s = s.replace(a, b)
+
+          # 1) copia activa tambien sin la importacion de memoria del anfitrion
+          rep('on = e ? atoi(e) != 0 : g_vk.props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;',
+              'on = e ? atoi(e) != 0 : (g_vk.props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU || !g_vk.host_import);')
+
+          # 2) origen de la copia: el monton del juego en la CPU cuando no hay importacion
+          rep('    if (!on || !gmem_buf) return;\n',
+              '    bool cpu_src = !gmem_buf && !g_vk.host_import;  // (EXP) sin VK_EXT_external_memory_host: leer el monton desde la CPU\n'
+              '    uint64_t gsz = gmem_size;\n'
+              '    if (cpu_src) { gsz = (kernel_heap_size() + 0xFFFF) & ~0xFFFFull; if (gsz > HEAP_MAX) gsz = HEAP_MAX; }\n'
+              '    if (!on || (!gmem_buf && !cpu_src)) return;\n')
+          rep('if (!a || !sz || a < HEAP_BASE || a - HEAP_BASE + sz > gmem_size) continue;',
+              'if (!a || !sz || a < HEAP_BASE || a - HEAP_BASE + sz > gsz) continue;')
+          rep('        if (hi > gmem_size) hi = gmem_size;\n        int k = n++;',
+              '        if (hi > gsz) hi = gsz;\n        int k = n++;')
+          rep('    vkCmdCopyBuffer(cb, gmem_buf, gfast_buf, (uint32_t)m, cp);\n',
+              '    if (cpu_src) {\n'
+              '        for (int i = 0; i < m; i++) {\n'
+              '            VkSpan gs = guest_copy(HEAP_BASE + cp[i].srcOffset, cp[i].size);\n'
+              '            VkBufferCopy one = {gs.off, cp[i].dstOffset, cp[i].size};\n'
+              '            vkCmdCopyBuffer(cb, gs.buf, gfast_buf, 1, &one);\n'
+              '        }\n'
+              '    } else {\n'
+              '        vkCmdCopyBuffer(cb, gmem_buf, gfast_buf, (uint32_t)m, cp);\n'
+              '    }\n')
+
+          # 3) sin importacion no hay vuelta a la memoria del juego (etapa 1: solo lectura)
+          rep('    if (!gfast_n) return;\n    VkBufferCopy back[GMAP_MAX];',
+              '    if (!gfast_n) return;\n'
+              '    if (!gmem_buf) {  // (EXP) etapa 2: sin importacion, la vuelta al monton pasa por la CPU\n'
+              '        uint64_t tot = 0;\n'
+              '        for (int i = 0; i < gfast_n; i++) tot += (gfast_cp[i].size + 255) & ~255ull;\n'
+              '        VkSpan out = vk_readback(tot);\n'
+              '        VkBufferCopy rb[GMAP_MAX];\n'
+              '        uint64_t o = 0;\n'
+              '        for (int i = 0; i < gfast_n; i++) { rb[i] = (VkBufferCopy){gfast_cp[i].dstOffset, out.off + o, gfast_cp[i].size}; o += (gfast_cp[i].size + 255) & ~255ull; }\n'
+              '        vk_full_barrier(cb);\n'
+              '        vkCmdCopyBuffer(cb, gfast_buf, out.buf, (uint32_t)gfast_n, rb);\n'
+              '        wait_why = "gfast write-back";\n'
+              '        renderer_flush();\n'
+              '        o = 0;\n'
+              '        for (int i = 0; i < gfast_n; i++) { memcpy((void *)(uintptr_t)(HEAP_BASE + gfast_cp[i].srcOffset), (uint8_t *)out.ptr + o, gfast_cp[i].size); o += (gfast_cp[i].size + 255) & ~255ull; }\n'
+              '        gfast_n = 0;\n'
+              '        return;\n'
+              '    }\n'
+              '    VkBufferCopy back[GMAP_MAX];')
+          open(p, 'w').write(s)
+          print('ok')
+          EOF2
+          python3 - <<'EOF3'
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+          a = '    } else {\n        fail(c, "unknown instruction %016llx at %#x", (unsigned long long)w, pc);\n'
+          assert s.count(a) == 1, 'ancla SUST no encontrada'
+          b = ('    } else if (OPM(0xeb20000000000000ull, 0xffe0000000000000ull)) {  // SUST (EXP: no-op, sin escritura de imagen)\n'
+               '        sp(&c->body, "    /* sust: not implemented (EXP no-op) */\\n");\n')
+          s = s.replace(a, b + a)
+          open(p, 'w').write(s)
+          print('ok sust')
+          EOF3
+          python3 - <<'EOF4'
+          p = 'android/app/build.gradle'
+          s = open(p).read()
+          a = "    signingConfigs {\n        if (keystoreProps.exists()) {\n"
+          assert s.count(a) == 1, 'ancla signingConfigs no encontrada'
+          b = ("    signingConfigs {\n"
+               "        eowfixed {\n"
+               "            storeFile file(System.getProperty('user.home') + '/.android/debug.keystore')\n"
+               "            storePassword 'android'\n"
+               "            keyAlias 'androiddebugkey'\n"
+               "            keyPassword 'android'\n"
+               "        }\n"
+               "        if (keystoreProps.exists()) {\n")
+          s = s.replace(a, b)
+          c = "signingConfig keystoreProps.exists() ? signingConfigs.release : signingConfigs.debug"
+          assert s.count(c) == 1, 'ancla signingConfig no encontrada'
+          s = s.replace(c, "signingConfig keystoreProps.exists() ? signingConfigs.release : signingConfigs.eowfixed")
+          open(p, 'w').write(s)
+          print('ok firma fija')
+          EOF4
+          python3 - <<'EOF5'
+          # Parche 0.5.6: el video del titulo se lee desde el paquete (romfs) cuando no existe como archivo suelto
+          p = 'runtime/services/fs.c'
+          s = open(p).read()
+          a = '// ------------------------------------------------------------------ IStorage (raw RomFS image)\n'
+          b = '''// A RomFS file by path ("region_common/movie/x.webm"): image offset and size (-1 if unknown). For code that needs
+          // a file but has no host copy because the RomFS is read in place from the package (the movie decoder).
+          int64_t romfs_file_find(const char *rel, uint64_t *off) {
+              for (int i = 0; i < rom_nfiles; i++)
+                  if (!strcmp(rom_files[i].path, rel)) { *off = rom_files[i].off; return (int64_t)rom_files[i].size; }
+              return -1;
+          }
+
+          ssize_t romfs_image_read(uint64_t off, void *dst, size_t n) {
+              return romfs_fd < 0 ? -1 : romfs_read(romfs_fd, dst, n, off);
+          }
+
+          '''
+          assert s.count(a) == 1, 'fs.c ancla no encontrada'
+          s = s.replace(a, b + a)
+          open(p, 'w').write(s)
+
+          p = 'runtime/hle/movie.c'
+          s = open(p).read()
+          a = 'static void ex_set_data_source(Cpu *c) {\n'
+          b = '''// RomFS read in place from the package: no host file exists, so FFmpeg reads the movie through this.
+          int64_t romfs_file_find(const char *rel, uint64_t *off);
+          ssize_t romfs_image_read(uint64_t off, void *dst, size_t n);
+          typedef struct { uint64_t off, size, pos; } RomIO;
+          static int romio_read(void *o, uint8_t *buf, int n) {
+              RomIO *r = o;
+              if (r->pos >= r->size) return AVERROR_EOF;
+              if ((uint64_t)n > r->size - r->pos) n = (int)(r->size - r->pos);
+              ssize_t k = romfs_image_read(r->off + r->pos, buf, (size_t)n);
+              if (k <= 0) return AVERROR_EOF;
+              r->pos += (uint64_t)k;
+              return (int)k;
+          }
+          static int64_t romio_seek(void *o, int64_t off, int whence) {
+              RomIO *r = o;
+              if (whence == AVSEEK_SIZE) return (int64_t)r->size;
+              whence &= ~AVSEEK_FORCE;
+              int64_t p = whence == SEEK_SET ? off : whence == SEEK_CUR ? (int64_t)r->pos + off : (int64_t)r->size + off;
+              if (p < 0) return -1;
+              r->pos = (uint64_t)p;
+              return p;
+          }
+
+          '''
+          assert s.count(a) == 1, 'movie.c ancla 1 no encontrada'
+          s = s.replace(a, b + a)
+          a = '    if (avformat_open_input(&e->fmt, host, NULL, NULL) < 0 || avformat_find_stream_info(e->fmt, NULL) < 0) {\n'
+          b = '''    int rc = avformat_open_input(&e->fmt, host, NULL, NULL);
+              if (rc < 0) {
+                  uint64_t roff = 0;
+                  int64_t rsz = rel ? romfs_file_find(rel, &roff) : -1;
+                  if (rsz >= 0) {
+                      RomIO *r = calloc(1, sizeof *r);
+                      r->off = roff, r->size = (uint64_t)rsz;
+                      AVIOContext *io = avio_alloc_context(av_malloc(65536), 65536, 0, r, romio_read, NULL, romio_seek);
+                      e->fmt = avformat_alloc_context();
+                      e->fmt->pb = io;
+                      e->fmt->flags |= AVFMT_FLAG_CUSTOM_IO;
+                      rc = avformat_open_input(&e->fmt, host, NULL, NULL);
+                      LOG("[movie] from the package (%lld bytes): %s\\n", (long long)rsz, rc < 0 ? "failed" : "ok");
+                  }
+              }
+              if (rc < 0 || avformat_find_stream_info(e->fmt, NULL) < 0) {
+          '''
+          assert s.count(a) == 1, 'movie.c ancla 2 no encontrada'
+          s = s.replace(a, b)
+          open(p, 'w').write(s)
+          EOF5
+          python3 - <<'EOF6'
+          # Parche 0.5.7: diagnostico de memoria global (gmem) sin importar el heap. No cambia el comportamiento: solo escribe al log.
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+
+          # 1) gfast_prepare: avisa cuando un dispatch no puede usar la copia y cae al heap (que sin import lee ceros)
+          a = '        if (m > GMAP_MAX || off + len > GFAST_SIZE) return;  // (too much: the heap as before)\n'
+          b = ('        if (m > GMAP_MAX || off + len > GFAST_SIZE) {  // (too much: the heap as before)\n'
+               '            static int nl; if (!g_vk.host_import && nl++ < 30) LOG("[gmem] cs %llx: too many/large ranges (%d ranges, %llu KB): reads give zero\\n", (unsigned long long)st.program->stages[5].code_addr, m, (unsigned long long)((off + len) >> 10));\n'
+               '            return;\n'
+               '        }\n')
+          assert s.count(a) == 1, 'diag ancla 1'
+          s = s.replace(a, b)
+
+          a = '    if (!m) return;\n'
+          assert s.count(a) >= 1, 'diag ancla 2'
+          i = s.index(a, s.index('static void gfast_prepare'))
+          b = ('    if (!m) {\n'
+               '        static int nl; if (!g_vk.host_import && nl++ < 30) LOG("[gmem] cs %llx: no bound storage buffer inside the heap: reads give zero\\n", (unsigned long long)st.program->stages[5].code_addr);\n'
+               '        return;\n'
+               '    }\n')
+          s = s[:i] + b + s[i + len(a):]
+
+          # 2) dibujos (vertex/fragment) que usan gmem sin import: leen ceros
+          a = '    if (pr->vi->uses_gmem_store) vc_mark_sbufs(0);\n'
+          b = ('    if (!gmem_buf && (pr->vi->uses_gmem || pr->fi->uses_gmem)) {  // (diagnostic) graphics shaders reading the heap with no import\n'
+               '        static uint64_t seen[64][2]; static int nseen; static unsigned long ndraw;\n'
+               '        ndraw++;\n'
+               '        int k = 0; while (k < nseen && !(seen[k][0] == (uint64_t)pr->code[0] && seen[k][1] == (uint64_t)pr->code[1])) k++;\n'
+               '        if (k == nseen && nseen < 64) {\n'
+               '            seen[nseen][0] = (uint64_t)pr->code[0]; seen[nseen][1] = (uint64_t)pr->code[1]; nseen++;\n'
+               '            LOG("[gmem] draw: vs %llx (gmem %d store %d) fs %llx (gmem %d store %d) reads zero; sbuf v:",\n'
+               '                (unsigned long long)pr->code[0], pr->vi->uses_gmem, pr->vi->uses_gmem_store, (unsigned long long)pr->code[1], pr->fi->uses_gmem, pr->fi->uses_gmem_store);\n'
+               '            for (int i = 0; i < 16; i++) if (st.sbuf[0][i].addr) LOG(" %llx+%llx", (unsigned long long)st.sbuf[0][i].addr, (unsigned long long)st.sbuf[0][i].size);\n'
+               '            LOG(" f:");\n'
+               '            for (int i = 0; i < 16; i++) if (st.sbuf[1][i].addr) LOG(" %llx+%llx", (unsigned long long)st.sbuf[1][i].addr, (unsigned long long)st.sbuf[1][i].size);\n'
+               '            LOG(" (unique %d, draws so far %lu)\\n", nseen, ndraw);\n'
+               '        }\n'
+               '    }\n') + a
+          assert s.count(a) == 1, 'diag ancla 3'
+          s = s.replace(a, b)
+
+          # 3) resumen cada ~2000 dibujos de este tipo
+          a = '        ndraw++;\n'
+          b = '        ndraw++;\n        if ((ndraw & (ndraw - 1)) == 0 && ndraw >= 1024) LOG("[gmem] %lu draws with graphics gmem so far\\n", ndraw);\n'
+          assert s.count(a) == 1, 'diag ancla 4'
+          s = s.replace(a, b)
+          open(p, 'w').write(s)
+          print('ok diag')
+          EOF6
+          python3 - <<'EOF7'
+          # Parche 0.5.8 (EXP): los shaders de dibujo (vertex/fragment) leen sus buffers de almacenamiento desde una copia hecha por la CPU
+          # cuando la GPU no puede importar el monton (sin VK_EXT_external_memory_host). EOWRECOMP_VK_GFX_GMAP=1 lo enciende (apagado por defecto desde 0.5.9).
+          import re
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+          a = 'uint64_t maxwell_gmem_base, maxwell_gmem_size;'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '\nbool maxwell_gfx_gmap;  // (EXP) graphics shaders look their gmem loads up in GMap / GFast too (exec.c gfx_gmap)')
+          a = '        if (c->glsl && c->stage == STAGE_COMPUTE) {\n            // Compute (Vulkan): the guest heap is host memory'
+          assert s.count(a) == 1
+          s = s.replace(a, '        if (c->glsl && (c->stage == STAGE_COMPUTE || (maxwell_gfx_gmap && !store))) {\n            // Compute (Vulkan): the guest heap is host memory')
+          a = '''        sp(&s, "layout(std430, set = %d, binding = %d) %sbuffer GFast { uint w[]; } gfast_;\\n", set, GFAST_BUFFER_INDEX,
+                     c->uses_gmem_store ? "" : "readonly ");'''
+          assert s.count(a) == 1
+          s = s.replace(a, '''        sp(&s, "layout(std430, set = %d, binding = %d) %sbuffer GFast { uint w[]; } gfast_;\\n", set, GFAST_BUFFER_INDEX,
+                     c->uses_gmem_store && stage == STAGE_COMPUTE ? "" : "readonly ");''')
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/maxwell/shader.h'
+          s = open(p).read()
+          a = '#define GMAP_BUFFER_INDEX 20'
+          assert s.count(a) == 1
+          s = s.replace(a, 'extern bool maxwell_gfx_gmap;\n' + a)
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          # 1) flag antes de traducir
+          a = '    maxwell_gmem_base = HEAP_BASE;\n    maxwell_gmem_size = HEAP_MAX;\n    pthread_mutex_lock(&translate_lock);\n    p->vi = maxwell_translate('
+          assert s.count(a) == 1
+          s = s.replace(a, '''    maxwell_gmem_base = HEAP_BASE;
+              maxwell_gmem_size = HEAP_MAX;
+              { const char *e = getenv("EOWRECOMP_VK_GFX_GMAP"); maxwell_gfx_gmap = e ? atoi(e) != 0 : 0;  /* 0.5.9: apagado por defecto (0.5.8 no cambio la imagen) */ }
+              pthread_mutex_lock(&translate_lock);
+              p->vi = maxwell_translate(''')
+          # 2) funcion gfx_gmap antes de stage_set
+          a = 'static VkDescriptorSet stage_set(Prog *p, VkDescriptorSetLayout layout,'
+          assert s.count(a) == 1
+          fn = r'''// (EXP) Sin importar el monton, un shader de dibujo que lee memoria global (LDG) veia ceros. Sus buffers de almacenamiento
+          // (st.sbuf[stage]) se copian desde la CPU a memoria transitoria (compartida por envio si no cambian) y la tabla GMap dice donde
+          // cae cada rango, igual que gfast_prepare en compute. Solo lecturas: los STG de dibujo siguen yendo al buffer ficticio.
+          static bool gfx_gmap(int stage, uint32_t *tab, VkDescriptorBufferInfo *out) {
+              static struct { uint64_t seq; uint32_t tab[(GMAP_MAX + 1) * 4]; VkSpan span; uint64_t total; } last[2];
+              memset(tab, 0, (GMAP_MAX + 1) * 4 * sizeof(uint32_t));
+              uint64_t gsz = (kernel_heap_size() + 0xFFFF) & ~0xFFFFull;
+              if (gsz > HEAP_MAX) gsz = HEAP_MAX;
+              struct { uint64_t lo, hi; } r[16];
+              int n = 0;
+              for (int i = 0; i < 16; i++) {
+                  uint64_t a = st.sbuf[stage][i].addr, sz = st.sbuf[stage][i].size;
+                  if (!a || !sz || a < HEAP_BASE || a - HEAP_BASE + sz > gsz) continue;
+                  uint64_t lo = (a - HEAP_BASE) & ~255ull, hi = (a - HEAP_BASE + sz + 255) & ~255ull;
+                  if (hi > gsz) hi = gsz;
+                  int k = n++;
+                  while (k > 0 && r[k - 1].lo > lo) { r[k] = r[k - 1]; k--; }
+                  r[k].lo = lo; r[k].hi = hi;
+              }
+              int m = 0;
+              for (int i = 0; i < n; i++) {
+                  if (m && r[i].lo <= r[m - 1].hi + 4096) { if (r[i].hi > r[m - 1].hi) r[m - 1].hi = r[i].hi; }
+                  else r[m++] = r[i];
+              }
+              uint64_t total = 0;
+              for (int i = 0; i < m; i++) total += (r[i].hi - r[i].lo + 255) & ~255ull;
+              if (!m || m > GMAP_MAX || total > (4ull << 20)) {
+                  static int nl;
+                  if (m && nl++ < 20) LOG("[gmem] draw stage %d: %d ranges, %llu KB: too much to copy, reads give zero\n", stage, m, (unsigned long long)(total >> 10));
+                  memset(tab, 0, (GMAP_MAX + 1) * 4 * sizeof(uint32_t));
+                  *out = gmem_info();
+                  return false;
+              }
+              uint64_t off = 0;
+              for (int i = 0; i < m; i++) {
+                  uint64_t len = r[i].hi - r[i].lo;
+                  tab[i * 4 + 0] = (uint32_t)r[i].lo;
+                  tab[i * 4 + 1] = (uint32_t)len;
+                  tab[i * 4 + 2] = (uint32_t)(off >> 2);
+                  off += (len + 255) & ~255ull;
+              }
+              tab[GMAP_MAX * 4] = (uint32_t)m;
+              int sl = stage ? 1 : 0;
+              uint64_t seq = vk_pending_seq() + (gcopy_gen << 40);
+              if (last[sl].seq != seq || last[sl].total != total || memcmp(last[sl].tab, tab, sizeof last[sl].tab)) {
+                  VkSpan sp_ = vk_transient(total, 256);
+                  off = 0;
+                  for (int i = 0; i < m; i++) {
+                      uint64_t len = r[i].hi - r[i].lo;
+                      memcpy((uint8_t *)sp_.ptr + off, (const void *)(uintptr_t)(HEAP_BASE + r[i].lo), len);
+                      off += (len + 255) & ~255ull;
+                  }
+                  last[sl].seq = seq; last[sl].total = total; last[sl].span = sp_;
+                  memcpy(last[sl].tab, tab, sizeof last[sl].tab);
+                  static unsigned long cnt;
+                  if (cnt++ < 5) LOG("[gmem] draw stage %d: %d ranges, %llu KB copied for shader reads\n", stage, m, (unsigned long long)(total >> 10));
+              }
+              *out = (VkDescriptorBufferInfo){last[sl].span.buf, last[sl].span.off, total};
+              return true;
+          }
+
+          '''
+          s = s.replace(a, fn + a)
+          # 3) stage_set: preparar y usar
+          a = '    int sg = stage == 1 ? 1 : 0;\n    float rs[66][4] = {{1, 1, 0, 0}};'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    int sg = stage == 1 ? 1 : 0;
+              uint32_t gtab[(GMAP_MAX + 1) * 4];
+              VkDescriptorBufferInfo gfx_fast = {0};
+              bool gfx = false;
+              if (stage != 5) for (int i = 0; i < p->nbinds; i++) if (p->binds[i].set == set && p->binds[i].binding == GFAST_BUFFER_INDEX) { gfx_gmap(stage, gtab, &gfx_fast); gfx = true; break; }
+              float rs[66][4] = {{1, 1, 0, 0}};''')
+          a = '            bi[n] = b->binding == GFAST_BUFFER_INDEX ? gfast_info() : gmem_info();'
+          assert s.count(a) == 1
+          s = s.replace(a, '            bi[n] = b->binding == GFAST_BUFFER_INDEX ? (gfx ? gfx_fast : gfast_info()) : gmem_info();')
+          a = '            bi[n] = ubo_span(vk_transient_copy(gmap_tab, sizeof gmap_tab, 256), sizeof gmap_tab);'
+          assert s.count(a) == 1
+          s = s.replace(a, '            bi[n] = ubo_span(vk_transient_copy(gfx ? gtab : gmap_tab, sizeof gmap_tab, 256), sizeof gmap_tab);')
+          open(p, 'w').write(s)
+          print('ok gfx')
+          EOF7
+          python3 - <<'EOF8'
+          # Parche 0.5.9: diagnostico de texturas muestreadas (formato, swizzle de componentes, tamano). Solo escribe al log.
+          p = 'runtime/nvn/vulkan/textures.c'
+          s = open(p).read()
+          a = '    VkImageViewType want = view_type_for(want_textype);\n    VkImageViewType have = b->base_type;'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {  // (diagnostico) cada combinacion distinta de formato NVN / formato Vulkan / swizzle, una vez
+                  static uint64_t seen[256]; static int nseen, nlog;
+                  const uint8_t *s_ = v && (v->setmask & 8) ? v->swizzle : t->swizzle;
+                  uint64_t h = ((uint64_t)t->format << 40) ^ ((uint64_t)fmt << 16) ^ ((uint64_t)s_[0] << 12) ^ ((uint64_t)s_[1] << 8) ^ ((uint64_t)s_[2] << 4) ^ s_[3] ^ ((uint64_t)want_textype << 56);
+                  bool dup = false;
+                  for (int i = 0; i < nseen; i++) if (seen[i] == h) { dup = true; break; }
+                  if (!dup && nseen < 256) {
+                      seen[nseen++] = h;
+                      if (nlog++ < 120)
+                          LOG("[tex] nvn fmt %#x -> vk %d (view %d) swz %u%u%u%u (%s) alpha1 %d type %d %ux%u levels %u\\n", t->format, (int)b->format, (int)fmt,
+                              s_[0], s_[1], s_[2], s_[3], v && (v->setmask & 8) ? "view" : "texture", fmt_of(t->format).alpha_one, want_textype, t->width, t->height, b->levels);
+                  }
+              }
+              VkImageViewType want = view_type_for(want_textype);
+              VkImageViewType have = b->base_type;''')
+          open(p, 'w').write(s)
+          print('ok tex')
+          EOF8
+          python3 - <<'EOF9'
+          # Parche 0.5.10 (EXP): shaders sin enteros de 64 bits (esta GPU no tiene shaderInt64). IADD con acarreo, SHF y las direcciones
+          # de LDG/STG/RED usaban "ulong"; se reescriben con uint (uaddCarry / usubBorrow). EOWRECOMP_VK_NO_INT64=0 lo apaga, =1 lo fuerza.
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+
+          a = 'bool maxwell_gfx_gmap;'
+          assert s.count(a) == 1
+          s = s.replace(a, 'bool maxwell_no_int64;  // (EXP) GLSL without 64-bit integers\n' + a)
+
+          # IADD32I
+          a = '''        sp(&c->body, "    { ulong sum = ulong(%s%s) + ulong(0x%08xu)%s;%s\\n", bits(w, 56, 1) ? "-" : "", R(a), (uint32_t)bits(w, 20, 32),
+                     x ? " + ulong(cc)" : "", wcc ? " cc = uint(sum >> 32) & 1u;" : "");
+                  if (d != RZ) { c->reg_used[d] = 1; sp(&c->body, "      r%d = uint(sum);\\n", d); }
+                  sp(&c->body, "    }\\n");'''
+          assert s.count(a) == 1
+          s = s.replace(a, '''        if (c->glsl && maxwell_no_int64) {
+                      sp(&c->body, "    { uint c1_ = 0u, c2_ = 0u; uint s_ = uaddCarry(%s%s, 0x%08xu, c1_);\\n", bits(w, 56, 1) ? "-" : "", R(a), (uint32_t)bits(w, 20, 32));
+                      if (x) sp(&c->body, "      s_ = uaddCarry(s_, cc, c2_);\\n");
+                      if (wcc) sp(&c->body, "      cc = (c1_ + c2_) & 1u;\\n");
+                      if (d != RZ) { c->reg_used[d] = 1; sp(&c->body, "      r%d = s_;\\n", d); }
+                      sp(&c->body, "    }\\n");
+                  } else {
+          ''' + a + '\n        }')
+
+          # IADD3
+          a = '''            sp(&c->body, "    { ulong sum = ulong(%s%s) + ulong(%s%s) + ulong(%s%s)%s;\\n", bits(w, 51, 1) ? "-" : "", R(a),
+                         bits(w, 50, 1) ? "-" : "", B(false), bits(w, 49, 1) ? "-" : "", R((int)bits(w, 39, 8)), x3 ? " + ulong(cc)" : "");
+                      if (wcc3) sp(&c->body, "      cc = uint(sum >> 32) & 1u;\\n");
+                      if (d != RZ) { c->reg_used[d] = 1; sp(&c->body, "      r%d = uint(sum);\\n", d); }
+                      sp(&c->body, "    }\\n");'''
+          assert s.count(a) == 1
+          s = s.replace(a, '''            if (c->glsl && maxwell_no_int64) {
+                          sp(&c->body, "    { uint c1_ = 0u, c2_ = 0u, c3_ = 0u; uint s_ = uaddCarry(%s%s, %s%s, c1_);\\n", bits(w, 51, 1) ? "-" : "", R(a),
+                             bits(w, 50, 1) ? "-" : "", B(false));
+                          sp(&c->body, "      s_ = uaddCarry(s_, %s%s, c2_);\\n", bits(w, 49, 1) ? "-" : "", R((int)bits(w, 39, 8)));
+                          if (x3) sp(&c->body, "      s_ = uaddCarry(s_, cc, c3_);\\n");
+                          if (wcc3) sp(&c->body, "      cc = (c1_ + c2_ + c3_) & 1u;\\n");
+                          if (d != RZ) { c->reg_used[d] = 1; sp(&c->body, "      r%d = s_;\\n", d); }
+                          sp(&c->body, "    }\\n");
+                      } else {
+          ''' + a + '\n            }')
+
+          # SHF (64 bits funnel)
+          a = '''        if (right) sprintf(t, "uint((((ulong(%s) << 32) | ulong(%s)) >> (%s & 31u)))", hi, R(a), sh);
+                  else sprintf(t, "uint((((ulong(%s) << 32) | ulong(%s)) << (%s & 31u)) >> 32)", hi, R(a), sh);'''
+          assert s.count(a) == 1
+          s = s.replace(a, '''        if (c->glsl && maxwell_no_int64) {
+                      char lo_[128], hi_[128], sh_[128];
+                      snprintf(lo_, sizeof lo_, "%s", R(a)); snprintf(hi_, sizeof hi_, "%s", hi); snprintf(sh_, sizeof sh_, "%s", sh);
+                      if (right) sprintf(t, "((%s & 31u) == 0u ? %s : ((%s >> (%s & 31u)) | (%s << (32u - (%s & 31u)))))", sh_, lo_, lo_, sh_, hi_, sh_);
+                      else sprintf(t, "((%s & 31u) == 0u ? %s : ((%s << (%s & 31u)) | (%s >> (32u - (%s & 31u)))))", sh_, hi_, hi_, sh_, lo_, sh_);
+                  } else
+          ''' + a.replace('        if (right)', '        if (right)', 1))
+
+          # direcciones de LDG/STG y RED (aparece dos veces)
+          a = '''        sp(&c->body, "    { ulong ga = %s - 0x%llxul; bool ok = ga < 0x%llxul;\\n", addr,
+                     (unsigned long long)maxwell_gmem_base, (unsigned long long)maxwell_gmem_size);'''
+          assert s.count(a) == 2
+          b = '''        if (c->glsl && maxwell_no_int64) {
+                      const char *lo_ = a == RZ ? "0u" : R(a), *hi_ = (a != RZ && wide) ? R(a + 1) : "0u";
+                      sp(&c->body, "    { uint al_ = %s, ah_ = %s, c1_ = 0u; uint sl_ = uaddCarry(al_, 0x%08xu, c1_); uint sh_ = ah_ + 0x%08xu + c1_;\\n"
+                                   "      uint b1_ = 0u; uint ga = usubBorrow(sl_, 0x%08xu, b1_); uint gh_ = sh_ - 0x%08xu - b1_; bool ok = gh_ == 0u && ga < 0x%08xu;\\n",
+                         lo_, hi_, (uint32_t)off, off < 0 ? 0xFFFFFFFFu : 0u, (uint32_t)maxwell_gmem_base, (uint32_t)(maxwell_gmem_base >> 32),
+                         (uint32_t)maxwell_gmem_size);
+                  } else
+          ''' + a
+          s = s.replace(a, b)
+          s = s.replace('3ul', '3u').replace('"2ul"', '"2u"').replace('& 2ul)', '& 2u)')
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/maxwell/shader.h'
+          s = open(p).read()
+          a = 'extern bool maxwell_gfx_gmap;'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '\nextern bool maxwell_no_int64;')
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/vulkan/device.c'
+          s = open(p).read()
+          a = '    if (!h->shaderInt64) LOG("[vk] warning: no shaderInt64 (64-bit address math in shaders)\\n");'
+          assert s.count(a) == 1
+          s = s.replace(a, '    if (!h->shaderInt64) { extern bool maxwell_no_int64; maxwell_no_int64 = true; }\n' + a)
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    { const char *e = getenv("EOWRECOMP_VK_GFX_GMAP");'
+          assert s.count(a) == 1
+          s = s.replace(a, '    { extern bool maxwell_no_int64; const char *e = getenv("EOWRECOMP_VK_NO_INT64"); if (e) maxwell_no_int64 = atoi(e) != 0; }\n' + a)
+          # la copia de los shaders de dibujo vuelve a estar activa cuando no hay importacion (ahora con direcciones sanas)
+          a = 'maxwell_gfx_gmap = e ? atoi(e) != 0 : 0;  /* 0.5.9: apagado por defecto (0.5.8 no cambio la imagen) */'
+          assert s.count(a) == 1
+          s = s.replace(a, 'maxwell_gfx_gmap = e ? atoi(e) != 0 : !g_vk.host_import;')
+          open(p, 'w').write(s)
+          print('ok i64')
+          EOF9
+          python3 - <<'EOF10'
+          # Parche 0.5.11: diagnostico de instrucciones sin implementar (SUST) y de los shaders de computo. Solo escribe al log.
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    p->vs_uses_vid = strstr(p->vi->msl, "gl_VertexIndex") != NULL;'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {  // (diagnostico) shaders de dibujo que contienen SUST, que se traduce como "no hacer nada"
+                  static int n_sust;
+                  bool sv = strstr(p->vi->msl, "sust: not implemented") != NULL, sf = strstr(p->fi->msl, "sust: not implemented") != NULL;
+                  if ((sv || sf) && n_sust++ < 60)
+                      LOG("[shader] SUST sin implementar: vs %llx%s fs %llx%s\\n", (unsigned long long)p->code[0], sv ? " (SI)" : "", (unsigned long long)p->code[1], sf ? " (SI)" : "");
+              }
+          ''' + a)
+          a = '    for (int i = 0; i < 3; i++) {\n        cp->local[i] = ss->control'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {  // (diagnostico) cada programa de computo: direccion, uso de memoria global y SUST
+                  static int n_cs;
+                  if (n_cs++ < 80)
+                      LOG("[compute] cs %llx: gmem %d store %d sust %d\\n", (unsigned long long)ss->code_addr, cp->si->uses_gmem, cp->si->uses_gmem_store,
+                          strstr(cp->si->msl, "sust: not implemented") != NULL);
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok sust')
+          EOF10
+          python3 - <<'EOF11'
+          # Parche 0.5.12: diagnostico de lo que escriben los shaders de computo en memoria (sin importar el monton). Solo escribe al log.
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = 'static void gfast_prepare(VkCommandBuffer cb) {'
+          assert s.count(a) == 1
+          s = s.replace(a, '''static uint64_t dbg_hash(const void *p, uint64_t n) { uint64_t h = 1469598103934665603ull; const uint32_t *w = p; for (uint64_t i = 0; i < n / 4; i++) { h ^= w[i]; h *= 1099511628211ull; } return h; }
+          static uint64_t dbg_cs[16], dbg_before[16][GMAP_MAX];
+          static int dbg_cnt[16], dbg_n, dbg_cur = -1;
+          static int dbg_slot(uint64_t a) { for (int i = 0; i < dbg_n; i++) if (dbg_cs[i] == a) return i; if (dbg_n < 16) { dbg_cs[dbg_n] = a; return dbg_n++; } return -1; }
+
+          ''' + a)
+          a = '    memcpy(gfast_cp, cp, (size_t)m * sizeof cp[0]);\n    gfast_n = m;\n}'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    memcpy(gfast_cp, cp, (size_t)m * sizeof cp[0]);
+              gfast_n = m;
+              dbg_cur = -1;
+              if (cpu_src) {  // (diagnostico)
+                  int sl = dbg_slot(st.program->stages[5].code_addr);
+                  if (sl >= 0 && dbg_cnt[sl] < 4) { dbg_cur = sl; for (int i = 0; i < m; i++) dbg_before[sl][i] = dbg_hash((const void *)(uintptr_t)(HEAP_BASE + cp[i].srcOffset), cp[i].size); }
+              }
+          }''')
+          a = '        gfast_n = 0;\n        return;\n    }\n    VkBufferCopy back[GMAP_MAX];'
+          assert s.count(a) == 1
+          s = s.replace(a, '''        if (dbg_cur >= 0) {  // (diagnostico) que cambio en cada rango tras el computo
+                      int sl = dbg_cur;
+                      dbg_cnt[sl]++;
+                      LOG("[gfast] cs %llx escritura #%d:", (unsigned long long)dbg_cs[sl], dbg_cnt[sl]);
+                      for (int i = 0; i < gfast_n; i++) {
+                          const uint8_t *hp = (const uint8_t *)(uintptr_t)(HEAP_BASE + gfast_cp[i].srcOffset);
+                          const float *f = (const float *)hp;
+                          LOG(" [%llx+%llx %s %g %g %g %g]", (unsigned long long)(HEAP_BASE + gfast_cp[i].srcOffset), (unsigned long long)gfast_cp[i].size,
+                              dbg_hash(hp, gfast_cp[i].size) == dbg_before[sl][i] ? "igual" : "CAMBIO", f[0], f[1], f[2], f[3]);
+                      }
+                      LOG("\\n");
+                      dbg_cur = -1;
+                  }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok cs')
+          EOF11
+          python3 - <<'EOF12'
+          # Parche 0.5.13: interruptor para probar si el "vertex id" del shader debe incluir el base vertex del dibujo.
+          # EOWRECOMP_VK_VID_NOBASE=1: vid = gl_VertexIndex - gl_BaseVertex (necesita shaderDrawParameters). Apagado por defecto.
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+          a = 'bool maxwell_gfx_gmap;'
+          assert s.count(a) == 1
+          s = s.replace(a, 'bool maxwell_vid_nobase;  // (EXP) vid without the draw\'s base vertex\n' + a)
+          a = '{"vid", "uint(gl_VertexIndex)"}'
+          assert s.count(a) == 1
+          s = s.replace(a, '{"vid", "uint(gl_VertexIndex - mw_base_vertex)"}')
+          a = '    "#extension GL_EXT_texture_shadow_lod : require\\n"\n'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '    "#extension GL_ARB_shader_draw_parameters : enable\\n"\n')
+          a = '    sp(&s, "%s", glsl_prelude);'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '\n    sp(&s, "#define mw_base_vertex %s\\n", maxwell_vid_nobase ? "gl_BaseVertex" : "0");')
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/maxwell/shader.h'
+          s = open(p).read()
+          a = 'extern bool maxwell_gfx_gmap;'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '\nextern bool maxwell_vid_nobase;')
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/vulkan/device.c'
+          s = open(p).read()
+          a = '    VkPhysicalDeviceFeatures2 have = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2, .pNext = &have12};'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    VkPhysicalDeviceVulkan11Features have11 = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES, .pNext = &have12};
+              VkPhysicalDeviceFeatures2 have = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2, .pNext = &have11};''')
+          a = '                                            .storageBuffer16BitAccess = VK_TRUE, .pNext = &f12};'
+          assert s.count(a) == 1
+          s = s.replace(a, '                                            .storageBuffer16BitAccess = VK_TRUE, .shaderDrawParameters = have11.shaderDrawParameters, .pNext = &f12};\n    vk_draw_params = have11.shaderDrawParameters;')
+          a = 'static void'
+          # la variable global va antes de la primera funcion del archivo
+          i = s.index('\nstatic ')
+          s = s[:i] + '\nbool vk_draw_params;  // (EXP) shaderDrawParameters is available and enabled' + s[i:]
+          open(p, 'w').write(s)
+
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    { extern bool maxwell_no_int64; const char *e = getenv("EOWRECOMP_VK_NO_INT64");'
+          assert s.count(a) == 1
+          s = s.replace(a, '    { extern bool vk_draw_params; const char *e = getenv("EOWRECOMP_VK_VID_NOBASE"); maxwell_vid_nobase = (e ? atoi(e) != 0 : true) && vk_draw_params; }\n' + a)
+          open(p, 'w').write(s)
+          print('ok vid')
+          EOF12
+          # Parche 0.5.15: esperar a que termine de compilar el programa/pipeline en vez de saltar el dibujo.
+          python3 - <<'EOF13'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '#define SKIP(why) (stat_skipped++, stat_skip_why[why]++)'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '''
+          // (EXP 0.5.15) wait for a pending program/pipeline instead of skipping the draw (EOWRECOMP_VK_WAIT_PIPE=0 turns it off)
+          static bool exp_wait_pipe(void) { static int v = -1; if (v < 0) { const char *e = getenv("EOWRECOMP_VK_WAIT_PIPE"); v = e ? atoi(e) != 0 : 1; } return v; }
+          static void exp_wait_state(atomic_int *st) {
+              if (atomic_load(st) != 0 || !exp_wait_pipe()) return;
+              uint64_t t0 = SDL_GetTicksNS();
+              while (atomic_load(st) == 0 && SDL_GetTicksNS() - t0 < 8000000000ull) SDL_DelayPrecise(200000);
+          }''')
+          a = '    if (!pr || atomic_load(&pr->state) != 1) { SKIP('
+          assert s.count(a) == 1
+          s = s.replace(a, '    if (pr) exp_wait_state(&pr->state);\n' + a)
+          a = '    if (atomic_load(&pp->state) != 1) { SKIP('
+          assert s.count(a) == 1
+          s = s.replace(a, '    exp_wait_state(&pp->state);\n' + a)
+          open(p, 'w').write(s)
+          print('ok wait')
+          EOF13
+          # Parche 0.5.17: lista completa de fragment shaders + biseccion por bit del hash.
+          python3 - <<'EOF14'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '        g_cur_fs_hash = last_hash;\n    }\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''        g_cur_fs_hash = last_hash;
+                  {   // (EXP 0.5.17) EOWRECOMP_SKIP_FSBIT=k: skip every draw whose fragment-shader hash has bit k set (to bisect by halves)
+                      static int fsbit = -2;
+                      if (fsbit == -2) { const char *e = getenv("EOWRECOMP_SKIP_FSBIT"); fsbit = e ? atoi(e) : -1; }
+                      if (fsbit >= 0 && fsbit < 64 && ((last_hash >> fsbit) & 1)) { SKIP(SKIP_LIST); return; }
+                  }
+                  {   // (EXP 0.5.17) EOWRECOMP_LOG_FSTAB=1: every 8 s list ALL fragment shaders drawn (first-seen order)
+                      static int fst_on = -1;
+                      if (fst_on < 0) { const char *e = getenv("EOWRECOMP_LOG_FSTAB"); fst_on = e && atoi(e) != 0; }
+                      if (fst_on) {
+                          static struct { uint64_t h; uint32_t n; uint8_t blend, nc; int w, ht; } tab[512];
+                          static int nt;
+                          static uint64_t t0;
+                          int fw = 0, fh = 0;
+                          if (st.rt.color[0]) { fw = (int)st.rt.color[0]->width; fh = (int)st.rt.color[0]->height; }
+                          uint8_t bl = (uint8_t)(st.color_state[0] & 1);
+                          int fi = 0;
+                          for (; fi < nt; fi++) if (tab[fi].h == last_hash && tab[fi].w == fw && tab[fi].blend == bl) break;
+                          if (fi == nt && nt < 512) { tab[nt].h = last_hash; tab[nt].w = fw; tab[nt].ht = fh; tab[nt].blend = bl; tab[nt].nc = (uint8_t)st.rt.ncolor; tab[nt].n = 0; nt++; }
+                          if (fi < nt) tab[fi].n++;
+                          uint64_t fnow = SDL_GetTicksNS();
+                          if (!t0) t0 = fnow;
+                          if (fnow - t0 > 8000000000ull) {
+                              t0 = fnow;
+                              LOG("[fstab] --- (%d shaders)\\n", nt);
+                              for (int j = 0; j < nt; j++) if (tab[j].n) {
+                                  LOG("[fstab] #%d fs %016llx draws %u rt %dx%d ncolor %d blend %d\\n", j, (unsigned long long)tab[j].h, tab[j].n, tab[j].w, tab[j].ht, tab[j].nc, tab[j].blend);
+                                  tab[j].n = 0;
+                              }
+                          }
+                      }
+                  }
+              }
+          ''')
+          open(p, 'w').write(s)
+          print('ok fstab2')
+          EOF14
+          # Parche 0.5.18: detalle de dibujo de un fragment shader concreto.
+          python3 - <<'EOF15'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '        {   // (EXP 0.5.17) EOWRECOMP_SKIP_FSBIT=k'
+          assert s.count(a) == 1
+          s = s.replace(a, '''        {   // (EXP 0.5.18) EOWRECOMP_LOG_FSDRAW=<hash hex>: full draw info (textures, blend, targets) for the first 40 draws of that fragment shader
+                      static uint64_t fsd_hash = 1;
+                      static int fsd_n;
+                      if (fsd_hash == 1) { const char *e = getenv("EOWRECOMP_LOG_FSDRAW"); fsd_hash = e ? strtoull(e, NULL, 16) : 0; }
+                      if (fsd_hash && last_hash == fsd_hash && fsd_n < 40) { fsd_n++; LOG("[fsdraw] #%d\\n", fsd_n); debug_draw(pr, r, indexed); }
+                  }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok fsdraw')
+          EOF15
+          # Parche 0.5.19: reemplazar una textura de un fragment shader por otra (diagnostico).
+          python3 - <<'EOF16'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '        texture_info(1, pr->fi, i, &fii[i], sc, wh);\n        tex_sc[1][i][0] = sc[0];'
+          assert s.count(a) == 1
+          s = s.replace(a, '''        {   // (EXP 0.5.19) EOWRECOMP_TEX_SWAP=<fs hash hex>:<i>:<j>: in draws of that fragment shader, texture slot i samples slot j's texture
+                      static uint64_t sw_hash = 1;
+                      static int sw_i = -1, sw_j = -1;
+                      if (sw_hash == 1) {
+                          sw_hash = 0;
+                          const char *e = getenv("EOWRECOMP_TEX_SWAP");
+                          if (e) { char *q; sw_hash = strtoull(e, &q, 16); if (*q == ':') { sw_i = (int)strtol(q + 1, &q, 10); if (*q == ':') sw_j = (int)strtol(q + 1, NULL, 10); } }
+                      }
+                      int ti = (sw_hash && g_cur_fs_hash == sw_hash && i == sw_i && sw_j >= 0 && sw_j < pr->fi->ntex) ? sw_j : i;
+                      texture_info(1, pr->fi, ti, &fii[i], sc, wh);
+                  }
+                  tex_sc[1][i][0] = sc[0];''')
+          open(p, 'w').write(s)
+          print('ok texswap')
+          EOF16
+          # Parche 0.5.20: registrar formatos de atributos de vertices y los que no tienen traduccion.
+          python3 - <<'EOF17'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '        uint32_t fmt = a & 0xFF, stream = (a >> 8) & 0x1F, off = a >> 13;\n'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '''        {   // (EXP 0.5.20) which vertex attribute formats the game uses, and which ones have no Vulkan mapping (they would silently read as 4 floats)
+                      static uint8_t seen[256];
+                      if (!seen[fmt]++) {
+                          bool mapped = (fmt >= 1 && fmt <= 0x30) || fmt == 0x3D || fmt == 0x69 || fmt == 0x3F || fmt == 0x40 || fmt == 0x51;
+                          LOG("[vtxfmt] attr %d raw %#x fmt %#x -> vk %d%s\\n", i, a, fmt, (int)vertex_format(fmt), mapped ? "" : "  *** SIN MAPEAR (lee 4 floats) ***");
+                      }
+                  }
+          ''')
+          open(p, 'w').write(s)
+          print('ok vtxfmt')
+          EOF17
+          # Parche 0.5.21: derivadas por quad (EOWRECOMP_VK_QUAD=1) y registro de shaders con derivadas.
+          python3 - <<'EOF18'
+          import re
+          # ---- translate.c: quad derivatives experiment (EOWRECOMP_VK_QUAD=1)
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+          a = 'bool maxwell_vid_nobase;'
+          assert s.count(a) == 1
+          s = s.replace(a, 'bool maxwell_quad_derivs;  // (EXP 0.5.21) fragment shaders: quad lane from gl_FragCoord + native quad swaps instead of subgroup shuffles\n' + a)
+          a = '{"lane", "gl_SubgroupInvocationID"}'
+          assert s.count(a) == 1
+          s = s.replace(a, '{"lane", "mw_lane"}')
+          a = '        } else if (c->glsl) {  // a quad xor (lane mask < 4) is the subgroup xor within the quad\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''        } else if (c->glsl && maxwell_quad_derivs && c->stage == STAGE_FRAGMENT && mode == 3 && bits(w, 28, 1) && bits(w, 20, 5) < 4) {
+                      static const char *const qf[] = {NULL, "subgroupQuadSwapHorizontal", "subgroupQuadSwapVertical", "subgroupQuadSwapDiagonal"};
+                      int qm = (int)bits(w, 20, 5);
+                      if (qm == 0) set_reg(c, d, R(a));
+                      else { sprintf(t, "%s(%s)", qf[qm], R(a)); set_reg(c, d, t); }
+          ''' + a.replace('        } else if', '        } else if', 1))
+          a = '    sp(&s, "#define mw_base_vertex %s\\n", maxwell_vid_nobase ? "gl_BaseVertex" : "0");\n'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '''    if (maxwell_quad_derivs && stage == STAGE_FRAGMENT) {
+                  sp(&s, "#extension GL_KHR_shader_subgroup_quad : require\\n");
+                  sp(&s, "#define mw_lane ((uint(gl_FragCoord.x) & 1u) | ((uint(gl_FragCoord.y) & 1u) << 1))\\n");
+              } else {
+                  sp(&s, "#define mw_lane gl_SubgroupInvocationID\\n");
+              }
+          ''')
+          open(p, 'w').write(s)
+          # ---- shader.h
+          p = 'runtime/nvn/maxwell/shader.h'
+          s = open(p).read()
+          a = 'extern bool maxwell_vid_nobase;'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '\nextern bool maxwell_quad_derivs;')
+          open(p, 'w').write(s)
+          # ---- exec.c: flag + diagnostics + log fix
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '&& vk_draw_params; }\n'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '    { const char *e = getenv("EOWRECOMP_VK_QUAD"); maxwell_quad_derivs = e && atoi(e) != 0; }\n')
+          a = '    {  // (diagnostico) shaders de dibujo que contienen SUST'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {   // (EXP 0.5.21) how many quad derivative idioms (FSWZADD / subgroup shuffles) each draw shader has
+                  static int n_q;
+                  int vf = 0, ff = 0, vs = 0, fs_ = 0;
+                  for (const char *q = p->vi->msl; (q = strstr(q, "fswzadd(")) != NULL; q++) vf++;
+                  for (const char *q = p->fi->msl; (q = strstr(q, "fswzadd(")) != NULL; q++) ff++;
+                  for (const char *q = p->vi->msl; (q = strstr(q, "subgroupShuffle")) != NULL; q++) vs++;
+                  for (const char *q = p->fi->msl; (q = strstr(q, "subgroupShuffle")) != NULL; q++) fs_++;
+                  if ((ff || fs_ || vf || vs) && n_q++ < 80)
+                      LOG("[shader] derivadas: vs %llx fswzadd %d shuffle %d | fs %llx fswzadd %d shuffle %d\\n", (unsigned long long)p->code[0], vf, vs, (unsigned long long)p->code[1], ff, fs_);
+              }
+          ''' + a)
+          a = 'if (!seen[fmt]++) {'
+          assert s.count(a) == 1
+          s = s.replace(a, 'if (!seen[fmt]) { seen[fmt] = 1;')
+          open(p, 'w').write(s)
+          print('ok quad')
+          EOF18
+          # Parche 0.5.22: registrar como usa los shuffles el fragment shader culpable.
+          python3 - <<'EOF19'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    {   // (EXP 0.5.21) how many quad derivative idioms'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {   // (EXP 0.5.22) short snippets of each subgroup shuffle used by a fragment shader (kind + operands only)
+                  static int n_sh;
+                  const char *fm = p->fi->msl;
+                  int cnt = 0;
+                  for (const char *q = fm; (q = strstr(q, "subgroupShuffle")) != NULL; q++) cnt++;
+                  if (cnt && n_sh < 3) {
+                      n_sh++;
+                      LOG("[shfl] fs %llx: %d shuffles\\n", (unsigned long long)p->code[1], cnt);
+                      int shown = 0;
+                      for (const char *q = fm; (q = strstr(q, "subgroupShuffle")) != NULL && shown < 20; q++, shown++) {
+                          const char *e = q;
+                          while (*e && *e != ';' && *e != '\\n' && e - q < 70) e++;
+                          LOG("[shfl]   %.*s\\n", (int)(e - q), q);
+                      }
+                  }
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok shfl')
+          EOF19
+          # Parche 0.5.23: SHFL como en Maxwell (lane fuente inactiva -> valor propio y predicado falso).
+          python3 - <<'EOF20'
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+          a = 'bool maxwell_quad_derivs;'
+          assert s.count(a) == 1
+          s = s.replace(a, 'bool maxwell_shfl_safe = true;  // (EXP 0.5.23) SHFL like Maxwell: a source lane that is not active returns the lane\'s own value and a false predicate\n' + a)
+          a = '        } else if (c->glsl && maxwell_quad_derivs && c->stage == STAGE_FRAGMENT && mode == 3'
+          assert s.count(a) == 1
+          s = s.replace(a, '''        } else if (c->glsl && maxwell_shfl_safe) {
+                      static const char *const srcf[] = {"(%s)", "(gl_SubgroupInvocationID - (%s))", "(gl_SubgroupInvocationID + (%s))", "(gl_SubgroupInvocationID ^ (%s))"};
+                      char sx[160];
+                      sprintf(sx, srcf[mode], bv);
+                      sp(&c->body, "    { uint sl_ = %s; bool ok_ = sl_ < gl_SubgroupSize && subgroupBallotBitExtract(subgroupBallot(true), sl_);\\n", sx);
+                      if (mode == 1) sp(&c->body, "      ok_ = ok_ && uint(%s) <= gl_SubgroupInvocationID;\\n", bv);
+                      sp(&c->body, "      uint sv_ = subgroupShuffle(%s, ok_ ? sl_ : gl_SubgroupInvocationID);\\n", R(a));
+                      if (d != RZ) { c->reg_used[d] = 1; sp(&c->body, "      r%d = ok_ ? sv_ : %s;\\n", d, R(a)); }
+                      if (pd != PT) { c->pred_used[pd] = 1; sp(&c->body, "      p%d = ok_;\\n", pd); }
+                      sp(&c->body, "    }\\n");
+                      pd = PT;
+          ''' + a)
+          open(p, 'w').write(s)
+          # shader.h
+          p = 'runtime/nvn/maxwell/shader.h'
+          s = open(p).read()
+          a = 'extern bool maxwell_quad_derivs;'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '\nextern bool maxwell_shfl_safe;')
+          open(p, 'w').write(s)
+          # exec.c env
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    { const char *e = getenv("EOWRECOMP_VK_QUAD"); maxwell_quad_derivs = e && atoi(e) != 0; }\n'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '    { const char *e = getenv("EOWRECOMP_VK_SHFL"); maxwell_shfl_safe = e ? atoi(e) != 0 : true; }\n')
+          open(p, 'w').write(s)
+          print('ok shfl2')
+          EOF20
+          # Parche 0.5.24: volcar el GLSL del shader del piso al log.
+          python3 - <<'EOF21'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    p->vs_uses_vid = strstr(p->vi->msl, "gl_VertexIndex") != NULL;\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {   // (EXP 0.5.24) dump the GLSL of the dirty-floor fragment shader (fs program 12a6c05000) to the log, in chunks
+                  static int dumped;
+                  const char *e = getenv("EOWRECOMP_DUMP_FS");
+                  uint64_t want = e ? strtoull(e, NULL, 16) : 0x12a6c05000ULL;
+                  if (!dumped && want && p->code[1] == want) {
+                      dumped = 1;
+                      size_t n = strlen(p->fi->msl);
+                      LOG("[glsl] fs %llx: %zu bytes\\n", (unsigned long long)p->code[1], n);
+                      for (size_t o = 0; o < n; o += 1200) LOG("[glsl]%.*s\\n", (int)(n - o < 1200 ? n - o : 1200), p->fi->msl + o);
+                      LOG("[glsl] end\\n");
+                  }
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok dump')
+          EOF21
+          # Parche 0.5.28: depuracion del shader de luz (modos 1-9).
+          python3 - <<'EOF22'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    p->vs_uses_vid = strstr(p->vi->msl, "gl_VertexIndex") != NULL;\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {   // (EXP 0.5.28) EOWRECOMP_FS_DBG=1: every lit-scene fragment shader (15 shuffles) paints 6 of its inputs in a 3x2 grid (by screen position)
+                  const char *e = getenv("EOWRECOMP_FS_DBG");
+                  const char *ea = getenv("EOWRECOMP_DUMP_FS");
+                  uint64_t want = ea ? strtoull(ea, NULL, 16) : 0x12a6c05000ULL;
+                  int nsh_ = 0; for (const char *q_ = p->fi->msl; (q_ = strstr(q_, "subgroupShuffle")) != NULL; q_++) nsh_++;
+                  if (e && atoi(e) != 0 && (p->code[1] == want || (nsh_ >= 10 && strstr(p->fi->msl, "sampler2DArrayShadow t2;") && strstr(p->fi->msl, "sampler2D t0;") && strstr(p->fi->msl, "sampler2D t1;") && strstr(p->fi->msl, "sampler2D t3;")))) {
+                      const char *m = p->fi->msl;
+                      const char *mainp = strstr(m, "void main() {");
+                      const char *o0 = strstr(m, "  c0[0] = as_f(r0);\\n");
+                      const char *o3 = strstr(m, "  c0[3] = as_f(r3);\\n");
+                      if (mainp && o0 && o3 && o0 > mainp && o3 > o0) {
+                          o3 += strlen("  c0[3] = as_f(r3);\\n");
+                          static const char helper[] =
+                              "vec4 dbg0, dbg1, dbg3; float dbgx, dbgg0, dbgg1, dbgv0, dbgv1;\\n"
+                              "vec4 cap0(vec2 q) { vec4 v = texture(t0, q); dbg0 = v; return v; }\\n"
+                              "vec4 cap1(vec2 q) { vec4 v = texture(t1, q); dbg1 = v; return v; }\\n"
+                              "vec4 cap3(vec2 q) { vec4 v = texture(t3, q); dbg3 = v; return v; }\\n"
+                              "float cap2(vec4 q) { float v = texture(t2, q); dbgx += 0.25f * v; return v; }\\n";
+                          char outc[1200];
+                          snprintf(outc, sizeof outc,
+                              "  { vec2 uv_ = vec2(as_f(r24), as_f(r25)); vec2 sp_ = 2.0f * gl_FragCoord.xy / vec2(textureSize(t0, 0)); ivec2 cell_ = ivec2(clamp(int(floor(sp_.x * 3.0f)), 0, 2), clamp(int(floor(sp_.y * 2.0f)), 0, 1));\\n"
+                              "    vec3 o_ = vec3(0.0f);\\n"
+                              "    int k_ = cell_.y * 3 + cell_.x; if (%d >= 2) k_ = %d - 2;\\n"
+                              "    if (k_ == 0) o_ = dbg0.rgb; else if (k_ == 1) o_ = dbg1.rgb; else if (k_ == 2) o_ = dbg3.rgb;\\n"
+                              "    else if (k_ == 3) o_ = vec3(dbg3.a); else if (k_ == 4) o_ = vec3(dbgx); else if (k_ == 5) o_ = vec3(dbg0.r, dbg0.g, 0.0f);\\n"
+                              "    else if (k_ == 6) o_ = vec3(dbgg0, dbgg1, 0.0f); else o_ = vec3(min(abs(dbgv0), 1.0f), min(abs(dbgv1), 1.0f), 0.0f);\\n"
+                              "    c0 = vec4(o_, 1.0f); }\\n", atoi(e), atoi(e));
+                          size_t n = strlen(m), hl = sizeof helper - 1, ol = strlen(outc);
+                          char *nb = malloc(n + hl + ol + 16);
+                          if (nb) {
+                              char *w = nb;
+                              memcpy(w, m, (size_t)(mainp - m)); w += mainp - m;
+                              memcpy(w, helper, hl); w += hl;
+                              memcpy(w, mainp, (size_t)(o0 - mainp)); w += o0 - mainp;
+                              memcpy(w, o0, (size_t)(o3 - o0)); w += o3 - o0;
+                              memcpy(w, outc, ol); w += ol;
+                              strcpy(w, o3);
+                              // route texture reads of t0/t1/t3 and the shadow taps through the capture helpers
+                              static const struct { const char *from, *to; } rep[] = {
+                                  {"texture(t0, vec2(", "cap0(vec2("}, {"texture(t1, vec2(", "cap1(vec2("},
+                                  {"texture(t3, vec2(", "cap3(vec2("}, {"texture(t2, vec4(", "cap2(vec4("}};
+                              for (int i = 0; i < 4; i++) {
+                                  size_t fl = strlen(rep[i].from), tl = strlen(rep[i].to);
+                                  char *q = nb;
+                                  while ((q = strstr(q, rep[i].from)) != NULL) {
+                                      // only inside main(): skip the helper definitions (they call texture(tN, q) without "vec2(")
+                                      memmove(q + tl, q + fl, strlen(q + fl) + 1);
+                                      memcpy(q, rep[i].to, tl);
+                                      q += tl;
+                                  }
+                              }
+                              {   // capture the validity and the value of the two global-memory reads (modes 8 and 9)
+                                  static const struct { const char *from, *add; } gm[] = {
+                                      {"r33 = fw != 0xFFFFFFFFu ? gfast_.w[fw + 0u] : ok ? gmem_.w[uint(ga >> 2) + 0u] : 0u;", " dbgg0 = fw != 0xFFFFFFFFu ? 1.0f : (ok ? 0.5f : 0.0f); dbgv0 = uintBitsToFloat(r33);"},
+                                      {"r34 = fw != 0xFFFFFFFFu ? gfast_.w[fw + 0u] : ok ? gmem_.w[uint(ga >> 2) + 0u] : 0u;", " dbgg1 = fw != 0xFFFFFFFFu ? 1.0f : (ok ? 0.5f : 0.0f); dbgv1 = uintBitsToFloat(r34);"}};
+                                  for (int i = 0; i < 2; i++) {
+                                      char *q = strstr(nb, gm[i].from);
+                                      if (!q) continue;
+                                      size_t fl = strlen(gm[i].from), al = strlen(gm[i].add);
+                                      char *nb2 = malloc(strlen(nb) + al + 16);
+                                      if (!nb2) continue;
+                                      size_t pre = (size_t)(q - nb);
+                                      memcpy(nb2, nb, pre + fl); memcpy(nb2 + pre + fl, gm[i].add, al); strcpy(nb2 + pre + fl + al, nb + pre + fl);
+                                      free(nb); nb = nb2;
+                                  }
+                              }
+                              p->fi->msl = nb;
+                              LOG("[glsl] FS_DBG modo %d activo (1=cuadricula; 2..7 = una sola capa, 8 = lecturas gmem validas, 9 = valores gmem)\\n", atoi(e));
+                          }
+                      }
+                  }
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok dbg')
+          EOF22
+          # Parche 0.5.28: volcado de los buffers que lee el shader de luz.
+          python3 - <<'EOF23'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    if (pr->vi->uses_gmem_store) vc_mark_sbufs(0);\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {   // (EXP 0.5.28) what the lit-scene fragment shader (9b9cb28f) finds in its storage buffers
+                  static unsigned long nd; static int nl;
+                  if (g_cur_fs_hash == 0x9b9cb28f06688390ULL && pr->fi->uses_gmem && nl < 12 && (nd++ % 700) == 0) {
+                      nl++;
+                      LOG("[sbufdump] fs %llx draw #%lu gfx_gmap=%d:", (unsigned long long)pr->code[1], nd, (int)!gmem_buf);
+                      for (int i = 0; i < 4; i++) {
+                          uint64_t ad = st.sbuf[1][i].addr, sz = st.sbuf[1][i].size;
+                          if (!ad) continue;
+                          const uint32_t *w = (const uint32_t *)(uintptr_t)ad;
+                          uint64_t nz = 0, n = sz / 4 > 4096 ? 4096 : sz / 4;
+                          for (uint64_t j = 0; j < n; j++) if (w[j]) nz++;
+                          LOG(" [sbuf%d %llx+%llx nz %llu/%llu w: %08x %08x %08x %08x %08x %08x]", i, (unsigned long long)ad, (unsigned long long)sz, (unsigned long long)nz, (unsigned long long)n, w[0], w[1], w[2], w[3], w[4], w[5]);
+                      }
+                      LOG("\\n");
+                  }
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok gmemlog')
+          EOF23
+          # Parche 0.5.29: que deja el computo de la lista de luces en sus buffers.
+          python3 - <<'EOF24'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '        if (dbg_cur >= 0) {  // (diagnostico) que cambio en cada rango tras el computo\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''        {   // (EXP 0.5.29) what the light-list compute shader (cs 12a46d9000) leaves in its buffers, sampled over the run
+                      static unsigned long nrun;
+                      if (st.program && st.program->stages[5].code_addr == 0x12a46d9000ULL && (nrun++ % 150) == 0 && nrun < 3000) {
+                          LOG("[cswr] cs 12a46d9000 run #%lu:", nrun);
+                          for (int i = 0; i < gfast_n; i++) {
+                              const uint32_t *w = (const uint32_t *)(uintptr_t)(HEAP_BASE + gfast_cp[i].srcOffset);
+                              uint64_t nzc = 0, n = gfast_cp[i].size / 4 > 4096 ? 4096 : gfast_cp[i].size / 4;
+                              for (uint64_t j = 0; j < n; j++) if (w[j]) nzc++;
+                              LOG(" [%llx+%llx nz %llu/%llu w: %08x %08x %08x %08x]", (unsigned long long)(HEAP_BASE + gfast_cp[i].srcOffset), (unsigned long long)gfast_cp[i].size, (unsigned long long)nzc, (unsigned long long)n, w[0], w[1], w[2], w[3]);
+                          }
+                          LOG("\\n");
+                      }
+                  }
+          ''' + a)
+          a = '    for (int i = 0; i < 3; i++) {\n        cp->local[i] = ss->control ? *(const uint32_t *)(ss->control + 0x748 + 4 * i) : 1;\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    if (ss->code_addr == 0x12a46d9000ULL) {  // (EXP 0.5.29) GLSL of the light-list compute shader, in chunks
+                  static int dumped;
+                  if (!dumped) {
+                      dumped = 1;
+                      size_t n = strlen(cp->si->msl);
+                      LOG("[cswr] glsl cs %llx: %zu bytes\\n", (unsigned long long)ss->code_addr, n);
+                      for (size_t o = 0; o < n; o += 1200) LOG("[glsl]%.*s\\n", (int)(n - o < 1200 ? n - o : 1200), cp->si->msl + o);
+                      LOG("[glsl] end\\n");
+                  }
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok cswr')
+          EOF24
+          # Parche 0.5.30: volcar los shaders que escriben la lista de luces desde el dibujo.
+          python3 - <<'EOF25'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    p->vs_uses_vid = strstr(p->vi->msl, "gl_VertexIndex") != NULL;\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    {   // (EXP 0.5.30) GLSL of the two fragment shaders that STORE to global memory (the light-list builders), in chunks
+                  static int dumped_a, dumped_b;
+                  int *flag = p->code[1] == 0x12a46dd400ULL ? &dumped_a : p->code[1] == 0x12a46e1400ULL ? &dumped_b : NULL;
+                  if (flag && !*flag) {
+                      *flag = 1;
+                      size_t n = strlen(p->fi->msl);
+                      LOG("[fsstore] glsl fs %llx: %zu bytes\\n", (unsigned long long)p->code[1], n);
+                      for (size_t o = 0; o < n; o += 1200) LOG("[glsl]%.*s\\n", (int)(n - o < 1200 ? n - o : 1200), p->fi->msl + o);
+                      LOG("[glsl] end\\n");
+                      size_t nv = strlen(p->vi->msl);
+                      LOG("[fsstore] glsl vs %llx: %zu bytes\\n", (unsigned long long)p->code[0], nv);
+                      for (size_t o = 0; o < nv; o += 1200) LOG("[glsl]%.*s\\n", (int)(nv - o < 1200 ? nv - o : 1200), p->vi->msl + o);
+                      LOG("[glsl] end\\n");
+                  }
+              }
+          ''' + a)
+          a = '    if (pr->vi->uses_gmem_store) vc_mark_sbufs(0);\n'
+          assert s.count(a) == 1
+          s = s.replace(a, '''    if (pr->fi->uses_gmem_store) {  // (EXP 0.5.30) how many draws store to global memory from a fragment shader
+                  static unsigned long nst; static int nl2;
+                  nst++;
+                  if (nl2 < 12 && ((nst & (nst - 1)) == 0 || nst == 1)) {
+                      nl2++;
+                      LOG("[fsstore] draw #%lu fs %llx vs %llx t=%llu ms rt %ux%u\\n", nst, (unsigned long long)pr->code[1], (unsigned long long)pr->code[0],
+                          (unsigned long long)SDL_GetTicks(), st.rt.color[0] ? (unsigned)st.rt.color[0]->width : 0u, st.rt.color[0] ? (unsigned)st.rt.color[0]->height : 0u);
+                  }
+              }
+          ''' + a)
+          open(p, 'w').write(s)
+          print('ok fsstore')
+          EOF25
+          # Parche 0.5.31: los atomicos del dibujo (lista de luces por baldosa) ahora se guardan.
+          python3 - <<'EOF26'
+          import re
+          def sub1(s, a, b):
+              assert s.count(a) == 1, a[:60]
+              return s.replace(a, b)
+
+          # ---- shader.h: a flag for fragment shaders that reduce (RED) into global memory
+          p = 'runtime/nvn/maxwell/shader.h'
+          s = open(p).read()
+          s = sub1(s, '    bool uses_gmem_store;   // writes global memory (STG)\n',
+                   '    bool uses_gmem_store;   // writes global memory (STG)\n    bool uses_gfx_red;      // (EXP) fragment shader with RED: its atomics go to GFast copies that exec.c ORs back into the heap\n')
+          open(p, 'w').write(s)
+
+          # ---- translate.c: RED in a fragment shader works on the GFast copy
+          p = 'runtime/nvn/maxwell/translate.c'
+          s = open(p).read()
+          s = sub1(s, '        } else if (c->glsl && c->stage == STAGE_COMPUTE) {  // (the dispatch\'s storage buffers have a device-local copy: see LDG / STG)\n            c->info->uses_gmem_map = true;\n',
+                   '        } else if (c->glsl && (c->stage == STAGE_COMPUTE || (maxwell_gfx_gmap && c->stage == STAGE_FRAGMENT && gl_op[op][0]))) {  // (the dispatch\'s storage buffers have a device-local copy: see LDG / STG)\n            c->info->uses_gmem_map = true;\n            if (c->stage == STAGE_FRAGMENT) c->info->uses_gfx_red = true;\n')
+          s = sub1(s, 'c->uses_gmem_store && stage == STAGE_COMPUTE ? "" : "readonly ");',
+                   'c->uses_gmem_store && (stage == STAGE_COMPUTE || (maxwell_gfx_gmap && stage == STAGE_FRAGMENT)) ? "" : "readonly ");')
+          open(p, 'w').write(s)
+
+          # ---- exec.c
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+
+          # 1) store slots + sync, before gfast_prepare
+          a = 'static void gfast_prepare(VkCommandBuffer cb) {\n'
+          s = sub1(s, a, '''// (EXP 0.5.31) Fragment shaders that RED into global memory (the light-list builders: atomicOr of a light bit per tile).
+          // Without the heap import their atomics went to a dummy buffer, so the lists stayed empty and the lit-scene shader that
+          // reads them lit nothing. Now each such draw works on a persistent host-visible copy of its storage buffers (a slot per
+          // distinct range table); before anything reads the heap again (a draw that loads global memory, a compute dispatch)
+          // the GPU work is flushed and every slot is ORed back into the heap (RED.OR is monotone: the OR of copies is right).
+          #define GFXS_SLOT 0x10000
+          #define GFXS_N 32
+          typedef struct { uint64_t total; int n; uint64_t lo[GMAP_MAX], len[GMAP_MAX], off[GMAP_MAX]; uint32_t tab[(GMAP_MAX + 1) * 4]; } GfxStore;
+          static GfxStore gfx_store[GFXS_N];
+          static int gfx_store_n;
+          static struct { VkBuffer buf; VmaAllocation mem; uint8_t *ptr; } gfxs;
+          static void gfxs_init(void) {
+              if (gfxs.buf) return;
+              VkBufferCreateInfo bi = {.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO, .size = (uint64_t)GFXS_SLOT * GFXS_N,
+                                       .usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_TRANSFER_SRC_BIT};
+              VmaAllocationCreateInfo ai = {.usage = VMA_MEMORY_USAGE_AUTO_PREFER_HOST,
+                                            .flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT};
+              VmaAllocationInfo info;
+              VK_CHECK(vmaCreateBuffer(g_vk.vma, &bi, &ai, &gfxs.buf, &gfxs.mem, &info));
+              gfxs.ptr = info.pMappedData;
+              LOG("[gfxred] slots: %d x %d KB\\n", GFXS_N, GFXS_SLOT >> 10);
+          }
+          static void gfx_atomic_sync(void) {
+              if (!gfx_store_n) return;
+              uint64_t t0 = SDL_GetTicksNS();
+              vk_end_pass();
+              VkCommandBuffer cb = vk_cmd();
+              VkMemoryBarrier2 mb = {.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER_2, .srcStageMask = VK_PIPELINE_STAGE_2_ALL_COMMANDS_BIT,
+                                     .srcAccessMask = VK_ACCESS_2_MEMORY_WRITE_BIT, .dstStageMask = VK_PIPELINE_STAGE_2_HOST_BIT,
+                                     .dstAccessMask = VK_ACCESS_2_HOST_READ_BIT};
+              VkDependencyInfo di = {.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO, .memoryBarrierCount = 1, .pMemoryBarriers = &mb};
+              vkCmdPipelineBarrier2(cb, &di);
+              wait_why = "gfx atomics";
+              renderer_flush();
+              vmaInvalidateAllocation(g_vk.vma, gfxs.mem, 0, VK_WHOLE_SIZE);
+              for (int e = 0; e < gfx_store_n; e++) {
+                  GfxStore *g = &gfx_store[e];
+                  for (int i = 0; i < g->n; i++) {
+                      uint32_t *dst = (uint32_t *)(uintptr_t)(HEAP_BASE + g->lo[i]);
+                      const uint32_t *src = (const uint32_t *)(gfxs.ptr + (uint64_t)e * GFXS_SLOT + g->off[i]);
+                      for (uint64_t w = 0; w < g->len[i] / 4; w++) dst[w] |= src[w];
+                  }
+              }
+              static unsigned long nsync; static uint64_t tsum;
+              tsum += SDL_GetTicksNS() - t0;
+              if (++nsync <= 3 || (nsync % 500) == 0) LOG("[gfxred] sync #%lu: %d slots ORed back, avg %.2f ms\\n", nsync, gfx_store_n, tsum / 1e6 / nsync);
+              gfx_store_n = 0;
+          }
+
+          ''' + a)
+
+          # 2) gfx_gmap: a store flag
+          s = sub1(s, 'static bool gfx_gmap(int stage, uint32_t *tab, VkDescriptorBufferInfo *out) {\n',
+                   'static bool gfx_gmap(int stage, uint32_t *tab, VkDescriptorBufferInfo *out, bool store) {\n')
+          a = '    tab[GMAP_MAX * 4] = (uint32_t)m;\n    int sl = stage ? 1 : 0;\n    uint64_t seq = vk_pending_seq() + (gcopy_gen << 40);\n'
+          s = sub1(s, a, '''    tab[GMAP_MAX * 4] = (uint32_t)m;
+              if (store && total <= GFXS_SLOT) {  // (EXP 0.5.31) writable persistent copy, one slot per distinct range table
+                  gfxs_init();
+                  int e = -1;
+                  for (int i = 0; i < gfx_store_n; i++)
+                      if (gfx_store[i].total == total && !memcmp(gfx_store[i].tab, tab, sizeof gfx_store[i].tab)) { e = i; break; }
+                  if (e < 0 && gfx_store_n < GFXS_N) {
+                      e = gfx_store_n++;
+                      GfxStore *g = &gfx_store[e];
+                      g->total = total; g->n = m;
+                      memcpy(g->tab, tab, sizeof g->tab);
+                      uint64_t o2 = 0;
+                      for (int i = 0; i < m; i++) {
+                          uint64_t len = r[i].hi - r[i].lo;
+                          g->lo[i] = r[i].lo; g->len[i] = len; g->off[i] = o2;
+                          memcpy(gfxs.ptr + (uint64_t)e * GFXS_SLOT + o2, (const void *)(uintptr_t)(HEAP_BASE + r[i].lo), len);
+                          o2 += (len + 255) & ~255ull;
+                      }
+                      vmaFlushAllocation(g_vk.vma, gfxs.mem, (uint64_t)e * GFXS_SLOT, (total + 255) & ~255ull);
+                  }
+                  if (e >= 0) {
+                      *out = (VkDescriptorBufferInfo){gfxs.buf, (uint64_t)e * GFXS_SLOT, total};
+                      return true;
+                  }
+              }
+              int sl = stage ? 1 : 0;
+              uint64_t seq = vk_pending_seq() + (gcopy_gen << 40);
+          ''')
+
+          # 3) the caller in stage_set
+          s = sub1(s, '{ gfx_gmap(stage, gtab, &gfx_fast); gfx = true; break; }',
+                   '{ gfx_gmap(stage, gtab, &gfx_fast, stage == 1 && si->uses_gfx_red); gfx = true; break; }')
+
+          # 4) readers: sync before a draw that loads global memory, and before any compute dispatch
+          s = sub1(s, '    if (!pr || atomic_load(&pr->state) != 1) { SKIP(pr && atomic_load(&pr->state) == 0 ? SKIP_PROG_PENDING : SKIP_PROG_FAILED); return; }\n    {   // fragment-shader hash: skip lists',
+                   '    if (!pr || atomic_load(&pr->state) != 1) { SKIP(pr && atomic_load(&pr->state) == 0 ? SKIP_PROG_PENDING : SKIP_PROG_FAILED); return; }\n    if (gfx_store_n && pr->fi->uses_gmem && !pr->fi->uses_gfx_red) gfx_atomic_sync();\n    {   // fragment-shader hash: skip lists')
+          s = sub1(s, '    if (!cp || atomic_load(&cp->p.state) != 1) { SKIP(SKIP_COMPUTE_PROG); return; }\n',
+                   '    if (!cp || atomic_load(&cp->p.state) != 1) { SKIP(SKIP_COMPUTE_PROG); return; }\n    if (gfx_store_n) gfx_atomic_sync();\n')
+          open(p, 'w').write(s)
+          print('ok gfxred')
+          EOF26
+          # Parche 0.5.32: modos de depuracion del cubo de ambiente (10 y 11).
+          python3 - <<'EOF27'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          def sub1(s, a, b):
+              assert s.count(a) == 1, a[:70]
+              return s.replace(a, b)
+          # helper variables and functions for the cube-map lookups
+          s = sub1(s, '"vec4 dbg0, dbg1, dbg3; float dbgx, dbgg0, dbgg1, dbgv0, dbgv1;\\n"',
+                   '"vec4 dbg0, dbg1, dbg3; float dbgx, dbgg0, dbgg1, dbgv0, dbgv1, dbgl; vec3 dbgc;\\n"\n'
+                   '                    "vec4 capc5(vec3 d, float l) { vec4 v = textureLod(t5, d, l); dbgc = v.rgb; dbgl = l; return v; }\\n"\n'
+                   '                    "vec4 capc6(vec3 d, float l) { vec4 v = textureLod(t6, d, l); dbgc = v.rgb; dbgl = l; return v; }\\n"')
+          # the chain of outputs: modes 10 (cube colour) and 11 (cube lod)
+          s = sub1(s, 'else o_ = vec3(min(abs(dbgv0), 1.0f), min(abs(dbgv1), 1.0f), 0.0f);\\n"',
+                   'else if (k_ == 7) o_ = vec3(min(abs(dbgv0), 1.0f), min(abs(dbgv1), 1.0f), 0.0f);\\n"\n'
+                   '                    "    else if (k_ == 8) o_ = dbgc; else o_ = vec3(clamp(dbgl / 8.0f, 0.0f, 1.0f), clamp(-dbgl / 8.0f, 0.0f, 1.0f), isnan(dbgl) ? 1.0f : 0.0f);\\n"')
+          # route the cube lookups through the helpers
+          s = sub1(s, '{"texture(t3, vec2(", "cap3(vec2("}, {"texture(t2, vec4(", "cap2(vec4("}};\n                    for (int i = 0; i < 4; i++) {',
+                   '{"texture(t3, vec2(", "cap3(vec2("}, {"texture(t2, vec4(", "cap2(vec4("},\n                        {"textureLod(t5, vec3(", "capc5(vec3("}, {"textureLod(t6, vec3(", "capc6(vec3("}};\n                    for (int i = 0; i < 6; i++) {')
+          s = sub1(s, '2..7 = una sola capa, 8 = lecturas gmem validas, 9 = valores gmem)', '2..7 = una sola capa, 8-9 = gmem, 10 = cubo, 11 = lod del cubo)')
+          s = sub1(s, 'strstr(p->fi->msl, "sampler2D t3;")))) {', 'strstr(p->fi->msl, "sampler2D t3;") && strstr(p->fi->msl, "samplerCube t5;") && strstr(p->fi->msl, "samplerCube t6;")))) {')
+          open(p, 'w').write(s)
+          print('ok cube')
+          EOF27
+          # Parche 0.5.33: copia de huesos al dia + memoria/temperatura en el log.
+          python3 - <<'EOF28'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          def sub1(s, a, b):
+              assert s.count(a) == 1, a[:70]
+              return s.replace(a, b)
+          # (EXP 0.5.33) the per-submission copy was reused whenever the range table matched, even if the CPU had rewritten the
+          # bytes in between (bone palettes etc.): compare the contents too (small copies only) and count refreshes.
+          s = sub1(s, '    if (last[sl].seq != seq || last[sl].total != total || memcmp(last[sl].tab, tab, sizeof last[sl].tab)) {\n        VkSpan sp_ = vk_transient(total, 256);',
+           '    bool stale_ = false;\n'
+           '    if (total <= 65536 && last[sl].seq == seq && last[sl].total == total && !memcmp(last[sl].tab, tab, sizeof last[sl].tab)) {\n'
+           '        uint64_t o3 = 0;\n'
+           '        for (int i = 0; i < m && !stale_; i++) {\n'
+           '            uint64_t len = r[i].hi - r[i].lo;\n'
+           '            if (memcmp((const uint8_t *)last[sl].span.ptr + o3, (const void *)(uintptr_t)(HEAP_BASE + r[i].lo), len)) stale_ = true;\n'
+           '            o3 += (len + 255) & ~255ull;\n'
+           '        }\n'
+           '        if (stale_) { static unsigned nst; if (nst++ < 30) LOG("[gmem] stale copy refreshed: stage %d total %llu\\n", stage, (unsigned long long)total); }\n'
+           '    }\n'
+           '    if (stale_ || last[sl].seq != seq || last[sl].total != total || memcmp(last[sl].tab, tab, sizeof last[sl].tab)) {\n        VkSpan sp_ = vk_transient(total, 256);')
+          open(p, 'w').write(s)
+          p = 'runtime/nvn/vulkan/device.c'
+          s = open(p).read()
+          s = sub1(s, '#include <math.h>\n', '#include <math.h>\n#include <stdio.h>\n')
+          s = sub1(s, '        extern const char *game_level_name(void);\n        if (last_fps_time > 0)\n',
+           '        extern const char *game_level_name(void);\n'
+           '        if (last_fps_time > 0) {  // (EXP 0.5.33) memory and temperature, to tell throttling from a leak\n'
+           '            unsigned long rss_mb = 0, av_mb = 0; int tmax = -1000, tz = 0;\n'
+           '            FILE *f = fopen("/proc/self/statm", "r");\n'
+           '            if (f) { unsigned long a = 0, b = 0; if (fscanf(f, "%lu %lu", &a, &b) == 2) rss_mb = b * 4096ul / 1048576ul; fclose(f); }\n'
+           '            f = fopen("/proc/meminfo", "r");\n'
+           '            if (f) { char ln[128]; while (fgets(ln, sizeof ln, f)) { unsigned long kb; if (sscanf(ln, "MemAvailable: %lu kB", &kb) == 1) { av_mb = kb / 1024; break; } } fclose(f); }\n'
+           '            for (int z = 0; z < 40; z++) {\n'
+           '                char pth[96]; snprintf(pth, sizeof pth, "/sys/class/thermal/thermal_zone%d/temp", z);\n'
+           '                f = fopen(pth, "r"); if (!f) continue;\n'
+           '                int v = 0; if (fscanf(f, "%d", &v) == 1) { if (v > 1000) v /= 1000; if (v > tmax) tmax = v; tz++; }\n'
+           '                fclose(f);\n'
+           '            }\n'
+           '            LOG("[sys] rss %lu MB avail %lu MB maxtemp %d C (%d zones)\\n", rss_mb, av_mb, tmax, tz);\n'
+           '        }\n'
+           '        if (last_fps_time > 0)\n')
+          open(p, 'w').write(s)
+          print('ok v33')
+          EOF28
+          sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.turnip'/" android/app/build.gradle
+          sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.6 Turnip</string>|' android/app/src/main/res/values/strings.xml
+          git diff --stat
+          grep -n "applicationId" android/app/build.gradle
+          grep -n "romfs_file_find" runtime/hle/movie.c runtime/services/fs.c
+          grep -n "have12" runtime/nvn/vulkan/device.c
+          grep -n "EXP" runtime/nvn/vulkan/exec.c runtime/nvn/maxwell/translate.c
+
+      - name: Clave de firma fija (para poder actualizar encima)
+        run: |
+          mkdir -p ~/.android
+          echo 'MIIKZgIBAzCCChAGCSqGSIb3DQEHAaCCCgEEggn9MIIJ+TCCBcAGCSqGSIb3DQEHAaCCBbEEggWtMIIFqTCCBaUGCyqGSIb3DQEMCgECoIIFQDCCBTwwZgYJKoZIhvcNAQUNMFkwOAYJKoZIhvcNAQUMMCsEFNgCsMTugcGJCkrST+frPkyDAU1uAgInEAIBIDAMBggqhkiG9w0CCQUAMB0GCWCGSAFlAwQBKgQQcpn4aHrgIgrqqoyVlT75dASCBNCTTpr9UQ8w0Jt/85PbdEPqJin15Y2wEoswMSQygSmAuebYjJtx31UN7xmGA5NetzC0/FPjFDHnDCWA8Rri9EU3mhjgskwFkSA/3hUHKtRx7/kfKNYowaqXI1qjpFXhvi1SqV46St7L6GOEhimtpHgYabVD4e+7jsjX+DJwMsrS4UIWuGXte81CM5HYBy3DVbT3qUF0r3rZF9A75M/UTGP2czQQWWnk5baknuLICnoK9xK9K9co505nv2qEzt9xZQ2Y7p1eDvAx2/C5rG1MEc8DkddSuLWmgTVQXD26ojrrICWnlqFv+/DFdMkt4CAoJptBZQGM7Ho3kJR4bYBwfkKaq5u9odU5R6ec21aSDo7UngFioPqIg6GGIvqLmUpPgCoE835It+DlMYvgDYbXcp5XvKl2dXfCH+eOrYpOXNPzUjkXKx88hF2BoMNciL6SjVPPJkCC/7cODpQGDyTxWPG2iW6+tTQngHgjZ1hpi97vy1aJc3WV4uzbvXqMnjfjgXASqaypAuvf3opwIHyS5kFH79leRAQbEn/H/bG7sYsWH2aoEcvEnwpa1492V78XPtHNlkgjxT+HgA2S5vBC017Oq+Amyyk1cLzaA6HQXRTEM6mwMFM2ZutSA5IqrrBTUNnbwXgnGUl16t0UjH8GHP9dT8LqojNwChijT+SZunUWbuGqQF+d4rIYB5bEB0zJ03ICzPRLOJeBm6aC3cTtCY6FsFZrenEDtP+SCvDUBRQIPfW0abgJlT2MGsDy9GwIpTrqd2E0zVp58pG8Y3u9TUuAOfdeaGgWdB/t4kKa7A8VVhMkHnFAwmb0KWbCDSnw/m4GMpM8HSErCmGh76OoZuNHvihjS2cgwRtR5IVc4kxAFCAw8Wq2N7k4v2EdqdjrXuutjKORKnceIAZL0WeV0YmnsswyDKdg5yTwxOm06jSMO4bFS+8bmb3x2ScoVG9SBCtg5IHzGdkesHSSsdRN/xr1zwXkf6qsDjLUutE88xppkZcDJ/3a+sENG1inYlyRF+2nmvOYvrPS9iVtfIX5VLRmIjmNqxCb/87aSnG3sSvhjadvUTeX6mVTQcKb/UzX0Tc6fkN/7zj9z+1QI3XpkuTN/HIEUqZ4hA9OtC4+51qI6Bpi67urD8cvY3ro4FJmCYb6d8sk3h2NNrHYJTArkZa9TTG+ZgO6YVjlBdHvunPcAcI9DzLeGo0Z0OVat+LstfTZt+J3w1aLYc72cKZsWTK66PP8IesQkEWR9HU/+ogrWD1hKB+IX1XU7ufr68gqwo383YsAJLu20obsB4Nmc85Ci+dvd7UI8g8yiAzK4bseoKr7jA5kN5zxsRG5TJsGmiE6lnwC/5gamP4PYC0YsX0W4mQ05dz6P2WyDvc6jQvsTZk4z7IJtxShdA75KjO6AGYxn0m2OTtWrS21/NFRJyZoDxMfJ2g+TQ2X1P56B/V3WGAD7erUkI8Z7WFE79pR6bl3/xnZZJ0MJl5WfDaA+f0bgxgnWSmfrSCbDjPhaOMjA7XLU59+JifvhkcPQW6hvMjEQCr1isQ1LkWHUdoyivmx1vbTsA8APsRfg2BtcJ2FfRVeZfCRWBU7QyGVPanVhRXYk+2RxmB6bRoxPTbGxOOGdtFkhEVWtiz+ajUr/PoF2DFSMC0GCSqGSIb3DQEJFDEgHh4AYQBuAGQAcgBvAGkAZABkAGUAYgB1AGcAawBlAHkwIQYJKoZIhvcNAQkVMRQEElRpbWUgMTc5MzQwNzE4NzgzMDCCBDEGCSqGSIb3DQEHBqCCBCIwggQeAgEAMIIEFwYJKoZIhvcNAQcBMGYGCSqGSIb3DQEFDTBZMDgGCSqGSIb3DQEFDDArBBQDcl1ArfmD9hGgxSOJnGtEMDRaWgICJxACASAwDAYIKoZIhvcNAgkFADAdBglghkgBZQMEASoEEFf34w8rCkJdxGlEtogZGNSAggOgj4ilp9bAn7LTE8/SivKAfVR1sTlidBlVimY2b1ITfLT6K6yA5RITEHS3lM7qUUkIBXNDPCawHnptg9Wq+umzfLrAdibuCRnA7ElQKzqQ/nOeX6pksA+odcsc3Roc2kfbnqAcNMaUPheq+rLNrml5dS7ojp6YHUwWxtqSj8Syazjw69cE0EQnT6hV3GY3Xo7V395kHzZl6X4aXfLPVb8IEP8gZSqQREjjLCZ/+liEiHO/6NZPSVV1FhijCwg7Tm4IDPY4PJWwRGz6RFBOyE2PC2n83cPdK71pg5JggRpTW5r/Ss6AyDvaaIhTv0Z31Av8lQ9U8iDAlZo1cofrEGZP1GnYiWe1gczZJ+p0j9rMALwiYOygCtJIjGnxbolWnWRoFWp46zQTD0RLlR2fknrKLdlqIlnCKwOplMiwy9s598jM2ihgwVF3Hl5gQNGjGwtyUqtU6lG35gi+fP7DnG5+0df8cUoUTElMGYuwG/8Bqm5K9+HKZ5sJcvGJQlnnD2az1uVyTVzv2ju/w3VZeKC6sO1P3raPVSCtmL1qYORAecvYVjIggKHQIq5yFNIGacWUutEJpoepq+kzMaZw8/n6Eahc3Dwn1Y/fhvPmweYHfoYLhGP+Pur0tu3loVaGnliZA/DlFoAuChFSay1WHnYQZDVbwemOGl2m/sUjFDmK15Q3N8w4t5QoaiexosiBBtJJ+B2hIRHTk4up/xhovbIGMAkrZpX19QLBHoVplud5hSwj9oo0Bps0n+frRHmOQw3xekJlX2dMs8OJFGoBsacdXv+JN3CgMB3F7hdLDzKafUnTqC6xr1n6h4g+IUWWmhyFCM4goofRkeHf7RHUmEoevd6huN4tptzbgntRqknxX8VAhGGfHoANZh+zU1VzvRc/1oi/rsqxMLvxmAjyklhngAciuqRg/GYn3YewfuFwoY0G+IovxXkiPnKZtybnnSZ0NC6XLJTp0h6TpEsK7Ui1sVaEK4IUfMm4GqFfcAiki+4gYlKJbYSWs/ZTbPPc9+J4gVOJca+oQguSFFgQXozc57uNIKA+QZ3dx7+ciMMk/1eIlJKb58cFP0gk1tTGz86vikARQvfxjp6cXEPYOJv2LxOYDaMNQYzQy8GM0wSkzaBkYyo6+KJmdUEprGYafmDgaRvHwxcBivnaeAj3QNgGfjGYae5/gY9RHJtpBtuwIan/Cx0cKi2srQA/Nep48+gOEsUrudlrcXjMSykI24idZjBNMDEwDQYJYIZIAWUDBAIBBQAEIDmBx/ntFIF02tIM4hgyls6gOdkoQuHnTmhWLHr81C27BBS3Y77RL4zOlZQnVlXf6e/bZMRO+gICJxA=' | base64 -d > ~/.android/debug.keystore
+          keytool -list -keystore ~/.android/debug.keystore -storepass android | head -5
+
+      - name: Dependencias nativas (FFmpeg, shaderc, etc.)
+        run: tools/android/build_deps.sh
+
+      - name: Compilar la APK
+        working-directory: android
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.6.0-turnip -PeowVersionCode=60 -x eowOnDeviceAssets
+
+      - name: Mostrar la huella de la firma
+        continue-on-error: true
+        run: |
+          APK=$(find android -name '*.apk' -path '*release*' | head -1)
+          echo "$APK"
+          $(ls -d $ANDROID_HOME/build-tools/*/ | tail -1)apksigner verify --print-certs "$APK" | head -3
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EoWRecomp-0.6-Turnip-apk
+          path: android/app/build/outputs/apk/release/*.apk

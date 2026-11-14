@@ -33,7 +33,7 @@ android {
         manifestPlaceholders = [extractNativeLibs: onDevice ? 'true' : 'false']
         externalNativeBuild {
             cmake {
-                targets 'main', 'SDL3-shared'
+                targets 'main', 'SDL3-shared', 'main_hook', 'hook_impl'  // + libadrenotools' hooks (custom GPU drivers)
                 arguments '-DANDROID_STL=c++_static'
             }
         }
@@ -105,6 +105,8 @@ android {
 tasks.register('eowAssets', Sync) {  // (Sync: a file gone from the sources goes from the APK too)
     from('../../third_party/fonts') { include '**/*.ttf'; eachFile { path = name }; includeEmptyDirs = false }
     from('../../docs/icon/icon_1024.png') { rename { 'icon.png' } }
+    // Mesa Turnip for Adreno (GpuDrivers.bundled; tools/android/build_deps.sh)
+    from('../../build/android/deps/turnip') { into 'turnip' }
     into "$buildDir/generated/eow-assets"
 }
 preBuild.dependsOn eowAssets

@@ -206,6 +206,17 @@ public class EowActivity extends SDLActivity {
             if (k.dir && !k.name.startsWith(".")) find(cr, k, depth + 1, found);
     }
 
+    // ---- a custom GPU driver (GpuDrivers; runtime/nvn/vulkan/device.c, runtime/platform/android_jni.c)
+    public static String gpuDriverConfig() {
+        EowActivity a = (EowActivity) mSingleton;
+        return a != null ? GpuDrivers.config(a) : "";
+    }
+
+    public static String gpuDriverFailed() {
+        EowActivity a = (EowActivity) mSingleton;
+        return a != null ? GpuDrivers.failed(a) : null;
+    }
+
     // ---- building the game code on the phone (runtime/gamebuild.c; docs/BUILD-android.md)
 
     // The asset archive (assets/ondevice.zip: the generator, its Python's standard library and modules, the NDK pieces

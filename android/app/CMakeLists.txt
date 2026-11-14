@@ -23,6 +23,17 @@ set(SDL_TESTS OFF CACHE BOOL "" FORCE)
 set(SDL_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(${ROOT}/build/android/SDL3 ${CMAKE_BINARY_DIR}/SDL3)
 
+# ---- libadrenotools: a Vulkan driver in place of the system's (Mesa Turnip on Adreno) loaded by
+# runtime/nvn/vulkan/device.c custom_driver and GpuDrivers.java. Its hooks are libraries of their own, packed beside
+# libmain.so (android/app/build.gradle targets). Pinned to the commit LASRecomp-Android-Plus runs on devices.
+include(FetchContent)
+FetchContent_Declare(adrenotools GIT_REPOSITORY https://github.com/bylaws/libadrenotools.git
+                     GIT_TAG 8fae8ce254dfc1344527e05301e43f37dea2df80 GIT_SUBMODULES_RECURSE ON)
+FetchContent_MakeAvailable(adrenotools)
+foreach(t main_hook hook_impl)
+  target_link_options(${t} PRIVATE "-Wl,-z,max-page-size=16384")  # (16 KB page devices, as libmain.so)
+endforeach()
+
 # ---- the game code library's id (runtime/gamelib.h): the same script makes the library's
 execute_process(COMMAND ${ROOT}/tools/android/gamelib_id.sh OUTPUT_VARIABLE GAMELIB_ID OUTPUT_STRIP_TRAILING_WHITESPACE
                 COMMAND_ERROR_IS_FATAL ANY)
@@ -72,4 +83,4 @@ target_link_options(main PRIVATE "-Wl,-z,max-page-size=16384" "-Wl,-Bsymbolic" "
                                  "-Wl,-z,nostart-stop-gc")  # (the HLE / service / reset tables: sections kept whole)
 target_link_libraries(main PRIVATE SDL3::SDL3-shared
                       ${DEPS}/lib/libavformat.a ${DEPS}/lib/libavcodec.a ${DEPS}/lib/libswscale.a ${DEPS}/lib/libavutil.a
-                      ${DEPS}/lib/libshaderc_combined.a android log m dl)
+                      ${DEPS}/lib/libshaderc_combined.a adrenotools android log m dl)
