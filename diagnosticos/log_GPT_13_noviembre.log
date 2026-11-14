@@ -1,0 +1,391 @@
+[paths] data: /storage/emulated/0/Android/data/com.eowrecomp.android.gpt/files
+[exp] forced render scale 0.25 (GPU-load test)
+[settings] loaded eowrecomp.ini
+[vk] gpu 0: Adreno (TM) 740 (api 1.3.128)
+[vk] using Adreno (TM) 740
+[vk] warning: no uniformAndStorageBuffer8BitAccess (not requested)
+[vk] warning: no shaderInt64 (64-bit address math in shaders)
+[vk] swapchain pre-rotated 90 degrees (images 1080x1920)
+[vk] device-loss trace enabled\n[vk] swapchain pre-rotated 90 degrees (images 1025x1920)
+[gamelib] /data/data/com.eowrecomp.android.gpt/files/libeowgame.so (4 modules, 296677 functions)
+loaded main  at 1000000000 size 4004000 syms 758
+loaded subsdk0 at 1008000000 size a8c000 syms 111
+loaded subsdk1 at 100a000000 size 6b4000 syms 11625
+loaded sdk   at 100c000000 size e04000 syms 27633
+relocated main  (55 imports bound to host stubs)
+relocated subsdk0 (0 imports bound to host stubs)
+relocated subsdk1 (2 imports bound to host stubs)
+relocated sdk   (0 imports bound to host stubs)
+main thread: prio 44, stack 0x100000
+[input] gamepad: Odin Controller
+[cpu] fastest core cpu7 (3187 MHz) for the render thread, 4 big cores (2803 MHz) for the game's
+init sdk (DT_INIT 100c000030, 97 init_array entries)
+[sm] GetService lm
+[ipc] control 3 on lm (handle 103)
+[ipc] control 0 on lm (handle 103)
+[sm] GetService apm
+[sm] GetService appletOE
+[ipc] control 3 on appletOE (handle 105)
+[ipc] control 0 on appletOE (handle 105)
+[am] ICommonStateGetter cmd 900 (unhandled, ok)
+[am] ISelfController cmd 91 (unhandled, ok)
+[kernel] CreateThread entry=100c136910 stack=12146a9fe0 prio=28 -> 10a
+[am] IWindowController cmd 10 (unhandled, ok)
+[am] ISelfController cmd 13 (unhandled, ok)
+[am] ISelfController cmd 16 (unhandled, ok)
+[sm] GetService aoc:u
+[sm] GetService ectx:aw
+[ipc] no HLE implementation for service 'ectx:aw', using logging stub
+[ipc] control 3 on ectx:aw (handle 10c)
+[ipc] control 0 on ectx:aw (handle 10c)
+[sm] GetService pctl
+[ipc] control 3 on pctl (handle 10d)
+[ipc] control 0 on pctl (handle 10d)
+[sm] GetService pctl:s
+[ipc] control 3 on pctl:s (handle 10e)
+[ipc] control 0 on pctl:s (handle 10e)
+[ipc] close session pctl:s (handle 10e)
+[sm] GetService pctl:a
+[ipc] control 3 on pctl:a (handle 10e)
+[ipc] control 0 on pctl:a (handle 10e)
+[ipc] close session pctl:a (handle 10e)
+[sm] GetService pctl:r
+[ipc] control 3 on pctl:r (handle 10e)
+[ipc] control 0 on pctl:r (handle 10e)
+[ipc] close session pctl:r (handle 10e)
+[pctl] IParentalControlService cmd 1 (ok)
+init subsdk1 (DT_INIT 100a000030, 45 init_array entries)
+init subsdk0 (DT_INIT 1008000030, 6 init_array entries)
+init main (DT_INIT 1000000030, 1490 init_array entries)
+[am] ISelfController cmd 12 (unhandled, ok)
+[am] ISelfController cmd 11 (unhandled, ok)
+[am] ISelfController cmd 14 (unhandled, ok)
+[kernel] CreateThread entry=100c136910 stack=1219a7bfe0 prio=44 -> 10e
+[am] ISelfController cmd 1 (unhandled, ok)
+[sm] GetService time:u
+[ipc] control 3 on time:u (handle 10f)
+[ipc] control 0 on time:u (handle 10f)
+[time] shared memory mapped at 1311394000
+[kernel] CreateThread entry=100c136910 stack=1214d00fe0 prio=45 -> 112
+[kernel] CreateThread entry=100c136910 stack=122933afe0 prio=44 -> 113
+[kernel] CreateThread entry=100c136910 stack=12176b5fe0 prio=44 -> 114
+[kernel] CreateThread entry=100c136910 stack=123d457fe0 prio=47 -> 115
+[kernel] CreateThread entry=100c136910 stack=1203cbdfe0 prio=46 -> 116
+[sm] GetService fsp-srv
+[ipc] control 3 on fsp-srv (handle 117)
+[ipc] control 0 on fsp-srv (handle 117)
+[ipc] control 2 on fsp-srv (handle 117)
+[ipc] control 2 on fsp-srv (handle 118)
+[fs] romfs from the game package (8033071180 bytes)
+[fs] romfs index: 10963 files
+[fs] romfs reads: 1 (0 KB)
+[fs] romfs reads: 2 (0 KB)
+[fs] romfs reads: 4 (16 KB)
+[sm] GetService acc:u0
+[ipc] control 3 on acc:u0 (handle 11a)
+[ipc] control 0 on acc:u0 (handle 11a)
+[acc] acc:u0 cmd 160 (ok)
+[svc] aoc:u cmd 50 (ok)
+[sm] GetService hid
+[ipc] control 3 on hid (handle 11b)
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] GetNpadStyleSet id 0
+[input] GetNpadStyleSet id 0x1
+[input] GetNpadStyleSet id 0x2
+[input] GetNpadStyleSet id 0x3
+[kernel] CreateThread entry=100c136910 stack=1211605fe0 prio=45 -> 130
+[kernel] CreateThread entry=100c136910 stack=12115cafe0 prio=40 -> 131
+[kernel] CreateThread entry=100c136910 stack=1221cc3fe0 prio=40 -> 132
+[kernel] CreateThread entry=100c136910 stack=1220f4ffe0 prio=34 -> 133
+[kernel] CreateThread entry=100c136910 stack=12232a4fe0 prio=34 -> 134
+[kernel] CreateThread entry=100c136910 stack=12255fefe0 prio=34 -> 135
+[kernel] CreateThread entry=100c136910 stack=123e60bfe0 prio=46 -> 136
+[kernel] CreateThread entry=100c136910 stack=120e126fe0 prio=46 -> 137
+[vk] Adreno (TM) 740, swapchain 1920x1025
+[nvn] device initialized
+[nvn] DeviceGetInteger 40 -> 1 (lr 100032c964)
+[nvn] DeviceGetInteger 41 -> 1 (lr 100032c984)
+[nvn] DeviceGetInteger 42 -> 1 (lr 100032c9a8)
+[nvn] DeviceGetInteger 50 -> 256 (lr 100032c9cc)
+[nvn] DeviceGetInteger 59 -> 1 (lr 100032c9f0)
+[nvn] DeviceGetInteger 66 -> 0 (lr 100032ca18)
+[nvn] DeviceGetInteger 67 -> 0 (lr 100032ca3c)
+[nvn] DeviceGetInteger 68 -> 0 (lr 100032ca60)
+[nvn] DeviceGetInteger 69 -> 0 (lr 100032ca84)
+[nvn] DeviceGetInteger 71 -> 0 (lr 100032caa8)
+[nvn] DeviceGetInteger 72 -> 0 (lr 100032cac8)
+[nvn] DeviceGetInteger 73 -> 0 (lr 100032cae8)
+[nvn] DeviceGetInteger 74 -> 0 (lr 100032cb08)
+[nvn] DeviceGetInteger 75 -> 0 (lr 100032cb28)
+[nvn] DeviceGetInteger 76 -> 0 (lr 100032cb48)
+[nvn] DeviceGetInteger 87 -> 0 (lr 100032cb68)
+[nvn] DeviceGetInteger 90 -> 0 (lr 100032cb88)
+[nvn] DeviceGetInteger 17 -> 256 (lr 10026e9e84)
+[nvn] DeviceGetInteger 18 -> 256 (lr 10026e9e98)
+[nvn] DeviceGetInteger 15 -> 32 (lr 10003288e4)
+[nvn] DeviceGetInteger 36 -> 1048576 (lr 1000328a5c)
+[nvn] DeviceGetInteger 16 -> 32 (lr 10003288e4)
+[nvn] DeviceGetInteger 37 -> 4096 (lr 1000328a5c)
+[nvn] window with 2 textures
+[kernel] CreateThread entry=100c136910 stack=121fa0bfe0 prio=36 -> 13a
+[nvn] DeviceGetInteger 19 -> 4 (lr 1000326a10)
+[nvn] DeviceGetInteger 20 -> 8 (lr 1000326a48)
+[nvn] DeviceGetInteger 26 -> 131072 (lr 10026ea3ac)
+[nvn] DeviceGetInteger 10 -> 16 (lr 1000326740)
+[fs] romfs reads: 8 (767 KB)
+[nvn] depth mode 1
+[fs] romfs reads: 16 (3858 KB)
+[nvn] DeviceGetInteger 25 -> 4096 (lr 100270574c)
+[nvn] ReportCounter type 0
+[nvn] first nvnQueuePresentTexture (window 1275c2b068, texture 0 of 2)
+[vk] transient ring: memory type 6 (device-local host-visible cached)
+[post] 1920x1080 smaa -> 1822x1025
+[post] 480x270 smaa fsr1 -> 1822x1025
+[nvn] DeviceGetInteger 4 -> 256 (lr 10003267b4)
+[kernel] CreateThread entry=100c136910 stack=123a6dbfe0 prio=45 -> 13b
+[kernel] CreateThread entry=100c136910 stack=1226a81fe0 prio=44 -> 13c
+[kernel] CreateThread entry=100c136910 stack=122f309fe0 prio=44 -> 13d
+[kernel] CreateThread entry=100c136910 stack=12246defe0 prio=44 -> 13e
+[kernel] CreateThread entry=100c136910 stack=12254aefe0 prio=44 -> 13f
+[pl] system font /data/data/com.eowrecomp.android.gpt/files/res/DejaVuSans.ttf (757076 bytes)
+[kernel] CreateThread entry=100c136910 stack=121ade8fe0 prio=44 -> 140
+[kernel] CreateThread entry=100c136910 stack=1206810fe0 prio=40 -> 141
+[kernel] CreateThread entry=100c136910 stack=122886cfe0 prio=40 -> 142
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 143)
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 143)
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 143)
+[sm] GetService audren:u
+Low latency audio enabled
+[audren] renderer 48000 Hz, 240 samples/frame, 96 voices, 2 mixes, 30 mix buffers, 0 splitters, 14 effects, revision REV; (REV11)
+[ipc] close session audren:u (handle 143)
+[audren] mix 0 used 1 vol 1.000 bufs 6 dest 2147483647:
+[kernel] CreateThread entry=100c136910 stack=121bf34fe0 prio=31 -> 143
+[kernel] CreateThread entry=100c136910 stack=121fc7bfe0 prio=32 -> 144
+[audren] device 48000 Hz, 960 frames/period; queue target 2160 samples
+[audren] mix 1 used 1 vol 1.000 bufs 24 dest 0: 0>0=1.000 1>1=1.000 2>2=1.000 3>3=1.000 4>4=1.000 5>5=1.000 6>0=1.000 7>1=1.000 8>2=1.000 9>3=1.000 10>4=1.000 11>5=1.000 12>0=1.000 13>1=1.000 14>2=1.000 15>3=1.000 16>4=1.000 17>5=1.000 18>0=1.000 19>1=1.000 20>2=1.000 21>3=1.000 22>4=1.000 23>5=1.000
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 148)
+[ipc] control 3 on IAudioDevice (handle 149)
+[ipc] close session IAudioDevice (handle 149)
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 148)
+[ipc] control 3 on IAudioDevice (handle 149)
+[ipc] close session IAudioDevice (handle 149)
+[kernel] CreateThread entry=100c136910 stack=120d269fe0 prio=44 -> 148
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[fs] romfs reads: 32 (6239 KB)
+[vk] depth24 stencil8: D32_SFLOAT_S8_UINT
+[input] GetNpadState id 0 lr 1001683f9c
+[fs] romfs reads: 64 (112880 KB)
+[fs] romfs reads: 128 (113970 KB)
+[fs] romfs reads: 256 (119740 KB)
+[time] StandardUserSystemClock::GetCurrentTime (host clock)
+[time] StandardUserSystemClock::GetCurrentTime (host clock)
+[time] StandardUserSystemClock::GetCurrentTime (host clock)
+[kernel] CreateThread entry=100c136910 stack=121e877fe0 prio=44 -> 149
+[fs] mounted host directory save/save_0
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[fs] mounted host directory save/save_0
+[kernel] CreateThread entry=100c136910 stack=1228ce4fe0 prio=28 -> 14a
+[nvn] video texture 0x725763a550: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ed7b6000 stride 0
+[nvn] video texture 0x725763b270: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ed7b6000 stride 0
+[nvn] video texture 0x725763b5f0: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ecf36000 stride 0
+[nvn] video texture 0x725763a1d0: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ecf36000 stride 0
+[nvn] video texture 0x725763c690: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ec6b6000 stride 0
+[nvn] video texture 0x725763b7b0: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ec6b6000 stride 0
+[nvn] video texture 0x725763c850: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ebe36000 stride 0
+[nvn] video texture 0x725763c5b0: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ebe36000 stride 0
+[kernel] CreateThread entry=100c136910 stack=122993ffe0 prio=40 -> 14b
+[kernel] CreateThread entry=100c136910 stack=1205492fe0 prio=40 -> 14c
+[kernel] CreateThread entry=100c136910 stack=121488dfe0 prio=40 -> 14d
+[movie] open rom:/region_common/movie/rd000_Title.webm -> extracted/romfs/region_common/movie/rd000_Title.webm
+[movie] from the package (69188808 bytes): ok
+[movie] decoder vp9 configured: 1920x1080 0 Hz 0 ch
+[kernel] CreateThread entry=100c136910 stack=121ba49fe0 prio=40 -> 14e
+[movie] acq_in 96 send 38 frames 35 acq_out 38 get_out 30 rel_out 30
+[movie] acq_in 195 send 71 frames 69 acq_out 74 get_out 60 rel_out 60
+[vk] command counts: 0:1178 2:725 3:493 4:1613 5:1613 6:1613 7:1175 8:1153 9:1153 10:449 11:449 12:449 13:963 14:45 15:395 16:473 17:453 18:453 19:5197 20:4372 21:5294 22:4372 23:1613 24:4700 27:1175 28:1153 34:922 35:531 38:449 41:88 44:1 46:486 51:3442 54:906 57:2
+[vk] copy alias: 11 made, 9 renamed, 0 stencil-only, 0 copied later (live 2)
+[vk] t=7.7 frame 453 225.7 fps max 137ms level - (443 draws, 14 skipped, 1898 passes, 80 dispatches, 1070 flushes, wait 1016ms, compile 8, fbcopy 0, upload 708.4MB | skipped: program compiling 4 pipeline compiling 2 compute program 8)
+[movie] acq_in 292 send 104 frames 101 acq_out 110 get_out 95 rel_out 95
+[input] GetNpadState id 0 lr 1001683f9c
+[movie] acq_in 390 send 136 frames 133 acq_out 145 get_out 129 rel_out 129
+[fs] mounted host directory save/save_0
+[movie] decoder video stopped
+[vk] command counts: 0:2015 2:1181 3:6228 4:11420 5:11420 6:11420 7:2012 8:1984 9:1984 10:6172 11:6172 12:3615 13:22723 14:1208 15:17037 16:602 17:834 18:834 19:10720 20:9409 21:11099 22:9409 23:11420 24:8048 26:121 27:2012 28:1984 34:1690 35:1064 38:12691 41:112 44:2 46:1002 51:7662 54:1668 57:4
+[vk] copy alias: 3 made, 2 renamed, 0 stencil-only, 1 copied later (live 2)
+[vk] t=9.7 frame 834 189.6 fps max 21ms level - (11993 draws, 249 skipped, 1927 passes, 24 dispatches, 765 flushes, wait 1302ms, compile 46, fbcopy 0, upload 558.0MB | skipped: program compiling 143 pipeline compiling 106)
+[fs] mounted host directory save/save_0
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[vk] command counts: 0:2771 2:1584 3:14876 4:27215 5:27215 6:27215 7:2768 8:2736 9:2736 10:14812 11:14812 12:8409 13:61889 14:3170 15:47606 16:688 17:1187 18:1187 19:17860 20:16128 21:18528 22:16128 23:27215 24:11072 26:371 27:2768 28:2736 34:2400 35:1909 38:34850 41:128 44:2 46:1839 51:17427 54:2374 57:4
+[vk] copy alias: 2 made, 2 renamed, 0 stencil-only, 0 copied later (live 2)
+[vk] t=11.7 frame 1187 176.3 fps max 12ms level - (22125 draws, 34 skipped, 2863 passes, 16 dispatches, 708 flushes, wait 872ms, compile 5, fbcopy 0, upload 90.7MB | skipped: program compiling 16 pipeline compiling 18)
+[input] GetNpadState id 0 lr 1001683f9c
+[fs] romfs reads: 512 (457593 KB)
+[kernel] CreateThread entry=100c136910 stack=123ef8bfe0 prio=44 -> 14b
+[kernel] CreateThread entry=100c136910 stack=1239408fe0 prio=44 -> 14c
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[audren] effect type 4 used: slot 0 mix 1 enabled 1
+[audren] effect type 3 used (not implemented): slot 1 mix 1 enabled 1
+[audren] mix 1 used 1 vol 1.000 bufs 24 dest 0: 0>0=1.000 1>1=1.000 2>2=1.000 3>3=1.000 4>4=1.000 5>5=1.000 6>0=1.000 7>1=1.000 8>2=1.000 9>3=1.000 10>4=1.000 11>5=1.000 12>0=1.000 13>1=1.000 14>2=1.000 15>3=1.000 16>4=1.000 17>5=1.000 18>0=1.000 19>1=1.000 20>2=1.000 21>3=1.000 22>4=1.000 23>5=1.000
+[vk] copy alias: 17 made, 0 renamed, 0 stencil-only, 18 copied later (live 1)
+[vk] t=13.7 frame 1412 112.2 fps max 399ms level - (1978 draws, 1296 skipped, 1151 passes, 202 dispatches, 533 flushes, wait 153ms, compile 36, fbcopy 0, upload 66.1MB | skipped: program compiling 990 pipeline compiling 304 compute program 2)
+[pace] frames don't fit 60 fps (12 of the last 60 over 16.2 ms busy): the game's 30 fps mode
+[vk] copy alias: 59 made, 0 renamed, 0 stencil-only, 59 copied later (live 1)
+[vk] t=15.7 frame 1471 29.1 fps max 68ms level - (4960 draws, 5676 skipped, 1102 passes, 708 dispatches, 413 flushes, wait 383ms, compile 0, fbcopy 0, upload 137.4MB | skipped: program compiling 4376 pipeline compiling 1300)
+[vk] copy alias: 61 made, 0 renamed, 0 stencil-only, 61 copied later (live 1)
+[vk] t=17.8 frame 1532 30.0 fps max 34ms level - (5389 draws, 6346 skipped, 1159 passes, 732 dispatches, 427 flushes, wait 387ms, compile 1, fbcopy 0, upload 144.5MB | skipped: program compiling 5086 pipeline compiling 1260)
+[vk] t=19.8 frame 1593 30.0 fps max 34ms level - (5917 draws, 5827 skipped, 1159 passes, 732 dispatches, 427 flushes, wait 429ms, compile 0, fbcopy 0, upload 154.5MB | skipped: program compiling 5095 pipeline compiling 732)
+[vk] t=21.8 frame 1654 30.0 fps max 34ms level - (5917 draws, 5976 skipped, 1159 passes, 732 dispatches, 427 flushes, wait 423ms, compile 0, fbcopy 0, upload 154.5MB | skipped: program compiling 5244 pipeline compiling 732)
+[vk] t=23.8 frame 1714 30.0 fps max 34ms level - (5820 draws, 5938 skipped, 1140 passes, 720 dispatches, 420 flushes, wait 416ms, compile 0, fbcopy 0, upload 152.0MB | skipped: program compiling 5218 pipeline compiling 720)
+[vk] t=25.9 frame 1775 30.0 fps max 34ms level - (5917 draws, 6011 skipped, 1159 passes, 732 dispatches, 427 flushes, wait 424ms, compile 0, fbcopy 0, upload 154.5MB | skipped: program compiling 5279 pipeline compiling 732)
+[input] GetNpadState id 0 lr 1001683f9c
+[vk] t=27.9 frame 1836 30.0 fps max 34ms level - (5912 draws, 6057 skipped, 1159 passes, 732 dispatches, 427 flushes, wait 418ms, compile 0, fbcopy 0, upload 154.3MB | skipped: program compiling 5315 pipeline compiling 742)
+[vk] t=29.9 frame 1897 30.0 fps max 34ms level - (6207 draws, 6422 skipped, 1159 passes, 732 dispatches, 427 flushes, wait 412ms, compile 0, fbcopy 0, upload 158.8MB | skipped: program compiling 5447 pipeline compiling 975)
+[vk] t=31.9 frame 1957 29.6 fps max 41ms level - (6149 draws, 6372 skipped, 1140 passes, 720 dispatches, 420 flushes, wait 429ms, compile 0, fbcopy 0, upload 156.7MB | skipped: program compiling 5337 pipeline compiling 1035)
+[vk] t=34.0 frame 2015 28.9 fps max 52ms level - (6003 draws, 6145 skipped, 1102 passes, 696 dispatches, 406 flushes, wait 410ms, compile 0, fbcopy 0, upload 153.4MB | skipped: program compiling 5124 pipeline compiling 1021)
+[vk] t=36.0 frame 2073 29.0 fps max 41ms level - (6124 draws, 6425 skipped, 1102 passes, 696 dispatches, 406 flushes, wait 421ms, compile 0, fbcopy 0, upload 156.7MB | skipped: program compiling 5250 pipeline compiling 1175)
+[vk] t=38.0 frame 2132 29.3 fps max 41ms level - (6319 draws, 6732 skipped, 1121 passes, 708 dispatches, 413 flushes, wait 427ms, compile 0, fbcopy 0, upload 162.2MB | skipped: program compiling 5429 pipeline compiling 1303)
+[vk] t=40.0 frame 2191 29.0 fps max 41ms level - (6286 draws, 6666 skipped, 1121 passes, 708 dispatches, 413 flushes, wait 432ms, compile 0, fbcopy 0, upload 161.2MB | skipped: program compiling 5407 pipeline compiling 1259)
+[vk] t=42.0 frame 2246 27.2 fps max 46ms level - (5527 draws, 5549 skipped, 1045 passes, 660 dispatches, 385 flushes, wait 403ms, compile 0, fbcopy 0, upload 143.1MB | skipped: program compiling 4831 pipeline compiling 718)
+[vk] t=44.0 frame 2300 27.0 fps max 62ms level - (5238 draws, 5423 skipped, 1026 passes, 648 dispatches, 378 flushes, wait 401ms, compile 0, fbcopy 0, upload 136.8MB | skipped: program compiling 4775 pipeline compiling 648)
+[vk] t=46.0 frame 2357 28.3 fps max 63ms level - (5534 draws, 5852 skipped, 1083 passes, 684 dispatches, 399 flushes, wait 419ms, compile 1, fbcopy 0, upload 145.5MB | skipped: program compiling 5156 pipeline compiling 679 compute program 17)
+[input] GetNpadState id 0 lr 1001683f9c
+[vk] t=48.1 frame 2408 25.0 fps max 67ms level - (5232 draws, 4934 skipped, 1669 passes, 612 dispatches, 357 flushes, wait 391ms, compile 68, fbcopy 56, upload 134.6MB | skipped: program compiling 2065 pipeline compiling 2869)
+[vk] t=50.1 frame 2454 22.5 fps max 90ms level - (5012 draws, 4545 skipped, 2024 passes, 552 dispatches, 322 flushes, wait 356ms, compile 1, fbcopy 92, upload 120.5MB | skipped: program compiling 633 pipeline compiling 3912)
+[vk] t=52.1 frame 2500 22.8 fps max 49ms level - (5224 draws, 3996 skipped, 2024 passes, 552 dispatches, 322 flushes, wait 356ms, compile 0, fbcopy 92, upload 128.1MB | skipped: pipeline compiling 3996)
+[vk] t=54.2 frame 2544 21.4 fps max 55ms level - (5282 draws, 3878 skipped, 1964 passes, 528 dispatches, 308 flushes, wait 365ms, compile 0, fbcopy 88, upload 125.7MB | skipped: program compiling 51 pipeline compiling 3827)
+[vk] t=56.2 frame 2590 22.9 fps max 50ms level - (5441 draws, 4219 skipped, 2048 passes, 552 dispatches, 322 flushes, wait 381ms, compile 0, fbcopy 92, upload 128.7MB | skipped: program compiling 143 pipeline compiling 4076)
+[vk] t=58.2 frame 2637 23.4 fps max 64ms level - (5608 draws, 4255 skipped, 2100 passes, 564 dispatches, 329 flushes, wait 375ms, compile 0, fbcopy 94, upload 141.6MB | skipped: program compiling 6 pipeline compiling 4249)
+[vk] t=60.2 frame 2683 22.7 fps max 70ms level - (5584 draws, 4536 skipped, 2072 passes, 568 dispatches, 338 flushes, wait 700ms, compile 0, fbcopy 123, upload 147.5MB | skipped: pipeline compiling 4536)
+[vk] t=62.2 frame 2727 21.8 fps max 55ms level - (5280 draws, 3966 skipped, 1950 passes, 528 dispatches, 308 flushes, wait 369ms, compile 0, fbcopy 88, upload 140.9MB | skipped: pipeline compiling 3966)
+[vk] t=64.3 frame 2774 23.1 fps max 52ms level - (5560 draws, 4156 skipped, 2080 passes, 564 dispatches, 329 flushes, wait 387ms, compile 0, fbcopy 94, upload 145.9MB | skipped: pipeline compiling 4156)
+[vk] copy alias: 1287 made, 0 renamed, 0 stencil-only, 1288 copied later (live 0)
+[vk] t=66.3 frame 2819 22.2 fps max 50ms level - (5099 draws, 3972 skipped, 1988 passes, 540 dispatches, 315 flushes, wait 377ms, compile 0, fbcopy 90, upload 132.9MB | skipped: pipeline compiling 3972)
+[vk] t=68.3 frame 2865 22.6 fps max 52ms level - (4779 draws, 3948 skipped, 2024 passes, 552 dispatches, 322 flushes, wait 376ms, compile 0, fbcopy 92, upload 119.5MB | skipped: program compiling 33 pipeline compiling 3915)
+[vk] t=70.3 frame 2910 22.5 fps max 53ms level - (4873 draws, 3642 skipped, 1980 passes, 540 dispatches, 315 flushes, wait 364ms, compile 7, fbcopy 90, upload 121.8MB | skipped: pipeline compiling 3642)
+[vk] t=72.4 frame 2953 21.3 fps max 55ms level - (5695 draws, 2871 skipped, 1892 passes, 516 dispatches, 301 flushes, wait 336ms, compile 3, fbcopy 86, upload 119.5MB | skipped: pipeline compiling 2871)
+[vk] t=74.4 frame 2997 21.7 fps max 62ms level - (6242 draws, 2962 skipped, 1936 passes, 528 dispatches, 308 flushes, wait 352ms, compile 5, fbcopy 88, upload 123.2MB | skipped: program compiling 479 pipeline compiling 2483)
+[input] GetNpadState id 0 lr 1001683f9c
+[vk] t=76.4 frame 3038 20.4 fps max 69ms level - (6172 draws, 2808 skipped, 1804 passes, 492 dispatches, 287 flushes, wait 338ms, compile 0, fbcopy 82, upload 118.0MB | skipped: program compiling 607 pipeline compiling 2201)
+[vk] t=78.4 frame 3078 19.8 fps max 80ms level - (5985 draws, 2817 skipped, 1760 passes, 480 dispatches, 280 flushes, wait 337ms, compile 0, fbcopy 80, upload 114.5MB | skipped: program compiling 708 pipeline compiling 2109)
+[vk] t=80.4 frame 3120 20.9 fps max 53ms level - (6140 draws, 2373 skipped, 1848 passes, 504 dispatches, 294 flushes, wait 353ms, compile 0, fbcopy 84, upload 118.0MB | skipped: program compiling 273 pipeline compiling 2100)
+[fs] mounted host directory save/save_0
+[vk] t=82.4 frame 3194 36.9 fps max 76ms level - (6159 draws, 6005 skipped, 2026 passes, 432 dispatches, 329 flushes, wait 486ms, compile 0, fbcopy 72, upload 113.2MB | skipped: program compiling 1455 pipeline compiling 4550)
+[vk] t=84.4 frame 3236 20.9 fps max 53ms level - (6531 draws, 1761 skipped, 1848 passes, 504 dispatches, 294 flushes, wait 693ms, compile 7, fbcopy 84, upload 128.8MB | skipped: pipeline compiling 1761)
+[vk] t=86.5 frame 3275 19.2 fps max 58ms level - (7510 draws, 301 skipped, 1716 passes, 468 dispatches, 273 flushes, wait 1414ms, compile 28, fbcopy 78, upload 125.9MB | skipped: program compiling 2 pipeline compiling 299)
+[vk] t=88.5 frame 3315 19.6 fps max 55ms level - (7821 draws, 967 skipped, 1773 passes, 480 dispatches, 280 flushes, wait 1396ms, compile 0, fbcopy 80, upload 137.4MB | skipped: program compiling 667 pipeline compiling 300)
+[vk] t=90.5 frame 3351 18.0 fps max 62ms level - (7655 draws, 1030 skipped, 1607 passes, 432 dispatches, 252 flushes, wait 1410ms, compile 0, fbcopy 72, upload 129.5MB | skipped: program compiling 526 pipeline compiling 504)
+[vk] t=92.6 frame 3386 17.1 fps max 62ms level - (8211 draws, 515 skipped, 1540 passes, 420 dispatches, 245 flushes, wait 1464ms, compile 0, fbcopy 70, upload 129.7MB | skipped: program compiling 46 pipeline compiling 469)
+[vk] t=94.6 frame 3421 17.4 fps max 67ms level - (8060 draws, 480 skipped, 1541 passes, 420 dispatches, 245 flushes, wait 1420ms, compile 0, fbcopy 70, upload 123.2MB | skipped: pipeline compiling 480)
+[vk] GPU did not finish submission 17099 within 10 s (device lost?)
+[vk] last GPU operations before the device loss (oldest first):
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x725762f1f0
+[vk]   pass 0 color 0x0 fmt 0 depth 0x72576315d0
+[vk]   pass 1 color 672x378 fmt 0x3f depth 0x0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x725762f1f0
+[vk]   copy texture 1344x756 f0x3f -> 1344x756 f0x3f (0x7257631330 -> 0x725762a410)
+[vk]   copy texture 1344x756 f0x3f -> 672x378 f0x3f (0x7257631330 -> 0x725762c010)
+[vk]     blit 0x72b8098940 lv0/1 336x189 (0,0 336x189) -> 0x72b8372780 lv0/1 168x95 (0,0 168x95) linear
+[vk]   pass 1 color 672x378 fmt 0x3f depth 0x0
+[vk]   pass 1 color 672x378 fmt 0x3f depth 0x0
+[vk]   copy texture 672x378 f0x3f -> 336x189 f0x3f (0x725762c010 -> 0x725762c630)
+[vk]     blit 0x72b8372780 lv0/1 168x95 (0,0 168x95) -> 0x72b82e53c0 lv0/1 84x47 (0,0 84x47) linear
+[vk]   pass 1 color 336x189 fmt 0x3f depth 0x0
+[vk]   pass 1 color 336x189 fmt 0x3f depth 0x0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x725762a170
+[vk]     upload 0x72b8411390 256x256 lv0
+[vk]     upload 0x72b84abaa0 256x256 lv0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x725762a170
+[vk]   copy texture 1344x756 f0x3f -> 1344x756 f0x3f (0x7257631330 -> 0x725762a410)
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x725762a170
+[vk]   copy texture 1344x756 f0x3f -> 672x378 f0x3f (0x7257631330 -> 0x725762e4d0)
+[vk]     blit 0x72b8098940 lv0/1 336x189 (0,0 336x189) -> 0x72b82c9790 lv0/1 168x95 (0,0 168x95) linear
+[vk]   pass 1 color 336x189 fmt 0x3f depth 0x0
+[vk]   pass 1 color 168x94 fmt 0x3f depth 0x0
+[vk]   pass 1 color 168x94 fmt 0x3f depth 0x0
+[vk]   pass 1 color 84x47 fmt 0x3f depth 0x0
+[vk]   pass 1 color 84x47 fmt 0x3f depth 0x0
+[vk]   pass 1 color 42x23 fmt 0x3f depth 0x0
+[vk]   pass 1 color 42x23 fmt 0x3f depth 0x0
+[vk]   pass 1 color 84x47 fmt 0x3f depth 0x0
+[vk]   pass 1 color 168x94 fmt 0x3f depth 0x0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x0
+[vk]   pass 1 color 1920x1080 fmt 0x3f depth 0x0
+[vk]   pass 0 color 0x0 fmt 0 depth 0x725762acd0
+[vk]   pass 1 color 1920x1080 fmt 0x3f depth 0x725762acd0
+[vk]   copy texture 1920x1080 f0x3f -> 1920x1080 f0x38 (0x725762b2f0 -> 0x725762b9f0)
+[vk]     blit 0x72b76d3de0 lv0/1 480x270 (0,0 480x270) -> 0x72b76fdea0 lv0/1 480x270 (0,0 480x270) linear
+[vk]   submit 17098
+[vk]   submit 17099
+[vk]   pass 1 color 1920x1080 fmt 0x3f depth 0x0
+[vk]   pass 0 color 0x0 fmt 0 depth 0x725762acd0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x0
+[vk]   pass 0 color 0x0 fmt 0 depth 0x725762f1f0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x0
+[vk]   dispatch 8x8x1 cs 12a4723000 gmem 0
+[vk]   dispatch 4x4x1 cs 12a4723000 gmem 0
+[vk]   dispatch 2x2x1 cs 12a4723000 gmem 0
+[vk]   dispatch 1x1x1 cs 12a4723000 gmem 0
+[vk]   dispatch 1x1x1 cs 12a4723000 gmem 0
+[vk]   dispatch 1x1x1 cs 12a4723000 gmem 0
+[vk]   dispatch 1x1x1 cs 12a4723000 gmem 0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x725762f1f0
+[vk]   copy texture 1344x756 f0x35 -> 1344x756 f0x35 (0x725762f1f0 -> 0x725762a170)
+[vk]   copy texture 1344x756 f0x35 -> 672x378 f0x35 (0x725762a170 -> 0x725762bf30)
+[vk]     blit 0x72b7e24d70 lv0/1 336x189 (0,0 336x189) -> 0x72b78bc870 lv0/1 168x95 (0,0 168x95) nearest
+[vk]   pass 1 color 672x378 fmt 0x1 depth 0x0
+[vk]   pass 1 color 672x378 fmt 0x1 depth 0x0
+[vk]   pass 1 color 672x378 fmt 0x1 depth 0x0
+[vk]   pass 1 color 672x378 fmt 0x1 depth 0x0
+[vk]   pass 1 color 336x189 fmt 0x1 depth 0x0
+[vk]   pass 1 color 336x189 fmt 0x1 depth 0x0
+[vk]   pass 1 color 336x189 fmt 0x1 depth 0x0
+[vk]   dispatch 21x11x1 cs 12a46fe000 gmem 1
+[vk]   submit 17100
+FATAL: sr failed: -4 (/home/runner/work/EoWRecomp/EoWRecomp/runtime/nvn/vulkan/exec.c:394)
+host backtrace (guest functions are f_<addr>):
+  #0  000000713de29c80 plat_print_backtrace+50 (libmain.so+3dbc80)
+  #1  000000713ddcc000 rt_fatal_trace+38 (libmain.so+37e000)
+  #2  000000713ddfe460 vk_submit_extra+424 (libmain.so+3b0460)
+  #3  000000713de07be8 libmain.so+3b9be8
+  #4  000000713de0315c libmain.so+3b515c
+  #5  000000713de02bf8 libmain.so+3b4bf8
+  #6  000000713de02058 backend_execute+4c (libmain.so+3b4058)
+  #7  000000713ddf5868 libmain.so+3a7868
+  #8  0000007120778b20 libeowgame.so+2891b20
+  #9  000000712084925c libeowgame.so+296225c
+  #10 0000007120848d48 libeowgame.so+2961d48
+  #11 000000712084a110 libeowgame.so+2963110
+  #12 000000712084997c libeowgame.so+296297c
+  #13 000000712084a110 libeowgame.so+2963110
+  #14 000000712086e01c libeowgame.so+298701c
+  #15 000000712a655350 libeowgame.so+c76e350
+  #16 000000713ddcc830 guest_call+20 (libmain.so+37e830)
+  #17 000000713dddc158 libmain.so+38e158
+  #18 00000074aadf8654 libc.so+ba654
+  #19 00000074aad92000 libc.so+54000
+guest: sp=123ffffc50 lr=100032d25c
+  x0  0000001275c29040  x1  0000000000000001  x2  0000001275c5b0c8  x3  000000124509f5b0
+  x4  00000012451f97f8  x5  000000124509f5b0  x6  00000012451f97f8  x7  0000000000000001
+  x8  0000001080000720  x9  0000001275c330b0  x10 0000000000000058  x11 0000000000000000
+  x12 0000001003f6c2a0  x13 0000000000013840  x14 00000012451f9000  x15 ffffffffffffff56
+  x16 0000001003f7d6b8  x17 000000100c4f8f10  x18 0000001244ee9ee8  x19 0000001275c29030
+  x20 0000001275c330b0  x21 0000001275c32000  x22 0000001275c30c80  x23 0000001003ffc240
+  x24 00000012407250e0  x25 0000000000000001  x26 000000123ffffd38  x27 0000000000000000
+  x28 0000001003ffb000  x29 000000123ffffc50  x30 000000100032d25c  x31 0000000000000000
+[vk] in the background: drawing paused
