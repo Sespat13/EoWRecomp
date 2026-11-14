@@ -1226,6 +1226,51 @@ jobs:
           open(p, 'w').write(s)
           print('ok cube')
           EOF27
+          # Parche 0.5.33: copia de huesos al dia + memoria/temperatura en el log.
+          python3 - <<'EOF28'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          def sub1(s, a, b):
+              assert s.count(a) == 1, a[:70]
+              return s.replace(a, b)
+          # (EXP 0.5.33) the per-submission copy was reused whenever the range table matched, even if the CPU had rewritten the
+          # bytes in between (bone palettes etc.): compare the contents too (small copies only) and count refreshes.
+          s = sub1(s, '    if (last[sl].seq != seq || last[sl].total != total || memcmp(last[sl].tab, tab, sizeof last[sl].tab)) {\n        VkSpan sp_ = vk_transient(total, 256);',
+           '    bool stale_ = false;\n'
+           '    if (total <= 65536 && last[sl].seq == seq && last[sl].total == total && !memcmp(last[sl].tab, tab, sizeof last[sl].tab)) {\n'
+           '        uint64_t o3 = 0;\n'
+           '        for (int i = 0; i < m && !stale_; i++) {\n'
+           '            uint64_t len = r[i].hi - r[i].lo;\n'
+           '            if (memcmp((const uint8_t *)last[sl].span.ptr + o3, (const void *)(uintptr_t)(HEAP_BASE + r[i].lo), len)) stale_ = true;\n'
+           '            o3 += (len + 255) & ~255ull;\n'
+           '        }\n'
+           '        if (stale_) { static unsigned nst; if (nst++ < 30) LOG("[gmem] stale copy refreshed: stage %d total %llu\\n", stage, (unsigned long long)total); }\n'
+           '    }\n'
+           '    if (stale_ || last[sl].seq != seq || last[sl].total != total || memcmp(last[sl].tab, tab, sizeof last[sl].tab)) {\n        VkSpan sp_ = vk_transient(total, 256);')
+          open(p, 'w').write(s)
+          p = 'runtime/nvn/vulkan/device.c'
+          s = open(p).read()
+          s = sub1(s, '#include <math.h>\n', '#include <math.h>\n#include <stdio.h>\n')
+          s = sub1(s, '        extern const char *game_level_name(void);\n        if (last_fps_time > 0)\n',
+           '        extern const char *game_level_name(void);\n'
+           '        if (last_fps_time > 0) {  // (EXP 0.5.33) memory and temperature, to tell throttling from a leak\n'
+           '            unsigned long rss_mb = 0, av_mb = 0; int tmax = -1000, tz = 0;\n'
+           '            FILE *f = fopen("/proc/self/statm", "r");\n'
+           '            if (f) { unsigned long a = 0, b = 0; if (fscanf(f, "%lu %lu", &a, &b) == 2) rss_mb = b * 4096ul / 1048576ul; fclose(f); }\n'
+           '            f = fopen("/proc/meminfo", "r");\n'
+           '            if (f) { char ln[128]; while (fgets(ln, sizeof ln, f)) { unsigned long kb; if (sscanf(ln, "MemAvailable: %lu kB", &kb) == 1) { av_mb = kb / 1024; break; } } fclose(f); }\n'
+           '            for (int z = 0; z < 40; z++) {\n'
+           '                char pth[96]; snprintf(pth, sizeof pth, "/sys/class/thermal/thermal_zone%d/temp", z);\n'
+           '                f = fopen(pth, "r"); if (!f) continue;\n'
+           '                int v = 0; if (fscanf(f, "%d", &v) == 1) { if (v > 1000) v /= 1000; if (v > tmax) tmax = v; tz++; }\n'
+           '                fclose(f);\n'
+           '            }\n'
+           '            LOG("[sys] rss %lu MB avail %lu MB maxtemp %d C (%d zones)\\n", rss_mb, av_mb, tmax, tz);\n'
+           '        }\n'
+           '        if (last_fps_time > 0)\n')
+          open(p, 'w').write(s)
+          print('ok v33')
+          EOF28
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.exp'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.5 Exp</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -1245,7 +1290,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.32-experimental -PeowVersionCode=37 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.5.33-experimental -PeowVersionCode=38 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
