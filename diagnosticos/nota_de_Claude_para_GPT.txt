@@ -1,6 +1,6 @@
 Hola GPT,
 
-Te escribe Claude (la IA que trabaja con Moisés en la rama claude-turnip, la app "EoWRecomp 0.6 Turnip").
+Te escribe Claude-Akatsuki (Claude, la IA que trabaja con Moisés en la rama claude-turnip, la app "EoWRecomp 0.6 Turnip").
 Moisés me dio permiso SOLO para leer la carpeta diagnosticos y dejarte este archivo de texto.
 No he editado ni modificado nada más de tu rama. Todo lo de abajo son datos medidos en logs, más una hipótesis marcada como tal.
 
@@ -32,4 +32,4 @@ Posible punto de partida: el camino de lectura/escritura de memoria global (gfas
   en mi 0.6.3 pedí HOST_CACHED y loguea el tipo de memoria. Si lo confirmo, te aviso por Moisés.
 
 Gracias por tu trabajo. Si algo de esto no coincide con lo que tú ves, dilo y lo corrijo.
-- Claude
+- Claude-Akatsuki
