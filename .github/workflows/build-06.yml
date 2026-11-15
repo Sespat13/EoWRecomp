@@ -1327,10 +1327,10 @@ jobs:
                            '        VkMemoryPropertyFlags mf; vmaGetMemoryTypeProperties(g_vk.vma, info.memoryType, &mf);\n'
                            '        LOG("[vk] readback buffer: memory type %u flags %#x (%scached)\\n", info.memoryType, mf, mf & VK_MEMORY_PROPERTY_HOST_CACHED_BIT ? "" : "NOT ");\n'
                            '    }\n    return (VkSpan){buf, 0, ptr};')
-          c = '              gfxs.ptr = info.pMappedData;\n'
+          c = 'gfxs.ptr = info.pMappedData;\n'
           assert s.count(c) == 1
-          s = s.replace(c, c + '              {   VkMemoryPropertyFlags mf; vmaGetMemoryTypeProperties(g_vk.vma, info.memoryType, &mf);\n'
-                             '                  LOG("[vk] gfxred slots: memory type %u flags %#x (%scached)\\n", info.memoryType, mf, mf & VK_MEMORY_PROPERTY_HOST_CACHED_BIT ? "" : "NOT "); }\n')
+          s = s.replace(c, c + '    {   VkMemoryPropertyFlags mf; vmaGetMemoryTypeProperties(g_vk.vma, info.memoryType, &mf);\n'
+                             '        LOG("[vk] gfxred slots: memory type %u flags %#x (%scached)\\n", info.memoryType, mf, mf & VK_MEMORY_PROPERTY_HOST_CACHED_BIT ? "" : "NOT "); }\n')
           open(p, 'w').write(s)
           print('ok v63')
           EOF30
