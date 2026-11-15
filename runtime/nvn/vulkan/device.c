@@ -44,6 +44,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debug_cb(VkDebugUtilsMessageSeverityFlagBi
 static bool custom_driver_on;
 static char driver_probe[512];  // GpuDrivers' marker: removed once the driver has presented a few frames
 
+bool vk_using_custom_driver(void) { return custom_driver_on; }
 static bool custom_driver(void) {
     AndroidGpuDriver d;
     if (!android_gpu_driver_config(&d)) {

@@ -1334,6 +1334,30 @@ jobs:
           open(p, 'w').write(s)
           print('ok v63')
           EOF30
+          # Parche 0.6.4: en Turnip (KGSL, Mesa viejo) consultar el contador del timeline BLOQUEA hasta que la GPU termina
+          # (Mesa e984ef29 "tu/kgsl: Prevent indefinite wait times for 0 timeout waits"; visto en Peanuts Native, docs/reference/frame-rate.md).
+          python3 - <<'EOF31'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = 'uint64_t vk_completed_seq(void) {\n    uint64_t v = 0;\n    vkGetSemaphoreCounterValue(g_vk.dev, g_vk.timeline, &v);\n    return v;\n}'
+          assert s.count(a) == 1
+          # (EXP 0.6.4) with the bundled Turnip the counter is not polled (it waits for the GPU, ~1 frame, outside wait_ns): the last
+          # value a vk_wait_seq saw reached is used instead (the game waits ~8 times a frame). EOWRECOMP_VK_POLL=real keeps the query.
+          s = s.replace(a, 'static uint64_t host_done;  // highest submission a vk_wait_seq saw finish\n'
+                           'uint64_t vk_completed_seq(void) {\n'
+                           '    static int real = -1;\n'
+                           '    if (real < 0) { const char *e = getenv("EOWRECOMP_VK_POLL"); real = (e && !strcmp(e, "real")) ? 1 : 0; }\n'
+                           '    if (!real && vk_using_custom_driver()) return __atomic_load_n(&host_done, __ATOMIC_ACQUIRE);\n'
+                           '    uint64_t v = 0;\n    vkGetSemaphoreCounterValue(g_vk.dev, g_vk.timeline, &v);\n    return v;\n}')
+          b = '    else if (r == VK_SUCCESS) cq_resolve_done(seq);'
+          assert s.count(b) == 1
+          s = s.replace(b, '    else if (r == VK_SUCCESS) {\n'
+                           '        uint64_t hd = __atomic_load_n(&host_done, __ATOMIC_RELAXED);\n'
+                           '        while (hd < seq && !__atomic_compare_exchange_n(&host_done, &hd, seq, 0, __ATOMIC_RELEASE, __ATOMIC_RELAXED)) {}\n'
+                           '        cq_resolve_done(seq);\n    }')
+          open(p, 'w').write(s)
+          print('ok v64')
+          EOF31
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.turnip'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.6 Turnip</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -1353,7 +1377,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.6.3-turnip -PeowVersionCode=63 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.6.4-turnip -PeowVersionCode=64 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true

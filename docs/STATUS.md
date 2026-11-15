@@ -152,3 +152,7 @@ Linux** (Intel Iris Xe, Mesa ANV). Metal não foi tocado nem testado.
 - 0.6.2 em Turnip/Adreno 740: roda, mas trava em ~0.6 fps na cena do dungeon (`[gfxred] sync avg 286 ms`, wait 0 ms). Capa esticada continua com Turnip → bug nosso, não do driver.
 - Hipótese: buffers lidos pela CPU (vk_readback, slots gfxred) caem em memória visível sem cache. 0.6.3 pede HOST_CACHED e loga o tipo de memória (`[vk] readback buffer`, `[vk] gfxred slots`). Não verificado em aparelho ainda.
 - Testar: log mostra "cached" e fps/`gfxred sync avg` caem.
+
+## 0.6.4-turnip (claude-turnip) — hipótese a testar
+- Turnip 24.3 (KGSL, Mesa antigo): `vkGetSemaphoreCounterValue` bloqueia até a GPU terminar (Mesa e984ef29; documentado em Peanuts Native, docs/reference/frame-rate.md). `vk_completed_seq()` é chamado ao pegar chunk de upload, ao liberar recursos mortos e em `vk_collect_dead`; o tempo não entra em `wait` (por isso `wait 0ms` com frames de 1.6 s).
+- 0.6.4: com driver Turnip embutido, `vk_completed_seq()` devolve o maior seq visto por `vk_wait_seq` (o jogo espera ~8x/frame). `EOWRECOMP_VK_POLL=real` volta ao comportamento antigo. Não verificado em aparelho.
