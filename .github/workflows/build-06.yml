@@ -1310,6 +1310,30 @@ jobs:
           open(p, 'w').write(s)
           print('ok v62')
           EOF29
+          # Parche 0.6.3: buffers de lectura de la CPU en memoria "cached" (Turnip: la memoria visible sin cache lee ~100x mas lento).
+          python3 - <<'EOF30'
+          import re
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT};'
+          assert s.count(a) == 2, s.count(a)
+          # (EXP 0.6.3) the CPU reads these back (vk_readback, the gfx-atomics slots): ask for host-cached memory. Turnip's log showed
+          # [gfxred] sync avg 286 ms per sync on non-cached memory; reads of write-combined memory are very slow.
+          s = s.replace(a, '.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT,\n'
+                           '        .preferredFlags = VK_MEMORY_PROPERTY_HOST_CACHED_BIT};')
+          b = '        ptr = info.pMappedData;\n    }\n    return (VkSpan){buf, 0, ptr};'
+          assert s.count(b) == 1
+          s = s.replace(b, '        ptr = info.pMappedData;\n'
+                           '        VkMemoryPropertyFlags mf; vmaGetMemoryTypeProperties(g_vk.vma, info.memoryType, &mf);\n'
+                           '        LOG("[vk] readback buffer: memory type %u flags %#x (%scached)\\n", info.memoryType, mf, mf & VK_MEMORY_PROPERTY_HOST_CACHED_BIT ? "" : "NOT ");\n'
+                           '    }\n    return (VkSpan){buf, 0, ptr};')
+          c = '              gfxs.ptr = info.pMappedData;\n'
+          assert s.count(c) == 1
+          s = s.replace(c, c + '              {   VkMemoryPropertyFlags mf; vmaGetMemoryTypeProperties(g_vk.vma, info.memoryType, &mf);\n'
+                             '                  LOG("[vk] gfxred slots: memory type %u flags %#x (%scached)\\n", info.memoryType, mf, mf & VK_MEMORY_PROPERTY_HOST_CACHED_BIT ? "" : "NOT "); }\n')
+          open(p, 'w').write(s)
+          print('ok v63')
+          EOF30
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.turnip'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.6 Turnip</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -1329,7 +1353,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.6.2-turnip -PeowVersionCode=62 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.6.3-turnip -PeowVersionCode=63 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
