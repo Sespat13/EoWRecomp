@@ -1,0 +1,683 @@
+[paths] data: /storage/emulated/0/Android/data/com.eowrecomp.android.gpt/files
+[exp] forced render scale 0.25 (GPU-load test)
+[settings] loaded eowrecomp.ini
+[vk] gpu 0: Adreno (TM) 740 (api 1.3.128)
+[vk] using Adreno (TM) 740
+[vk] warning: no uniformAndStorageBuffer8BitAccess (not requested)
+[vk] warning: no shaderInt64 (64-bit address math in shaders)
+[vk] swapchain pre-rotated 90 degrees (images 1080x1920)
+[vk] device-loss trace enabled\n[vk] swapchain pre-rotated 90 degrees (images 1025x1920)
+[gamelib] /data/data/com.eowrecomp.android.gpt/files/libeowgame.so (4 modules, 296677 functions)
+loaded main  at 1000000000 size 4004000 syms 758
+loaded subsdk0 at 1008000000 size a8c000 syms 111
+loaded subsdk1 at 100a000000 size 6b4000 syms 11625
+loaded sdk   at 100c000000 size e04000 syms 27633
+relocated main  (55 imports bound to host stubs)
+relocated subsdk0 (0 imports bound to host stubs)
+relocated subsdk1 (2 imports bound to host stubs)
+relocated sdk   (0 imports bound to host stubs)
+main thread: prio 44, stack 0x100000
+[input] gamepad: Odin Controller
+[cpu] fastest core cpu7 (3187 MHz) for the render thread, 4 big cores (2803 MHz) for the game's
+init sdk (DT_INIT 100c000030, 97 init_array entries)
+[sm] GetService lm
+[ipc] control 3 on lm (handle 103)
+[ipc] control 0 on lm (handle 103)
+[sm] GetService apm
+[sm] GetService appletOE
+[ipc] control 3 on appletOE (handle 105)
+[ipc] control 0 on appletOE (handle 105)
+[am] ICommonStateGetter cmd 900 (unhandled, ok)
+[am] ISelfController cmd 91 (unhandled, ok)
+[kernel] CreateThread entry=100c136910 stack=1202b2bfe0 prio=28 -> 10a
+[am] IWindowController cmd 10 (unhandled, ok)
+[am] ISelfController cmd 13 (unhandled, ok)
+[am] ISelfController cmd 16 (unhandled, ok)
+[sm] GetService aoc:u
+[sm] GetService ectx:aw
+[ipc] no HLE implementation for service 'ectx:aw', using logging stub
+[ipc] control 3 on ectx:aw (handle 10c)
+[ipc] control 0 on ectx:aw (handle 10c)
+[sm] GetService pctl
+[ipc] control 3 on pctl (handle 10d)
+[ipc] control 0 on pctl (handle 10d)
+[sm] GetService pctl:s
+[ipc] control 3 on pctl:s (handle 10e)
+[ipc] control 0 on pctl:s (handle 10e)
+[ipc] close session pctl:s (handle 10e)
+[sm] GetService pctl:a
+[ipc] control 3 on pctl:a (handle 10e)
+[ipc] control 0 on pctl:a (handle 10e)
+[ipc] close session pctl:a (handle 10e)
+[sm] GetService pctl:r
+[ipc] control 3 on pctl:r (handle 10e)
+[ipc] control 0 on pctl:r (handle 10e)
+[ipc] close session pctl:r (handle 10e)
+[pctl] IParentalControlService cmd 1 (ok)
+init subsdk1 (DT_INIT 100a000030, 45 init_array entries)
+init subsdk0 (DT_INIT 1008000030, 6 init_array entries)
+init main (DT_INIT 1000000030, 1490 init_array entries)
+[am] ISelfController cmd 12 (unhandled, ok)
+[am] ISelfController cmd 11 (unhandled, ok)
+[am] ISelfController cmd 14 (unhandled, ok)
+[kernel] CreateThread entry=100c136910 stack=1222051fe0 prio=44 -> 10e
+[am] ISelfController cmd 1 (unhandled, ok)
+[sm] GetService time:u
+[ipc] control 3 on time:u (handle 10f)
+[ipc] control 0 on time:u (handle 10f)
+[time] shared memory mapped at 10a0824000
+[kernel] CreateThread entry=100c136910 stack=12008d8fe0 prio=45 -> 112
+[kernel] CreateThread entry=100c136910 stack=120c1c2fe0 prio=44 -> 113
+[kernel] CreateThread entry=100c136910 stack=12038a4fe0 prio=44 -> 114
+[kernel] CreateThread entry=100c136910 stack=122a955fe0 prio=47 -> 115
+[kernel] CreateThread entry=100c136910 stack=1204217fe0 prio=46 -> 116
+[sm] GetService fsp-srv
+[ipc] control 3 on fsp-srv (handle 117)
+[ipc] control 0 on fsp-srv (handle 117)
+[ipc] control 2 on fsp-srv (handle 117)
+[ipc] control 2 on fsp-srv (handle 118)
+[fs] romfs from the game package (8033071180 bytes)
+[fs] romfs index: 10963 files
+[fs] romfs reads: 1 (0 KB)
+[fs] romfs reads: 2 (0 KB)
+[fs] romfs reads: 4 (16 KB)
+[sm] GetService acc:u0
+[ipc] control 3 on acc:u0 (handle 11a)
+[ipc] control 0 on acc:u0 (handle 11a)
+[acc] acc:u0 cmd 160 (ok)
+[svc] aoc:u cmd 50 (ok)
+[sm] GetService hid
+[ipc] control 3 on hid (handle 11b)
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] style set update event bound
+[input] GetNpadStyleSet id 0
+[input] GetNpadStyleSet id 0x1
+[input] GetNpadStyleSet id 0x2
+[input] GetNpadStyleSet id 0x3
+[kernel] CreateThread entry=100c136910 stack=122a1a9fe0 prio=45 -> 130
+[kernel] CreateThread entry=100c136910 stack=120d944fe0 prio=40 -> 131
+[kernel] CreateThread entry=100c136910 stack=121c590fe0 prio=40 -> 132
+[kernel] CreateThread entry=100c136910 stack=1217648fe0 prio=34 -> 133
+[kernel] CreateThread entry=100c136910 stack=122ce15fe0 prio=34 -> 134
+[kernel] CreateThread entry=100c136910 stack=1234381fe0 prio=34 -> 135
+[kernel] CreateThread entry=100c136910 stack=12380ebfe0 prio=46 -> 136
+[kernel] CreateThread entry=100c136910 stack=121d292fe0 prio=46 -> 137
+[vk] Adreno (TM) 740, swapchain 1920x1025
+[nvn] device initialized
+[nvn] DeviceGetInteger 40 -> 1 (lr 100032c964)
+[nvn] DeviceGetInteger 41 -> 1 (lr 100032c984)
+[nvn] DeviceGetInteger 42 -> 1 (lr 100032c9a8)
+[nvn] DeviceGetInteger 50 -> 256 (lr 100032c9cc)
+[nvn] DeviceGetInteger 59 -> 1 (lr 100032c9f0)
+[nvn] DeviceGetInteger 66 -> 0 (lr 100032ca18)
+[nvn] DeviceGetInteger 67 -> 0 (lr 100032ca3c)
+[nvn] DeviceGetInteger 68 -> 0 (lr 100032ca60)
+[nvn] DeviceGetInteger 69 -> 0 (lr 100032ca84)
+[nvn] DeviceGetInteger 71 -> 0 (lr 100032caa8)
+[nvn] DeviceGetInteger 72 -> 0 (lr 100032cac8)
+[nvn] DeviceGetInteger 73 -> 0 (lr 100032cae8)
+[nvn] DeviceGetInteger 74 -> 0 (lr 100032cb08)
+[nvn] DeviceGetInteger 75 -> 0 (lr 100032cb28)
+[nvn] DeviceGetInteger 76 -> 0 (lr 100032cb48)
+[nvn] DeviceGetInteger 87 -> 0 (lr 100032cb68)
+[nvn] DeviceGetInteger 90 -> 0 (lr 100032cb88)
+[nvn] DeviceGetInteger 17 -> 256 (lr 10026e9e84)
+[nvn] DeviceGetInteger 18 -> 256 (lr 10026e9e98)
+[nvn] DeviceGetInteger 15 -> 32 (lr 10003288e4)
+[nvn] DeviceGetInteger 36 -> 1048576 (lr 1000328a5c)
+[nvn] DeviceGetInteger 16 -> 32 (lr 10003288e4)
+[nvn] DeviceGetInteger 37 -> 4096 (lr 1000328a5c)
+[nvn] window with 2 textures
+[kernel] CreateThread entry=100c136910 stack=1231e15fe0 prio=36 -> 13a
+[nvn] DeviceGetInteger 19 -> 4 (lr 1000326a10)
+[nvn] DeviceGetInteger 20 -> 8 (lr 1000326a48)
+[nvn] DeviceGetInteger 26 -> 131072 (lr 10026ea3ac)
+[nvn] DeviceGetInteger 10 -> 16 (lr 1000326740)
+[fs] romfs reads: 8 (767 KB)
+[nvn] depth mode 1
+[fs] romfs reads: 16 (3858 KB)
+[nvn] DeviceGetInteger 25 -> 4096 (lr 100270574c)
+[nvn] ReportCounter type 0
+[nvn] first nvnQueuePresentTexture (window 1275c2b068, texture 0 of 2)
+[vk] transient ring: memory type 6 (device-local host-visible cached)
+[post] 1920x1080 smaa -> 1822x1025
+[post] 480x270 smaa fsr1 -> 1822x1025
+[nvn] DeviceGetInteger 4 -> 256 (lr 10003267b4)
+[kernel] CreateThread entry=100c136910 stack=121b293fe0 prio=45 -> 13b
+[kernel] CreateThread entry=100c136910 stack=120b34cfe0 prio=44 -> 13c
+[kernel] CreateThread entry=100c136910 stack=1230e57fe0 prio=44 -> 13d
+[kernel] CreateThread entry=100c136910 stack=12127cffe0 prio=44 -> 13e
+[kernel] CreateThread entry=100c136910 stack=122ca4bfe0 prio=44 -> 13f
+[pl] system font /data/data/com.eowrecomp.android.gpt/files/res/DejaVuSans.ttf (757076 bytes)
+[kernel] CreateThread entry=100c136910 stack=1212140fe0 prio=44 -> 140
+[kernel] CreateThread entry=100c136910 stack=1209e6efe0 prio=40 -> 141
+[kernel] CreateThread entry=100c136910 stack=1233ad4fe0 prio=40 -> 142
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 143)
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 143)
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 143)
+[sm] GetService audren:u
+Low latency audio enabled
+[audren] renderer 48000 Hz, 240 samples/frame, 96 voices, 2 mixes, 30 mix buffers, 0 splitters, 14 effects, revision REV; (REV11)
+[ipc] close session audren:u (handle 143)
+[audren] mix 0 used 1 vol 1.000 bufs 6 dest 2147483647:
+[kernel] CreateThread entry=100c136910 stack=121a9e4fe0 prio=31 -> 143
+[kernel] CreateThread entry=100c136910 stack=122c375fe0 prio=32 -> 144
+[audren] device 48000 Hz, 960 frames/period; queue target 2160 samples
+[audren] mix 1 used 1 vol 1.000 bufs 24 dest 0: 0>0=1.000 1>1=1.000 2>2=1.000 3>3=1.000 4>4=1.000 5>5=1.000 6>0=1.000 7>1=1.000 8>2=1.000 9>3=1.000 10>4=1.000 11>5=1.000 12>0=1.000 13>1=1.000 14>2=1.000 15>3=1.000 16>4=1.000 17>5=1.000 18>0=1.000 19>1=1.000 20>2=1.000 21>3=1.000 22>4=1.000 23>5=1.000
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 148)
+[ipc] control 3 on IAudioDevice (handle 149)
+[ipc] close session IAudioDevice (handle 149)
+[sm] GetService audren:u
+[ipc] close session audren:u (handle 148)
+[ipc] control 3 on IAudioDevice (handle 149)
+[ipc] close session IAudioDevice (handle 149)
+[kernel] CreateThread entry=100c136910 stack=1217b84fe0 prio=44 -> 148
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[fs] romfs reads: 32 (6239 KB)
+[vk] depth24 stencil8: D32_SFLOAT_S8_UINT
+[input] GetNpadState id 0 lr 1001683f9c
+[fs] romfs reads: 64 (112880 KB)
+[fs] romfs reads: 128 (113970 KB)
+[fs] romfs reads: 256 (119740 KB)
+[time] StandardUserSystemClock::GetCurrentTime (host clock)
+[time] StandardUserSystemClock::GetCurrentTime (host clock)
+[time] StandardUserSystemClock::GetCurrentTime (host clock)
+[kernel] CreateThread entry=100c136910 stack=12062d2fe0 prio=44 -> 149
+[fs] mounted host directory save/save_0
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[fs] mounted host directory save/save_0
+[kernel] CreateThread entry=100c136910 stack=1238611fe0 prio=28 -> 14a
+[nvn] video texture 0x725763b970: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ed7b6000 stride 0
+[nvn] video texture 0x725763bdd0: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ed7b6000 stride 0
+[nvn] video texture 0x725763b510: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ecf36000 stride 0
+[nvn] video texture 0x725763c930: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ecf36000 stride 0
+[nvn] video texture 0x725763ba50: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ec6b6000 stride 0
+[nvn] video texture 0x725763aef0: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ec6b6000 stride 0
+[nvn] video texture 0x725763ae10: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ebe36000 stride 0
+[nvn] video texture 0x725763c770: 1920x1080 fmt 0x38 flags 0x6 target 1 addr 12ebe36000 stride 0
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[kernel] CreateThread entry=100c136910 stack=122b1cffe0 prio=40 -> 14b
+[kernel] CreateThread entry=100c136910 stack=123b23efe0 prio=40 -> 14c
+[kernel] CreateThread entry=100c136910 stack=1221886fe0 prio=40 -> 14d
+[movie] open rom:/region_common/movie/rd000_Title.webm -> extracted/romfs/region_common/movie/rd000_Title.webm
+[movie] from the package (69188808 bytes): ok
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[movie] decoder vp9 configured: 1920x1080 0 Hz 0 ch
+[kernel] CreateThread entry=100c136910 stack=1215400fe0 prio=40 -> 14e
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[movie] acq_in 100 send 38 frames 35 acq_out 36 get_out 29 rel_out 29
+[movie] acq_in 193 send 70 frames 67 acq_out 75 get_out 62 rel_out 62
+[vk] command counts: 0:1059 2:628 3:459 4:1475 5:1475 6:1475 7:1056 8:1040 9:1040 10:427 11:427 12:427 13:901 14:33 15:374 16:344 17:431 18:431 19:4819 20:4118 21:4990 22:4118 23:1475 24:4224 27:1056 28:1040 34:872 35:488 38:427 41:64 44:1 46:455 51:3184 54:862 57:2
+[vk] copy alias: 8 made, 6 renamed, 0 stencil-only, 0 copied later (live 2)
+[vk] t=10.9 frame 431 214.8 fps max 144ms level - (421 draws, 14 skipped, 1783 passes, 56 dispatches, 1209 flushes, wait 987ms, compile 8, fbcopy 0, upload 684.5MB | skipped: program compiling 4 pipeline compiling 2 compute program 8)
+[movie] acq_in 289 send 103 frames 100 acq_out 113 get_out 95 rel_out 95
+[movie] acq_in 388 send 136 frames 132 acq_out 149 get_out 127 rel_out 127
+[input] GetNpadState id 0 lr 1001683f9c
+[movie] acq_in 487 send 168 frames 165 acq_out 185 get_out 161 rel_out 161
+[movie] acq_in 582 send 202 frames 199 acq_out 224 get_out 194 rel_out 194
+[vk] command counts: 0:2055 2:1126 3:2148 4:4950 5:4950 6:4950 7:2052 8:2036 9:2036 10:2116 11:2116 12:1320 13:4279 14:33 15:2856 16:344 17:929 18:929 19:10307 20:9105 21:10973 22:9105 23:4950 24:8208 27:2052 28:2036 34:1868 35:992 38:2906 41:64 44:1 46:953 51:6678 54:1858 57:2
+[vk] t=12.9 frame 929 248.9 fps max 6ms level - (2453 draws, 26 skipped, 1998 passes, 0 dispatches, 996 flushes, wait 1379ms, compile 12, fbcopy 0, upload 979.1MB | skipped: program compiling 21 pipeline compiling 5)
+[movie] acq_in 682 send 236 frames 233 acq_out 256 get_out 226 rel_out 226
+[movie] acq_in 776 send 267 frames 264 acq_out 297 get_out 260 rel_out 260
+[input] GetNpadState id 0 lr 1001683f9c
+[movie] acq_in 878 send 301 frames 298 acq_out 330 get_out 291 rel_out 291
+[movie] acq_in 973 send 335 frames 332 acq_out 367 get_out 327 rel_out 327
+[vk] command counts: 0:3027 2:1612 3:4092 4:8838 5:8838 6:8838 7:3024 8:3008 9:3008 10:4060 11:4060 12:2292 13:8167 14:33 15:5772 16:344 17:1415 18:1415 19:15653 20:13965 21:16805 22:13965 23:8838 24:12096 27:3024 28:3008 34:2840 35:1478 38:5822 41:64 44:1 46:1439 51:10080 54:2830 57:2
+[vk] t=14.9 frame 1415 243.0 fps max 6ms level - (2916 draws, 0 skipped, 1944 passes, 0 dispatches, 972 flushes, wait 1394ms, compile 0, fbcopy 0, upload 981.5MB)
+[movie] acq_in 1079 send 366 frames 363 acq_out 399 get_out 358 rel_out 358
+[movie] acq_in 1175 send 401 frames 398 acq_out 434 get_out 391 rel_out 391
+[movie] acq_in 1277 send 432 frames 428 acq_out 467 get_out 424 rel_out 424
+[input] GetNpadState id 0 lr 1001683f9c
+[vk] t=16.9 frame 1906 245.1 fps max 6ms level - (2946 draws, 0 skipped, 1964 passes, 0 dispatches, 982 flushes, wait 1423ms, compile 0, fbcopy 0, upload 981.8MB)
+[movie] acq_in 1379 send 464 frames 461 acq_out 502 get_out 456 rel_out 456
+[movie] acq_in 1480 send 496 frames 493 acq_out 536 get_out 488 rel_out 488
+[movie] acq_in 1581 send 529 frames 526 acq_out 570 get_out 520 rel_out 520
+[movie] acq_in 1676 send 562 frames 559 acq_out 607 get_out 555 rel_out 555
+[input] GetNpadState id 0 lr 1001683f9c
+[vk] t=18.9 frame 2409 251.4 fps max 9ms level - (3018 draws, 0 skipped, 2012 passes, 0 dispatches, 1006 flushes, wait 1438ms, compile 0, fbcopy 0, upload 982.6MB)
+[movie] acq_in 1766 send 597 frames 594 acq_out 649 get_out 588 rel_out 588
+[movie] acq_in 1867 send 629 frames 627 acq_out 686 get_out 620 rel_out 620
+[movie] acq_in 1966 send 661 frames 658 acq_out 720 get_out 653 rel_out 653
+[movie] acq_in 2069 send 693 frames 690 acq_out 754 get_out 684 rel_out 684
+[vk] t=20.9 frame 2922 256.5 fps max 15ms level - (3078 draws, 0 skipped, 2052 passes, 0 dispatches, 1026 flushes, wait 1434ms, compile 0, fbcopy 0, upload 983.3MB)
+[input] GetNpadState id 0 lr 1001683f9c
+[movie] acq_in 2166 send 725 frames 722 acq_out 791 get_out 718 rel_out 718
+[movie] acq_in 2266 send 759 frames 756 acq_out 825 get_out 750 rel_out 750
+[fs] mounted host directory save/save_0
+[movie] decoder video stopped
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] copy alias: 3 made, 2 renamed, 0 stencil-only, 1 copied later (live 2)
+[vk] t=22.9 frame 3311 194.1 fps max 26ms level - (8901 draws, 293 skipped, 1895 passes, 24 dispatches, 781 flushes, wait 1337ms, compile 38, fbcopy 0, upload 663.1MB | skipped: program compiling 161 pipeline compiling 132)
+[fs] mounted host directory save/save_0
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[vk] copy alias: 2 made, 2 renamed, 0 stencil-only, 0 copied later (live 2)
+[vk] t=24.9 frame 3631 159.9 fps max 9ms level - (25594 draws, 2 skipped, 3095 passes, 16 dispatches, 642 flushes, wait 1036ms, compile 1, fbcopy 0, upload 90.4MB | skipped: pipeline compiling 2)
+[fs] romfs reads: 512 (457593 KB)
+[kernel] CreateThread entry=100c136910 stack=122e541fe0 prio=44 -> 14b
+[kernel] CreateThread entry=100c136910 stack=122caeffe0 prio=44 -> 14c
+[am] ICommonStateGetter cmd 66 (unhandled, ok)
+[audren] effect type 4 used: slot 0 mix 1 enabled 1
+[audren] effect type 3 used (not implemented): slot 1 mix 1 enabled 1
+[audren] mix 1 used 1 vol 1.000 bufs 24 dest 0: 0>0=1.000 1>1=1.000 2>2=1.000 3>3=1.000 4>4=1.000 5>5=1.000 6>0=1.000 7>1=1.000 8>2=1.000 9>3=1.000 10>4=1.000 11>5=1.000 12>0=1.000 13>1=1.000 14>2=1.000 15>3=1.000 16>4=1.000 17>5=1.000 18>0=1.000 19>1=1.000 20>2=1.000 21>3=1.000 22>4=1.000 23>5=1.000
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] copy alias: 8 made, 0 renamed, 0 stencil-only, 9 copied later (live 1)
+[vk] t=26.9 frame 3905 134.5 fps max 389ms level - (1627 draws, 415 skipped, 1264 passes, 94 dispatches, 586 flushes, wait 177ms, compile 89, fbcopy 5, upload 68.9MB | skipped: program compiling 349 pipeline compiling 64 compute program 2)
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[pace] frames don't fit 60 fps (12 of the last 60 over 16.2 ms busy): the game's 30 fps mode
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 28x15x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 28x15x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 28x15x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 28x15x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 28x15x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 28x15x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 25x14x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 25x14x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 25x14x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 25x14x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 25x14x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 25x14x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 23x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 23x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 23x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 23x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 23x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 23x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 22x12x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] copy alias: 41 made, 0 renamed, 0 stencil-only, 42 copied later (live 0)
+[vk] t=29.0 frame 3946 20.1 fps max 61ms level - (6816 draws, 104 skipped, 1785 passes, 492 dispatches, 287 flushes, wait 1422ms, compile 12, fbcopy 82, upload 133.6MB | skipped: program compiling 49 pipeline compiling 55)
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46fe000 groups 21x11x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4705000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4701000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a4709000 groups 1x1x1 store=1
+[vk] EXP sync gmem dispatch cs 12a46d9000 groups 8x5x1 store=1
+[vk] GPU did not finish submission 8564 within 10 s (device lost?)
+[vk] last GPU operations before the device loss (oldest first):
+[vk]   pass 1 color 1344x756 fmt 0x25 depth 0x0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x7257633390
+[vk]   pass 0 color 0x0 fmt 0 depth 0x7257632910
+[vk]   pass 1 color 672x378 fmt 0x3f depth 0x0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x7257633390
+[vk]   copy texture 1344x756 f0x3f -> 1344x756 f0x3f (0x7257632670 -> 0x725762c710)
+[vk]   copy texture 1344x756 f0x3f -> 672x378 f0x3f (0x7257632670 -> 0x725762f570)
+[vk]     blit 0x72b7821020 lv0/1 336x189 (0,0 336x189) -> 0x72b77ef250 lv0/1 168x95 (0,0 168x95) linear
+[vk]   pass 1 color 672x378 fmt 0x3f depth 0x0
+[vk]   pass 1 color 672x378 fmt 0x3f depth 0x0
+[vk]   copy texture 672x378 f0x3f -> 336x189 f0x3f (0x725762f570 -> 0x7257630c30)
+[vk]     blit 0x72b77ef250 lv0/1 168x95 (0,0 168x95) -> 0x72b77f1080 lv0/1 84x47 (0,0 84x47) linear
+[vk]   pass 1 color 336x189 fmt 0x3f depth 0x0
+[vk]   pass 1 color 336x189 fmt 0x3f depth 0x0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x725762e230
+[vk]     upload 0x72b784dc00 256x256 lv0
+[vk]     upload 0x72b7848a10 256x256 lv0
+[vk]   copy texture 1344x756 f0x3f -> 1344x756 f0x3f (0x7257632670 -> 0x725762c710)
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x725762e230
+[vk]   copy texture 1344x756 f0x3f -> 672x378 f0x3f (0x7257632670 -> 0x72576314f0)
+[vk]     blit 0x72b7821020 lv0/1 336x189 (0,0 336x189) -> 0x72b7846be0 lv0/1 168x95 (0,0 168x95) linear
+[vk]   pass 1 color 336x189 fmt 0x3f depth 0x0
+[vk]   pass 1 color 168x94 fmt 0x3f depth 0x0
+[vk]   pass 1 color 168x94 fmt 0x3f depth 0x0
+[vk]   pass 1 color 84x47 fmt 0x3f depth 0x0
+[vk]   pass 1 color 84x47 fmt 0x3f depth 0x0
+[vk]   pass 1 color 42x23 fmt 0x3f depth 0x0
+[vk]   pass 1 color 42x23 fmt 0x3f depth 0x0
+[vk]   pass 1 color 84x47 fmt 0x3f depth 0x0
+[vk]   pass 1 color 168x94 fmt 0x3f depth 0x0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x0
+[vk]   pass 1 color 1920x1080 fmt 0x3f depth 0x0
+[vk]   pass 0 color 0x0 fmt 0 depth 0x725762eaf0
+[vk]   pass 1 color 1920x1080 fmt 0x3f depth 0x725762eaf0
+[vk]   copy texture 1920x1080 f0x3f -> 1920x1080 f0x38 (0x725762dcf0 -> 0x725762c2b0)
+[vk]     blit 0x72b76efa10 lv0/1 480x270 (0,0 480x270) -> 0x72b76d9cc0 lv0/1 480x270 (0,0 480x270) linear
+[vk]   submit 8563
+[vk]   submit 8564
+[vk]   pass 1 color 1920x1080 fmt 0x3f depth 0x0
+[vk]   pass 0 color 0x0 fmt 0 depth 0x725762eaf0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x0
+[vk]   pass 0 color 0x0 fmt 0 depth 0x7257633390
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x0
+[vk]   dispatch 8x8x1 cs 12a4723000 gmem 0
+[vk]   dispatch 4x4x1 cs 12a4723000 gmem 0
+[vk]   dispatch 2x2x1 cs 12a4723000 gmem 0
+[vk]   dispatch 1x1x1 cs 12a4723000 gmem 0
+[vk]   dispatch 1x1x1 cs 12a4723000 gmem 0
+[vk]   dispatch 1x1x1 cs 12a4723000 gmem 0
+[vk]   dispatch 1x1x1 cs 12a4723000 gmem 0
+[vk]   pass 1 color 1344x756 fmt 0x3f depth 0x7257633390
+[vk]   copy texture 1344x756 f0x35 -> 1344x756 f0x35 (0x7257633390 -> 0x725762e230)
+[vk]   copy texture 1344x756 f0x35 -> 672x378 f0x35 (0x725762e230 -> 0x725762ea10)
+[vk]     blit 0x72b77f7800 lv0/1 336x189 (0,0 336x189) -> 0x72b7780190 lv0/1 168x95 (0,0 168x95) nearest
+[vk]   pass 1 color 672x378 fmt 0x1 depth 0x0
+[vk]   pass 1 color 672x378 fmt 0x1 depth 0x0
+[vk]   pass 1 color 672x378 fmt 0x1 depth 0x0
+[vk]   pass 1 color 672x378 fmt 0x1 depth 0x0
+[vk]   pass 1 color 336x189 fmt 0x1 depth 0x0
+[vk]   pass 1 color 336x189 fmt 0x1 depth 0x0
+[vk]   pass 1 color 336x189 fmt 0x1 depth 0x0
+[vk]   dispatch 21x11x1 cs 12a46fe000 gmem 1
+[vk]   submit 8565
+FATAL: sr failed: -4 (/home/runner/work/EoWRecomp/EoWRecomp/runtime/nvn/vulkan/exec.c:394)
+host backtrace (guest functions are f_<addr>):
+  #0  000000713de10db4 plat_print_backtrace+50 (libmain.so+3dbdb4)
+  #1  000000713ddb3050 rt_fatal_trace+38 (libmain.so+37e050)
+  #2  000000713dde54b0 vk_submit_extra+424 (libmain.so+3b04b0)
+  #3  000000713ddeecc4 libmain.so+3b9cc4
+  #4  000000713ddea1ac libmain.so+3b51ac
+  #5  000000713dde9c48 libmain.so+3b4c48
+  #6  000000713dde90a8 backend_execute+4c (libmain.so+3b40a8)
+  #7  000000713dddc8b8 libmain.so+3a78b8
+  #8  000000711893fb20 libeowgame.so+2891b20
+  #9  0000007118a1025c libeowgame.so+296225c
+  #10 0000007118a0fd48 libeowgame.so+2961d48
+  #11 0000007118a11110 libeowgame.so+2963110
+  #12 0000007118a1097c libeowgame.so+296297c
+  #13 0000007118a11110 libeowgame.so+2963110
+  #14 0000007118a3501c libeowgame.so+298701c
+  #15 000000712281c350 libeowgame.so+c76e350
+  #16 000000713ddb3880 guest_call+20 (libmain.so+37e880)
+  #17 000000713ddc31a8 libmain.so+38e1a8
+  #18 00000074aadf8654 libc.so+ba654
+  #19 00000074aad92000 libc.so+54000
+guest: sp=123ffffc50 lr=100032d25c
+  x0  0000001275c29040  x1  0000000000000001  x2  0000001275c5b1f8  x3  00000012452d41b0
+  x4  00000012452eb7f8  x5  00000012452d41b0  x6  00000012452eb7f8  x7  0000000000000001
+  x8  0000001080000720  x9  0000001275c330b0  x10 0000000000000058  x11 0000000000000000
+  x12 0000001003f6c2a0  x13 0000000000001680  x14 00000012452eb000  x15 ffffffffffffff56
+  x16 0000001003f7d6b8  x17 000000100c4f8f10  x18 0000001245006518  x19 0000001275c29030
+  x20 0000001275c33108  x21 0000001275c32000  x22 0000001275c30c80  x23 0000001003ffc240
+  x24 00000012407250e0  x25 0000000000000001  x26 000000123ffffd38  x27 0000000000000000
+  x28 0000001003ffb000  x29 000000123ffffc50  x30 000000100032d25c  x31 0000000000000000
+[vk] in the background: drawing paused
