@@ -1277,6 +1277,39 @@ jobs:
           open(p, 'w').write(s)
           print('ok v33')
           EOF28
+          # Parche 0.6.2: pedir al driver solo las funciones que tiene (Turnip no tiene 8-bit storage: error -8).
+          python3 - <<'EOF29'
+          p = 'runtime/nvn/vulkan/device.c'
+          s = open(p).read()
+          def sub1(a, b):
+              global s
+              assert s.count(a) == 1, a[:70]
+              s = s.replace(a, b)
+          # (EXP 0.6.2) a driver that lacks a feature the backend asked for failed vkCreateDevice with -8 (Turnip: no 8-bit storage):
+          # ask for what the driver has, and say what's missing.
+          sub1('    vkGetPhysicalDeviceFeatures2(g_vk.phys, &have);\n',
+               '    VkPhysicalDeviceVulkan13Features have13 = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES};\n'
+               '    have12.pNext = &have13;\n'
+               '    vkGetPhysicalDeviceFeatures2(g_vk.phys, &have);\n'
+               '#define NOTE_MISSING(x) do { if (!(x)) LOG("[vk] note: driver lacks %s (not requested)\\n", #x); } while (0)\n'
+               '    NOTE_MISSING(have12.timelineSemaphore); NOTE_MISSING(have12.shaderInt8); NOTE_MISSING(have12.samplerMirrorClampToEdge);\n'
+               '    NOTE_MISSING(have12.storageBuffer8BitAccess); NOTE_MISSING(have12.scalarBlockLayout); NOTE_MISSING(have11.storageBuffer16BitAccess);\n'
+               '    NOTE_MISSING(have13.dynamicRendering); NOTE_MISSING(have13.synchronization2); NOTE_MISSING(have13.maintenance4);\n'
+               '    NOTE_MISSING(have13.shaderDemoteToHelperInvocation); NOTE_MISSING(have13.shaderTerminateInvocation);\n')
+          sub1('.timelineSemaphore = VK_TRUE, .shaderInt8 = VK_TRUE, .samplerMirrorClampToEdge = VK_TRUE,',
+               '.timelineSemaphore = have12.timelineSemaphore, .shaderInt8 = have12.shaderInt8,\n'
+               '                                            .samplerMirrorClampToEdge = have12.samplerMirrorClampToEdge,')
+          sub1('.storageBuffer8BitAccess = VK_TRUE,', '.storageBuffer8BitAccess = have12.storageBuffer8BitAccess,')
+          sub1('.scalarBlockLayout = VK_TRUE,', '.scalarBlockLayout = have12.scalarBlockLayout,')
+          sub1('.dynamicRendering = VK_TRUE, .synchronization2 = VK_TRUE,', '.dynamicRendering = have13.dynamicRendering, .synchronization2 = have13.synchronization2,')
+          sub1('.shaderDemoteToHelperInvocation = VK_TRUE, .shaderTerminateInvocation = VK_TRUE,',
+               '.shaderDemoteToHelperInvocation = have13.shaderDemoteToHelperInvocation,\n'
+               '                                            .shaderTerminateInvocation = have13.shaderTerminateInvocation,')
+          sub1('.maintenance4 = VK_TRUE,', '.maintenance4 = have13.maintenance4,')
+          sub1('.storageBuffer16BitAccess = VK_TRUE,', '.storageBuffer16BitAccess = have11.storageBuffer16BitAccess,')
+          open(p, 'w').write(s)
+          print('ok v62')
+          EOF29
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.turnip'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.6 Turnip</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -1296,7 +1329,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.6.1-turnip -PeowVersionCode=61 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.6.2-turnip -PeowVersionCode=62 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true

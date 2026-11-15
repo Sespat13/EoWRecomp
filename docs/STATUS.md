@@ -146,3 +146,4 @@ Linux** (Intel Iris Xe, Mesa ANV). Metal não foi tocado nem testado.
   Um `driver.zip` colocado em `Android/data/<pacote>/files/` é instalado no início seguinte (testar outro Turnip sem recompilar).
 - Não verificado em aparelho: o que o Turnip faz na Adreno 740 (compilar e testar). O log mostra `[vk] GPU driver: ...`.
 - 0.6.0 no ativou o Turnip na Odin 2 Portal (log: `GPU driver: the system's`); 0.6.1 detecta Adreno por mais caminhos e o log diz o motivo (`GpuDrivers.why`).
+- 0.6.1: o Turnip R9v2 carregou na Odin (`Turnip Adreno 740, api 1.3.296`) mas `vkCreateDevice` falhou com -8 (feature ausente, provavelmente `storageBuffer8BitAccess`); 0.6.2 pede só o que o driver tem e registra o que falta (`[vk] note: driver lacks ...`).
