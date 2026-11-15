@@ -227,6 +227,24 @@ jobs:
           open(p, 'w').write(s)
           EOF5
           grep -n "applicationId" android/app/build.gradle
+          python3 - <<'EOF6'
+          # Diagnostico temporal: sincronizar tras cada compute dispatch con memoria global.
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    stat_dispatches++;\n}\n\n// ================================================================== draws'
+          b = ('    stat_dispatches++;\n'
+               '    if (cp->si->uses_gmem_map) {\n'
+               '        LOG("[vk] EXP sync gmem dispatch cs %llx groups %ux%ux%u store=%d\\n",\n'
+               '            (unsigned long long)st.program->stages[5].code_addr, gx, gy, gz, cp->si->uses_gmem_store);\n'
+               '        wait_why = "EXP gmem compute dispatch";\n'
+               '        renderer_flush();\n'
+               '    }\n'
+               '}\n\n// ================================================================== draws')
+          assert s.count(a) == 1, 'ancla de compute dispatch no encontrada o repetida'
+          s = s.replace(a, b)
+          open(p, 'w').write(s)
+          print('ok: sincronizacion diagnostica de compute global memory')
+          EOF6
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoW GPT</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
           grep -n "applicationId" android/app/build.gradle
@@ -253,7 +271,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowApplicationId=com.eowrecomp.android.gpt -PeowVersionName=0.5.33-gpt -PeowVersionCode=38 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowApplicationId=com.eowrecomp.android.gpt -PeowVersionName=0.5.34-gpt -PeowVersionCode=39 -x eowOnDeviceAssets
 
       - name: Verificar identificador del paquete APK
         run: |
