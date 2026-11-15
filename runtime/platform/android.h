@@ -37,6 +37,8 @@ typedef struct { char dir[512], lib[128], hook_dir[512], tmp_dir[512], probe[512
 bool android_gpu_driver_config(AndroidGpuDriver *out);
 // The name of a driver that failed at its last start (the system's runs instead), once; else NULL
 const char *android_gpu_driver_failed(void);
+// Why the system's driver was chosen (GpuDrivers.why), for the log
+const char *android_gpu_driver_why(void);
 void android_build_progress(int percent, const char *text);
 
 #ifdef __cplusplus

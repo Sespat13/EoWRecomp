@@ -37,7 +37,26 @@ final class GpuDrivers {
     static boolean supported() { return true; }
 
     // An Adreno GPU (the kernel's kgsl device): the Turnip build the APK carries can run
-    static boolean adreno() { return new File("/dev/kgsl-3d0").exists(); }
+    static boolean adreno() {
+        // (the kgsl node can be hidden from stat() by SELinux on some builds: also its sysfs entry and the SoC's name)
+        return new File("/dev/kgsl-3d0").exists() || new File("/sys/class/kgsl/kgsl-3d0").exists()
+               || new File("/sys/devices/platform/soc/3d00000.qcom,kgsl-3d0").exists()
+               || android.os.Build.HARDWARE.toLowerCase().contains("qcom");
+    }
+
+    // Why the last config() chose the system's driver (device.c logs it: the app's Java side has no log file)
+    static String why = "not asked yet";
+
+    static String why() { return why; }
+
+    private static String assetCount(Context c) {
+        try {
+            String[] n = c.getAssets().list("turnip");
+            return n == null ? "none" : String.valueOf(n.length);
+        } catch (IOException e) {
+            return "error " + e.getMessage();
+        }
+    }
 
     static File root(Context c) { return new File(c.getFilesDir(), "gpu_driver"); }
 
@@ -124,15 +143,20 @@ final class GpuDrivers {
     // marker file (.probe, removed by device.c once the driver drew its first frame) catches a driver that crashed
     // or hung at its last start: the system driver then runs, and failed() names it once.
     static String config(Context c) {
-        if (!supported()) return "";
+        why = "ok";
+        if (!supported()) return why = "unsupported";
         // EoWRecomp's env.txt (the app's files folder): EOWRECOMP_GPU_DRIVER=system keeps the system's driver,
         // =turnip tries the APK's Turnip again after a failure
         String want = envDriver(c);
-        if ("system".equals(want)) return "";
+        if ("system".equals(want)) { why = "EOWRECOMP_GPU_DRIVER=system in env.txt"; return ""; }
         if ("turnip".equals(want)) prefs(c).edit().putBoolean("bundled_off", false).commit();
         installDropped(c);  // a driver .zip put in the app's files folder (driver.zip): installed and selected
         Driver d = selected(c) ? find(c) : auto(c) ? bundled(c) : null;
-        if (d == null) return "";
+        if (d == null) {
+            why = "no driver: adreno=" + adreno() + " bundled_off=" + prefs(c).getBoolean("bundled_off", false)
+                  + " turnip assets=" + assetCount(c) + " selected=" + selected(c);
+            return "";
+        }
         File probe = new File(d.dir, ".probe");
         if (probe.exists()) {  // the last start with this driver never drew its frames: the system's runs now (the
             // system's driver can run this game, unlike on phones older than Vulkan 1.3)
@@ -140,10 +164,14 @@ final class GpuDrivers {
             probe.delete();
             if (selected(c)) select(c, false);
             prefs(c).edit().putString("failed", d.name).putBoolean("bundled_off", true).commit();
+            why = "the last start with " + d.name + " never drew its frames";
             return "";
         }
         String hooks = prepareHooks(c);
-        if (hooks == null) return "";
+        if (hooks == null) {
+            why = "no libadrenotools hooks (libmain_hook.so / libhook_impl.so) in " + c.getApplicationInfo().nativeLibraryDir;
+            return "";
+        }
         try {
             //noinspection ResultOfMethodCallIgnored
             probe.createNewFile();

@@ -100,6 +100,11 @@ static const char *call_string(const char *name, char *buf, size_t cap) {
     return buf;
 }
 
+const char *android_gpu_driver_why(void) {
+    static char why[512];
+    return call_string("gpuDriverWhy", why, sizeof why);
+}
+
 const char *android_gpu_driver_failed(void) {
     static char name[256];
     return call_string("gpuDriverFailed", name, sizeof name);

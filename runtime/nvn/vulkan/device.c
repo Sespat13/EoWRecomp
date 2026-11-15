@@ -49,7 +49,7 @@ static bool custom_driver(void) {
     if (!android_gpu_driver_config(&d)) {
         const char *failed = android_gpu_driver_failed();
         if (failed) LOG("[vk] GPU driver %s failed at its last start: back to the system driver\n", failed);
-        else LOG("[vk] GPU driver: the system's\n");
+        else LOG("[vk] GPU driver: the system's (%s)\n", android_gpu_driver_why() ? android_gpu_driver_why() : "no reason from the app");
         return false;
     }
     void *lib = adrenotools_open_libvulkan(RTLD_NOW | RTLD_LOCAL, ADRENOTOOLS_DRIVER_CUSTOM, d.tmp_dir, d.hook_dir, d.dir, d.lib,

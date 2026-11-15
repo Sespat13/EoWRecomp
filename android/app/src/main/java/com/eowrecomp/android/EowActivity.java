@@ -212,6 +212,10 @@ public class EowActivity extends SDLActivity {
         return a != null ? GpuDrivers.config(a) : "";
     }
 
+    public static String gpuDriverWhy() {
+        return GpuDrivers.why();
+    }
+
     public static String gpuDriverFailed() {
         EowActivity a = (EowActivity) mSingleton;
         return a != null ? GpuDrivers.failed(a) : null;

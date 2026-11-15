@@ -1296,7 +1296,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.6.0-turnip -PeowVersionCode=60 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.6.1-turnip -PeowVersionCode=61 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true
