@@ -76,7 +76,7 @@ jobs:
 
           # 1) copia activa tambien sin la importacion de memoria del anfitrion
           rep('on = e ? atoi(e) != 0 : g_vk.props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;',
-              'on = e ? atoi(e) != 0 : (g_vk.props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU || !g_vk.host_import);')
+              'on = e ? atoi(e) != 0 : g_vk.props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;')
 
           # 2) origen de la copia: el monton del juego en la CPU cuando no hay importacion
           rep('    if (!on || !gmem_buf) return;\n',
@@ -227,24 +227,23 @@ jobs:
           open(p, 'w').write(s)
           EOF5
           grep -n "applicationId" android/app/build.gradle
-          python3 - <<'EOF6'
-          # Diagnostico temporal: sincronizar tras cada compute dispatch con memoria global.
+          python3 - <<'EOF7'
+          # Diagnostico seguro: registrar buffers/local size de compute con memoria global, sin forzar flush.
           p = 'runtime/nvn/vulkan/exec.c'
           s = open(p).read()
-          a = '    stat_dispatches++;\n}\n\n// ================================================================== draws'
-          b = ('    stat_dispatches++;\n'
-               '    if (cp->si->uses_gmem_map) {\n'
-               '        LOG("[vk] EXP sync gmem dispatch cs %llx groups %ux%ux%u store=%d\\n",\n'
-               '            (unsigned long long)st.program->stages[5].code_addr, gx, gy, gz, cp->si->uses_gmem_store);\n'
-               '        wait_why = "EXP gmem compute dispatch";\n'
-               '        renderer_flush();\n'
-               '    }\n'
-               '}\n\n// ================================================================== draws')
-          assert s.count(a) == 1, 'ancla de compute dispatch no encontrada o repetida'
+          a = 'if (cp->si->uses_gmem && getenv("EOWRECOMP_LOG_CS_SBUF"))'
+          b = 'if (cp->si->uses_gmem)'
+          assert s.count(a) == 1, 'ancla LOG_CS_SBUF no encontrada'
+          s = s.replace(a, b)
+          a = 'LOG("[cs] %llx %ux%ux%u:", (unsigned long long)st.program->stages[5].code_addr, gx, gy, gz);'
+          b = ('LOG("[cs] %llx groups=%ux%ux%u local=%ux%ux%u map=%d store=%d:",\n'
+               '                (unsigned long long)st.program->stages[5].code_addr, gx, gy, gz, cp->local[0], cp->local[1], cp->local[2],\n'
+               '                cp->si->uses_gmem_map, cp->si->uses_gmem_store);')
+          assert s.count(a) == 1, 'ancla cabecera CS no encontrada'
           s = s.replace(a, b)
           open(p, 'w').write(s)
-          print('ok: sincronizacion diagnostica de compute global memory')
-          EOF6
+          print('ok: registro de buffers compute sin sincronizacion forzada')
+          EOF7
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoW GPT</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
           grep -n "applicationId" android/app/build.gradle
@@ -271,7 +270,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowApplicationId=com.eowrecomp.android.gpt -PeowVersionName=0.5.34-gpt -PeowVersionCode=39 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowApplicationId=com.eowrecomp.android.gpt -PeowVersionName=0.5.35-gpt -PeowVersionCode=40 -x eowOnDeviceAssets
 
       - name: Verificar identificador del paquete APK
         run: |
