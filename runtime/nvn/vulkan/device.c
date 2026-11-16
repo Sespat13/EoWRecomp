@@ -749,6 +749,16 @@ void backend_present(NvnTexture *t) {
             if (*p == ',') p++; else break;
         }
     }
+    {   // EOWRECOMP_GPUPROF_SLOW=<n> (0.6.5): GPU time per pass ("[gpuprof]") of the next n frames that follow a frame over 500 ms,
+        // since the frame number of the Turnip stall changes from run to run (1316, 4897) and GPUPROF_AT needs it up front.
+        extern bool g_gpuprof_frame;
+        static long left = -1;
+        static uint64_t last;
+        if (left < 0) { const char *e = getenv("EOWRECOMP_GPUPROF_SLOW"); left = e ? atol(e) : 0; }
+        uint64_t now = SDL_GetTicksNS();
+        if (left > 0 && last && now - last > 500000000ull && !g_gpuprof_frame) { g_gpuprof_frame = true; left--; }
+        last = now;
+    }
     if (g_debug_frame) LOG("===== debug frame %llu =====\n", (unsigned long long)total_frames);
     {   // EOWRECOMP_SHOT_AT=<frame>,<frame>,... (ascending): the game image at those frames -> build/frames/frame_N.png
         static const char *next;

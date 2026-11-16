@@ -156,3 +156,7 @@ Linux** (Intel Iris Xe, Mesa ANV). Metal não foi tocado nem testado.
 ## 0.6.4-turnip (claude-turnip) — hipótese a testar
 - Turnip 24.3 (KGSL, Mesa antigo): `vkGetSemaphoreCounterValue` bloqueia até a GPU terminar (Mesa e984ef29; documentado em Peanuts Native, docs/reference/frame-rate.md). `vk_completed_seq()` é chamado ao pegar chunk de upload, ao liberar recursos mortos e em `vk_collect_dead`; o tempo não entra em `wait` (por isso `wait 0ms` com frames de 1.6 s).
 - 0.6.4: com driver Turnip embutido, `vk_completed_seq()` devolve o maior seq visto por `vk_wait_seq` (o jogo espera ~8x/frame). `EOWRECOMP_VK_POLL=real` volta ao comportamento antigo. Não verificado em aparelho.
+
+## 0.6.5-turnip — medição (claude-turnip)
+- 0.6.4 (sem poll do contador, memória `cached` confirmada) e `EOWRECOMP_SKIP_CS=12a46fe000` NÃO resolveram: continua ~0.5 fps na intro (cena escura, `gpu` ≈ 100%, `acquire blocked` 1.25 s, `waits: gfast write-back 8x 600 ms, gfx atomics 2x 547 ms, other 2x 2471 ms`). Antes disso o jogo roda a 230–290 fps mas a tela está preta (menu invisível no Turnip), outro bug.
+- 0.6.5 adiciona `EOWRECOMP_GPUPROF_SLOW=<n>`: perfila (`[gpuprof]`) os n frames seguintes a um frame >500 ms, para achar o passe/dispatch lento no Turnip. Não verificado ainda.
