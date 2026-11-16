@@ -1358,6 +1358,41 @@ jobs:
           open(p, 'w').write(s)
           print('ok v64')
           EOF31
+          # Parche 0.6.6: volcar al log el GLSL de los fragment shaders lentos en Turnip (por hash, el que muestran [gpuprof] y SKIP_FSHASH).
+          python3 - <<'EOF32'
+          p = 'runtime/nvn/vulkan/exec.c'
+          s = open(p).read()
+          a = '    p->vs_uses_vid = strstr(p->vi->msl, "gl_VertexIndex") != NULL;\n'
+          assert s.count(a) == 1
+          s = s.replace(a, a + '''    {   // (EXP 0.6.6) EOWRECOMP_DUMP_FSHASH=<hash>[,<hash>]: the GLSL of the fragment shaders with those hashes (the ones [gpuprof] names)
+              static int dumped_n;
+              const char *e = getenv("EOWRECOMP_DUMP_FSHASH");
+              if (e && p->code[1] && dumped_n < 8 && p->fi && p->fi->msl) {
+                  extern uint64_t eow_fs_hash(uint64_t fs);
+                  uint64_t h = eow_fs_hash(p->code[1]);
+                  for (const char *q = e; *q;) {
+                      uint64_t want = strtoull(q, (char **)&q, 16);
+                      while (*q == ',') q++;
+                      if (want != h) continue;
+                      dumped_n++;
+                      size_t n = strlen(p->fi->msl);
+                      LOG("[glsl] fshash %016llx fs %llx: %zu bytes\\n", (unsigned long long)h, (unsigned long long)p->code[1], n);
+                      for (size_t o = 0; o < n; o += 1200) LOG("[glsl]%.*s\\n", (int)(n - o < 1200 ? n - o : 1200), p->fi->msl + o);
+                      LOG("[glsl] end\\n");
+                      break;
+                  }
+              }
+          }
+          ''')
+          # the same hash the draw path computes (fs + 0x30, 0x200 bytes)
+          b = 'static uint64_t hmix(uint64_t h, const void *p, size_t n) {'
+          assert s.count(b) == 1
+          i = s.index(b)
+          j = s.index('\n}\n', i) + 3
+          s = s[:j] + 'uint64_t eow_fs_hash(uint64_t fs) { return fs ? hmix(1469598103934665603ull, (const void *)(uintptr_t)(fs + 0x30), 0x200) : 0; }\n' + s[j:]
+          open(p, 'w').write(s)
+          print('ok v66')
+          EOF32
           sed -i "s/applicationId 'com.eowrecomp.android'/applicationId 'com.eowrecomp.android.turnip'/" android/app/build.gradle
           sed -i 's|<string name="app_name">EoW Recomp</string>|<string name="app_name">EoWRecomp 0.6 Turnip</string>|' android/app/src/main/res/values/strings.xml
           git diff --stat
@@ -1377,7 +1412,7 @@ jobs:
 
       - name: Compilar la APK
         working-directory: android
-        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.6.5-turnip -PeowVersionCode=65 -x eowOnDeviceAssets
+        run: ./gradlew assembleRelease -PonDeviceBuild=true -PeowVersionName=0.6.6-turnip -PeowVersionCode=66 -x eowOnDeviceAssets
 
       - name: Mostrar la huella de la firma
         continue-on-error: true

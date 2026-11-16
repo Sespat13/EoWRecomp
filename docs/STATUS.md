@@ -160,3 +160,9 @@ Linux** (Intel Iris Xe, Mesa ANV). Metal não foi tocado nem testado.
 ## 0.6.5-turnip — medição (claude-turnip)
 - 0.6.4 (sem poll do contador, memória `cached` confirmada) e `EOWRECOMP_SKIP_CS=12a46fe000` NÃO resolveram: continua ~0.5 fps na intro (cena escura, `gpu` ≈ 100%, `acquire blocked` 1.25 s, `waits: gfast write-back 8x 600 ms, gfx atomics 2x 547 ms, other 2x 2471 ms`). Antes disso o jogo roda a 230–290 fps mas a tela está preta (menu invisível no Turnip), outro bug.
 - 0.6.5 adiciona `EOWRECOMP_GPUPROF_SLOW=<n>`: perfila (`[gpuprof]`) os n frames seguintes a um frame >500 ms, para achar o passe/dispatch lento no Turnip. Não verificado ainda.
+
+## 0.6.6-turnip — achado do shader lento (claude-turnip)
+- 0.6.5 (`[gpuprof]` num frame de 1.8 s): 1.2 s no passe de cor 1408x792 com fs `33ad8267e484207d` (34 draws) + ~0.6 s em 3 passes de profundidade/cor com fs `9f4e87dd94e644eb`. Resto <2 ms por passe.
+- Teste `EOWRECOMP_SKIP_FSHASH=33ad8267e484207d,9f4e87dd94e644eb` (eow_skipfs.log): intro 0.5 fps → ~7.8 fps (gpu ~18%; resta espera de present ~110 ms). Confirmado que esses dois fragment shaders são ~16x mais lentos no Turnip. Causa ainda desconhecida.
+- 0.6.6 adiciona `EOWRECOMP_DUMP_FSHASH=<hash>[,<hash>]` (GLSL no log, linhas `[glsl] fshash …`). Próximo: ler o GLSL e achar o padrão (loop, array dinâmico, int64, etc.).
+- Menu principal fica preto no Turnip (jogo roda a ~270 fps sem mostrar nada): bug separado, a investigar.
